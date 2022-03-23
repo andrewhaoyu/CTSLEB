@@ -1,5 +1,5 @@
 ---
-title: "Tutorial for CT-SLEB"
+title: "CT-SLEB"
 output: html_document
 ---
 
