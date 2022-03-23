@@ -8,22 +8,36 @@ CT-SLEB is a method designed to generate multi-ancestry PRSs that incorporate ex
 
 Usage
 =======
-[The 'CTSLEB' vignette](https://github.com/andrewhaoyu/TOP/blob/master/inst/TOP.pdf) will provide a good start point for using TOP package.
-
+[The 'CTSLEB' vignette](https://andrewhaoyu.github.io/CTSLEB/) will provide a good start point for using CTSLEB package.
 
 Development 
 =======
-This R package is developed by Haoyu Zhang and William Wheeler, and maintained by Haoyu Zhang <andrew.haoyu@gmail.com>.
+This R package is developed by Haoyu Zhang, and maintained by Haoyu Zhang <andrew.haoyu@gmail.com>.
 
 Installation
 =======
-To install the development version of TOP, it's easiest to use the 'devtools' package.
+To install CTSLEB, it's easiest to use the 'devtools' package.
 
 install.packages("devtools")  
 library(devtools)  
-install_github("andrewhaoyu/TOP")
+install_github("andrewhaoyu/CTLEB")
 
-References
+Data
 =======
-Zhang, Haoyu, et al. "A mixed-model approach for powerful testing of genetic associations with cancer risk incorporating tumor characteristics." Biostatistics 22.4 (2021): 772-788.
+The example data for the tutorial can be downloaded through this [link](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing).
+
+For data analyses, the pipeline require reference sample from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data is also fine as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be download through the following links:
+[African (AFR) populations]()
+[American (AMR) populations]()
+[European (EUR) populations]()
+[East Asian (EAS) populations]()
+[South Asian (SAS) populations]()
+
+Other software
+=======
+The analyses also need [PLINK 1.9](https://www.cog-genomics.org/plink/) for clumping purpose and [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRSs. Guidance can be found in the vignette.
+
+Reference
+=======
+Zhang, Haoyu, et al. "Novel Methods for Multi-ancestry Polygenic Prediction and their Evaluations in 3.7 Million Individuals of Diverse Ancestry" Biorxiv (2022).
 

@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Overview
-This vegnette provides a tutorial to the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) from multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use [PLINK 1.90](https://www.cog-genomics.org/plink/1.9/) for the purpose of clumping (flag: \-\-clump), which currently is not supported in PLINK 2.0. We use [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: \-\-score) because it allows calculating PRS with multiple effect sizes columns simutaninously (\-\-score-col-nums). We use R package for implementing empirical-Bayes and super-learning step. For simplicity of demonstration, we will use the system() command to call plink directly from R. The user can also directly use plink through terminal.
+This vegnette provides a tutorial to the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) from multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use [PLINK 1.90](https://www.cog-genomics.org/plink/1.9/) for the purpose of clumping (flag: \-\-clump), which currently is not supported in PLINK 2.0. We use [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: \-\-score) because it allows calculating PRS with multiple effect sizes columns simutaninously (\-\-score-col-nums). We use R package for implementing empirical-Bayes and super-learning step. For simplicity of demonstration, we will use the system( ) command to call plink directly from R. The user can also directly use plink through terminal.
 
 
 ## Data and Software Preparation
@@ -58,7 +58,7 @@ Step1 extends the single ancestry clumping and thresholding method (CT) to multi
 
 CT starts with the clumping step, we split the SNPs into two groups: 1. SNPs with p-value in the EUR population smaller than the target population. 2. Target population-specific SNPs or SNPs with p-value in the target population smaller than the EUR population. For the first group, SNPs are clumped using the linkage disequilibrium (LD) estimates from the EUR population. For the second group, SNPs are clumped using the LD estimates from the target population. After the clumping, SNPs from the two groups are combined together for the thresholding step. 
 
-```{r, echo=F,cache=T,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 #split the SNPs into two groups
 sum_com_split <- SplitSum(sum_com)
 #sum_com_split is a list with two data frame
@@ -193,7 +193,7 @@ p_value_file_temp = p_value_file
 ```
 
 
-```{r, echo=F,cache=T,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 #combine all the prs
 prs_list = list()
 temp = 1
@@ -272,7 +272,7 @@ write.table(score_file,file = paste0(temp.dir,"score_file_eb"),row.names = F,col
 p_value_file = plink_file_eb[[2]]
 ```
 
-```{r, echo=F,cache=T,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 #vary the p-values under two dimensions
 #select SNPs with p_target < cutoff1 | p_other < cutoff2
 #the current p-value file contains the P-value from the target population
