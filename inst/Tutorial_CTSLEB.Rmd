@@ -7,13 +7,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Overview
-This vegnette provides a tutorial to the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) from multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use PLINK 1.90 (https://www.cog-genomics.org/plink/1.9/) for the purpose of clumping (flag: --clump), which currently is not supported in PLINK 2.0. We use plink 2.0 (https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: --score) because it allows calculating PRS with multiple effect sizes columns simutaninously (--score-col-nums). We use R package for implementing empirical-Bayes and super-learning step. For simplicity of demonstration, we will use the system() command to call plink directly from R. The user can also directly use plink through terminal.
+This vegnette provides a tutorial to the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) from multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use [PLINK 1.90](https://www.cog-genomics.org/plink/1.9/) for the purpose of clumping (flag: \-\-clump), which currently is not supported in PLINK 2.0. We use [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: \-\-score) because it allows calculating PRS with multiple effect sizes columns simutaninously (\-\-score-col-nums). We use R package for implementing empirical-Bayes and super-learning step. For simplicity of demonstration, we will use the system() command to call plink directly from R. The user can also directly use plink through terminal.
+
 
 ## Data and Software Preparation
 Before the starting the analyses, the user need to download the following example dataset (need link). This dataset contains an example data for chromosome 22. The folder contains the information: 1. summary statistics for five populations (named as _sumdata); 2. outcome for tuning and validation dataset (named as y_tuning and y_validation); 3. genotype data with 20,000 subjects for tuning and validation (named as AFR_test_chr); 4. The reference data from 1000 Genomes Projects (1KG) for the clumping step (named as: AFR_ref_chr22 and EUR_ref_chr22). The directory to this example dataset is named as "data.dir" in the code. We also need to download PLINK 1.9 and PLINK 2.0. To distinguish the two software, we name PLINK 1.9 as plink and PLINK2.0 as plink 2 in the code. The directory to PLINK is named as "soft.dir". We also need to create a temporary folder for saving intermediate output from PLINK (e.g. clumping results, PRSs). We name this folder as "temp.dir". The user can specify three directory using their local information. 
-```{r, echo=T,cache=T}
+```{r, echo=T,cache=T,warning=FALSE}
 #we will create a temporary folder to save the clumping results and prs
 #reference data from 1KG is saved in data.dir
+#download the example dataset using command:
+#wget https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing
+#uncompress the data.zip by command: unzip data.zip
 #the user can specific their own temp.dir, soft.dir and data.dir
 system("mkdir ../test/temp.dir")
 temp.dir = "../test/temp.dir/"
@@ -38,7 +42,7 @@ head(sum_EUR)
 head(sum_AFR)
 ```
 Since the SNPs and effect allele in the EUR and AFR are not the same, we align SNPs and the alleles to be the same with reference to AFR (the target population).
-```{r, echo=T,cache=T}
+```{r, echo=T,cache=T,warning=FALSE}
 library(dplyr)
 
 #align GWAS summary stat to the target population
@@ -49,12 +53,12 @@ head(sum_com)
 EUR population is usually the GWAS with largest sample size. Altough I am using the EUR population as an example here, the other population is not limited to the EUR population. You can use GWAS from other populations as long as you put corresponding reference for the clumping step.
 
 
-## Step1: Two-dimensional Clumping and Thresholding (CT)
+## Step 1: Two-dimensional Clumping and Thresholding (CT)
 Step1 extends the single ancestry clumping and thresholding method (CT) to multi-ancestry setting. Instead of only applying the CT method on either the EUR or the target population, CT uses two-different p-value cutoffs to select variants. 
 
 CT starts with the clumping step, we split the SNPs into two groups: 1. SNPs with p-value in the EUR population smaller than the target population. 2. Target population-specific SNPs or SNPs with p-value in the target population smaller than the EUR population. For the first group, SNPs are clumped using the linkage disequilibrium (LD) estimates from the EUR population. For the second group, SNPs are clumped using the LD estimates from the target population. After the clumping, SNPs from the two groups are combined together for the thresholding step. 
 
-```{r, echo=F,cache=T}
+```{r, echo=F,cache=T,warning=FALSE}
 #split the SNPs into two groups
 sum_com_split <- SplitSum(sum_com)
 #sum_com_split is a list with two data frame
@@ -114,8 +118,8 @@ for(r_ind in 1:length(r2_vec)){
 #snp_list contains SNPs ID with different clumping parameters
 ```
 
-After the clumping step, we are moving to the thresholding step by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the"--score-col-nums" command in plink2. To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters. 
-```{r, echo=T,cache=T}
+After the clumping step, we are moving to the thresholding step by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the"\-\-score-col-nums" command in plink2. To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters. 
+```{r, echo=T,cache=T,warning=FALSE}
 #create a coefficient matrix 
 #rows are the total number of SNPs
 #number of columns as 12 (6 clumping r2-cutoff * 2 base_window_size)
@@ -189,7 +193,7 @@ p_value_file_temp = p_value_file
 ```
 
 
-```{r, echo=F,cache=T}
+```{r, echo=F,cache=T,warning=FALSE}
 #combine all the prs
 prs_list = list()
 temp = 1
@@ -231,9 +235,9 @@ max_ind = which.max(prs_r2_vec_test)
 #+2 is due to the first two columns are family id and individual id
 print(colnames(prs_tun)[max_ind+2])
 ```
-## Step2: Empirical-Bayes (EB) Estimation of Effect Sizes
+## Step 2: Empirical-Bayes (EB) Estimation of Effect Sizes
 Now we move to the EB step for estimating the regression coefficients of PRSs by using the genetic correlations of effect sizes across populations. At the end of two-dimensional clumping and thresholding step, we get SNP set with corresponding tuning parameters for estimating the covariance matrix for the prior distribution. In this particular example using data from chromosome 22, it's using clumping r2-cutoff at 0.5, window size at 100kb, SNPs with p_EUR < 5E-08 or p_target < 5E-08. In real data analyses, PRSs need to be calculated based on all chromsome together to determine the SNP set. 
-```{r, echo=T,cache=T}
+```{r, echo=T,cache=T,warning=FALSE}
 #Get the SNP set with the best performance in the CT step
 snp_set_ind = colnames(prs_tun)[max_ind+2]
 SNP_set = GetSNPSet(snp_set_ind,
@@ -268,7 +272,7 @@ write.table(score_file,file = paste0(temp.dir,"score_file_eb"),row.names = F,col
 p_value_file = plink_file_eb[[2]]
 ```
 
-```{r, echo=F,cache=T}
+```{r, echo=F,cache=T,warning=FALSE}
 #vary the p-values under two dimensions
 #select SNPs with p_target < cutoff1 | p_other < cutoff2
 #the current p-value file contains the P-value from the target population
@@ -324,9 +328,9 @@ prs_mat = as.data.frame(cbind(prs_temp[,1:2],bind_cols(prs_list)))
  #we have got the PRSs calcualted based on EB coefficients of the EUR and the target population under all combinations of clumping r2-cutoff, window size, p-value thresholds
 ```
 
-## Step3: Super Learning
+## Step 3: Super Learning
 In step 3, we use all the PRSs under differnt tuning parameters as the input and train the super learning model on the tuning dataset to predict the outcome. The super-learning model is a linear combination of different predictors based on multiple supervised learning algorithms. The set of prediction algorithm can be self-designed or chosen from classicial prediction algorithms. In this tutorial, we chosse Lasso, ridge regression and neural networks as our predictors. The user can also choose other predictors. We use the R package SuperLearner to implement this step. Detailed guidance of SuperLearner package can be found at: https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html. 
-```{r, echo=T,cache=T}
+```{r, echo=T,cache=T,warning=FALSE}
 #load the phenotype data for the tuning set
 y_tun = fread("../data/y_tuning.txt")
 #load the phenotype data for the validation set
