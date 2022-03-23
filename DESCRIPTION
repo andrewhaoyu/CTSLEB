@@ -1,0 +1,18 @@
+Package: CTSLEB
+Type: Package
+Title: CT-SLEB: Multi-ancestry Polygenic Risk Score Method
+Version: 0.1.0
+Author: Haoyu Zhang [aut,cre]
+Maintainer: Haoyu Zhang <andrew.haoyu@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+Depends:
+  R (>= 3.1.0)
+Imports:
+ CompQuadForm
+LinkingTo:
+    CompQuadForm
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
