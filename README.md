@@ -24,9 +24,9 @@ install_github("andrewhaoyu/CTLEB")
 
 Data
 =======
-The example data for the tutorial can be downloaded through this [link](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing).
+The example dataset for the vignette can be downloaded through this [link](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing).
 
-For data analyses, the pipeline require reference sample from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data is also fine as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be download through the following links:
+For data analyses, the pipelines require reference sample from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data can also be used as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be download through the following links:
 
 [African (AFR) populations](https://drive.google.com/file/d/1pwQuM3pb8qSNyNyEsCeoy_jqz5CLIjg_/view?usp=sharing)
 
