@@ -1,14 +1,10 @@
 CTSLEB
 =======
-CT-SLEB is a method designed to generate multi-ancestry PRSs that incorporate existing large GWAS from EUR populations and smaller GWAS from non-EUR populations. The method has three key steps: 1. Clumping and Thresholding (CT) for selecting SNPs to be included in a PRS for the target population; 2. Empirical-Bayes (EB) method for estimating the coefficients of the SNPs; 3. Super-learning (SL) model to combine a series of PRSs generated under different SNP selection thresholds. The method requires three independent datasets: (1) GWAS summary statistics from training datasets across EUR and non-EUR populations; (2) a tuning dataset for the target population to find optimal model parameters; and (3) a validation dataset for the target population to report the final prediction performance. While this report assumes that individual-level data are available for model tuning and validation, summary-statistics-based methods could also be used in these steps. 
+CT-SLEB is a method designed to generate multi-ancestry PRSs that incorporate existing large GWAS from EUR populations and smaller GWAS from non-EUR populations. The method has three key steps: 1. Clumping and Thresholding (CT) for selecting SNPs to be included in a PRS for the target population; 2. Empirical-Bayes (EB) method for estimating the coefficients of the SNPs; 3. Super-learning (SL) model to combine a series of PRSs generated under different SNP selection thresholds. The method requires three independent datasets: (1) GWAS summary statistics from training datasets across EUR and non-EUR populations; (2) a tuning dataset for the target population to find optimal model parameters; and (3) a validation dataset for the target population to report the final prediction performance. 
 
 Usage
 =======
 [The 'CTSLEB' vignette](https://andrewhaoyu.github.io/CTSLEB/) will provide a good start point for using CTSLEB package.
-
-Development 
-=======
-This R package is developed by Haoyu Zhang, and maintained by Haoyu Zhang <andrew.haoyu@gmail.com>.
 
 Installation
 =======
@@ -37,6 +33,10 @@ For data analyses, the pipelines require reference sample from different populat
 Other software
 =======
 The analyses also need [PLINK 1.9](https://www.cog-genomics.org/plink/) for clumping purpose and [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRSs. Guidance can be found in the vignette.
+
+Support 
+=======
+Please direct any problems or questions to Haoyu Zhang <andrew.haoyu@gmail.com>.
 
 Reference
 =======
