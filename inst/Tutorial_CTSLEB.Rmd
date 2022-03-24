@@ -383,3 +383,7 @@ model <- lm(y_vad$V1~y_pred[[1]])
 r2_ctsleb <- summary(model)$r.square
 print(r2_ctsleb)
 ```
+
+
+## GWAS Data Avaiable From More Than Two Ancestries
+In step 3, we use all the PRSs under differnt tuning parameters as the input and train the super learning model on the tuning dataset to predict the outcome. The super-learning model is a linear combination of different predictors based on multiple supervised learning algorithms. The set of prediction algorithm can be self-designed or chosen from classicial prediction algorithms. In this tutorial, we chosse Lasso, ridge regression and neural networks as our predictors. The user can also choose other predictors. We use the R package SuperLearner to implement this step. Detailed guidance of SuperLearner package can be found at: https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html. 
