@@ -12,7 +12,7 @@ To install CTSLEB, it's easiest to use the 'devtools' package.
 
 install.packages("devtools")  
 library(devtools)  
-install_github("andrewhaoyu/CTLEB")
+install_github("andrewhaoyu/CTSLEB")
 
 Data
 =======
