@@ -382,7 +382,7 @@ summary {
 </div>
 <div id="data-and-software-preparation" class="section level2">
 <h2>Data and Software Preparation</h2>
-<p>Before the starting the analyses, the user need to download the following example dataset (need link). This dataset contains an example data for chromosome 22. The folder contains the information: 1. summary statistics for five populations (named as _sumdata); 2. outcome for tuning and validation dataset (named as y_tuning and y_validation); 3. genotype data with 20,000 subjects for tuning and validation (named as AFR_test_chr); 4. The reference data from 1000 Genomes Projects (1KG) for the clumping step (named as: AFR_ref_chr22 and EUR_ref_chr22). The directory to this example dataset is named as “data.dir” in the code. We also need to download PLINK 1.9 and PLINK 2.0. To distinguish the two software, we name PLINK 1.9 as plink and PLINK2.0 as plink 2 in the code. The directory to PLINK is named as “soft.dir”. We also need to create a temporary folder for saving intermediate output from PLINK (e.g. clumping results, PRSs). We name this folder as “temp.dir”. The user can specify three directory using their local information.</p>
+<p>Before the starting the analyses, the user need to download the following <a href="https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing">example dataset</a>. This dataset contains an example data for chromosome 22. The folder contains the information: 1. summary statistics for five populations (named as _sumdata); 2. outcome for tuning and validation dataset (named as y_tuning and y_validation); 3. genotype data with 20,000 subjects for tuning and validation (named as AFR_test_chr); 4. The reference data from 1000 Genomes Projects (1KG) for the clumping step (named as: AFR_ref_chr22 and EUR_ref_chr22). The directory to this example dataset is named as “data.dir” in the code. We also need to download PLINK 1.9 and PLINK 2.0. To distinguish the two software, we name PLINK 1.9 as plink and PLINK2.0 as plink 2 in the code. The directory to PLINK is named as “soft.dir”. We also need to create a temporary folder for saving intermediate output from PLINK (e.g. clumping results, PRSs). We name this folder as “temp.dir”. The user can specify three directory using their local information.</p>
 <pre class="r"><code>#we will create a temporary folder to save the clumping results and prs
 #reference data from 1KG is saved in data.dir
 #download the example dataset using command:
@@ -788,6 +788,10 @@ model &lt;- lm(y_vad$V1~y_pred[[1]])
 r2_ctsleb &lt;- summary(model)$r.square
 print(r2_ctsleb)</code></pre>
 <pre><code>## [1] 0.0002418645</code></pre>
+</div>
+<div id="gwas-data-avaiable-from-more-than-two-ancestries" class="section level2">
+<h2>GWAS Data Avaiable From More Than Two Ancestries</h2>
+<p>In step 3, we use all the PRSs under differnt tuning parameters as the input and train the super learning model on the tuning dataset to predict the outcome. The super-learning model is a linear combination of different predictors based on multiple supervised learning algorithms. The set of prediction algorithm can be self-designed or chosen from classicial prediction algorithms. In this tutorial, we chosse Lasso, ridge regression and neural networks as our predictors. The user can also choose other predictors. We use the R package SuperLearner to implement this step. Detailed guidance of SuperLearner package can be found at: <a href="https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html" class="uri">https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html</a>.</p>
 </div>
 
 
