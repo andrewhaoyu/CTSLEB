@@ -32,7 +32,7 @@ For data analyses, the pipelines require reference sample from different populat
 
 Data sharing
 =======
-Simulation can be challenging and time-consuming to generate large-scale genotype data with realistic LD for diverse ancestries. We have generated independent 60,000 subjects for five ancestries: African, American, European, East Asian, and South Asian using the LD estimated from the 1000 Genomes Project (Phase 3). Each of the five ancestries contains 12,000 subjects with around ~19 million SNPs. We are releasing this data to help researchers develop and test methods in multi-ancestry GWAS settings. All the simulated genotype data, phenotype data, and summary statistics used in the manuscript will be available. Simulation details are included in the manuscript. We are currently uploading data. Once the process finishes, I will add the link to this section. 
+Simulation can be challenging and time-consuming to generate large-scale genotype data with realistic LD for diverse ancestries. We have generated independent 600,000 subjects for five ancestries: African, American, European, East Asian, and South Asian using the LD estimated from the 1000 Genomes Project (Phase 3). Each of the five ancestries contains 120,000 subjects with around ~19 million SNPs. We are releasing this data to help researchers develop and test methods in multi-ancestry GWAS settings. All the simulated genotype data, phenotype data, and summary statistics used in the manuscript will be available. Simulation details are included in the manuscript. We are currently uploading data. Once the process finishes, I will add the link to this section. 
 
 Other software
 =======
