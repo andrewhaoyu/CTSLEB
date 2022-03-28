@@ -11,14 +11,14 @@ This vignette provides a tutorial on the CT-SLEB method. CT-SLEB is a multi-ance
 
 
 ## Data and Software Preparation
-Before the starting the analyses, the user need to download the following [example dataset](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing). This dataset contains an example data for chromosome 22. The folder contains the information: 1. summary statistics for five populations (named as _sumdata); 2. outcome for tuning and validation dataset (named as y_tuning and y_validation); 3. genotype data with 20,000 subjects for tuning and validation (named as AFR_test_chr); 4. The reference data from 1000 Genomes Projects (1KG) for the clumping step (named as: AFR_ref_chr22 and EUR_ref_chr22). The directory to this example dataset is named as "data.dir" in the code. We also need to download PLINK 1.9 and PLINK 2.0. To distinguish the two software, we name PLINK 1.9 as plink and PLINK2.0 as plink 2 in the code. The directory to PLINK is named as "soft.dir". We also need to create a temporary folder for saving intermediate output from PLINK (e.g. clumping results, PRSs). We name this folder as "temp.dir". The user can specify three directory using their local information. 
+Before starting the analyses, the user needs to download the following [example dataset](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing). This dataset contains example data for chromosome 22. The folder contains the information: 1. summary statistics for five populations (named as _sumdata); 2. outcome for tuning and validation dataset (named as y_tuning and y_validation); 3. genotype data with 20,000 subjects for tuning and validation (named as AFR_test_chr); 4. The reference data from 1000 Genomes Projects (1KG) for the clumping step (named as: AFR_ref_chr22 and EUR_ref_chr22). The directory to this example dataset is set to be "data.dir" in the code. We also need to download PLINK 1.9 and PLINK 2.0. To distinguish the two software, we name PLINK 1.9 as plink and PLINK2.0 as plink2 in the code. The directory to PLINK is set to be "soft.dir". We also need to create a temporary folder for saving intermediate output from PLINK (e.g., clumping results, PRSs). We set this folder to be "temp.dir". The user can specify three directories using their local information. 
 ```{r, echo=T,cache=T,warning=FALSE}
 #we will create a temporary folder to save the clumping results and prs
 #reference data from 1KG is saved in data.dir
-#download the example dataset using command:
+#download the example dataset using the command:
 #wget https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing
 #uncompress the data.zip by command: unzip data.zip
-#the user can specific their own temp.dir, soft.dir and data.dir
+#the user can specify their temp.dir, soft.dir and data.dir locally
 system("mkdir ../test/temp.dir")
 temp.dir = "../test/temp.dir/"
 soft.dir = "../test/"
@@ -32,16 +32,16 @@ library(CTSLEB)
 ```
 
 ## Alignment SNPs Across Populations
-To demonstrate the mehtod, we use the GWAS summary statistics from Chromosome 22 for European (EUR) and African (AFR) to construct the PRS for AFR population. First, we load the GWAS summary statistics for two populations. The summary statistics contain these columns: 1. CHR; 2. SNP: the SNP ID used in 1000 Genomes Project Phase 3 Data (1KG); 3. BP: SNP position (GRCh37); 4. A1: effect allele; 5. BETA: effect size; 6. SE: standard error of the effect size 7. P: p-value for the association test; 8. rs_id: the rsid of the SNP. 
+To demonstrate the method, we use the GWAS summary statistics from Chromosome 22 for European (EUR) and African (AFR) to construct the PRS for the AFR population. First, we load the GWAS summary statistics for two populations. The summary statistics contain these columns: 1. CHR; 2. SNP: the SNP ID used in 1000 Genomes Project Phase 3 Data (1KG); 3. BP: SNP position (GRCh37); 4. A1: effect allele; 5. BETA: effect size; 6. SE: standard error of the effect size 7. P: p-value for the association test; 8. rs_id: the rsid of the SNP. 
 ```{r, echo=T,cache=T}
 library(data.table)
-#load data from EUR and target population
+#load data from the EUR and the target population
 sum_EUR = fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
 sum_AFR = fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
 head(sum_EUR)
 head(sum_AFR)
 ```
-Since the SNPs and effect allele in the EUR and AFR are not the same, we align SNPs and the alleles to be the same with reference to AFR (the target population).
+Since the SNPs and effect alleles in the EUR and AFR populations are not the same, we align SNPs and the alleles to be the same with reference to AFR (the target population).
 ```{r, echo=T,cache=T,warning=FALSE}
 library(dplyr)
 
@@ -50,25 +50,25 @@ sum_com <- AlignSum(sum_tar = sum_AFR,
                     sum_other = sum_EUR)
 head(sum_com)
 ```
-EUR population is usually the GWAS with largest sample size. Altough I am using the EUR population as an example here, the other population is not limited to the EUR population. You can use GWAS from other populations as long as you put corresponding reference for the clumping step.
+EUR population is usually the GWAS with the largest sample size. Although I am using the EUR population as an example here, the other population is not limited to the EUR population. You can use GWAS from other populations as long as you put a corresponding reference for the clumping step.
 
 
 ## Step 1: Two-dimensional Clumping and Thresholding (CT)
-Step1 extends the single ancestry clumping and thresholding method (CT) to multi-ancestry setting. Instead of only applying the CT method on either the EUR or the target population, CT uses two-different p-value cutoffs to select variants. 
+Step1 extends the single ancestry clumping and thresholding method (CT) to the multi-ancestry setting. Instead of only applying the CT method on either the EUR or the target population, CT uses two-different p-value cutoffs to select variants. 
 
-CT starts with the clumping step, we split the SNPs into two groups: 1. SNPs with p-value in the EUR population smaller than the target population. 2. Target population-specific SNPs or SNPs with p-value in the target population smaller than the EUR population. For the first group, SNPs are clumped using the linkage disequilibrium (LD) estimates from the EUR population. For the second group, SNPs are clumped using the LD estimates from the target population. After the clumping, SNPs from the two groups are combined together for the thresholding step. 
+CT starts with the clumping step. We split the SNPs into two groups: 1. SNPs with p-values in the EUR population smaller than the target population. 2. Target population-specific SNPs or SNPs with p-values in the target population smaller than the EUR population. SNPs are clumped using the linkage disequilibrium (LD) estimates from the EUR population for the first group. Next, SNPs are clumped using the LD estimates from the target population. After the clumping, SNPs from the two groups are combined for the thresholding step for the second group.
 
 ```{r, echo=T,cache=T,warning=FALSE}
 #split the SNPs into two groups
 sum_com_split <- SplitSum(sum_com)
 #sum_com_split is a list with two data frame
-#the first data frame contains SNPs with p_eur < p_target, the P value column is from p_eur
+#the first data frame contains SNPs with p_eur < p_target, the p-value column is from p_eur.
 sum_other_ref = sum_com_split[[1]]
 #the second data frame contains target population-specific SNPs or p_eur < p_target. The p-value column is from p_target. 
 sum_tar_ref = sum_com_split[[2]]
 
 # we use plink1.9 for the clumping purpose
-# specify vector for clumping r squre and base window size
+# specify vector for clumping r square and base window size
 #the clumping_window_ize = base_window_size/clumping_r_square so that lower clumping r2 can have larger clumping window size
 r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8)
 wc_base_vec = c(50,100)
@@ -88,7 +88,7 @@ for(r_ind in 1:length(r2_vec)){
     pthr = 1
     r2thr = r2_vec[r_ind]
     kbpthr = wc_vec[w_ind]
-    #for the first group, we perform clumping using EUR as reference   
+    #for the first group, we perform clumping using EUR popultion as the reference   
     system(paste0(soft.dir,"plink ",
     "--bfile ",data.dir,"EUR_ref_chr22 ",
     "--clump ",temp.dir,"sum_other_ref ",
@@ -96,7 +96,7 @@ for(r_ind in 1:length(r2_vec)){
     "--clump-r2 ",r2thr," ",
     "--clump-kb ",kbpthr," ",
     "--out ", temp.dir,"EUR_ref_CT_rind_",r_ind,"_wcind_",w_ind))
-    #for the second group, we perform clumping using AFR as reference
+    #for the second group, we perform clumping using AFR population as the reference
     system(paste0(soft.dir,"plink ",
     "--bfile ",data.dir,"AFR_ref_chr22 ",
     "--clump ",temp.dir,"sum_tar_ref ",
@@ -118,7 +118,7 @@ for(r_ind in 1:length(r2_vec)){
 #snp_list contains SNPs ID with different clumping parameters
 ```
 
-After the clumping step, we are moving to the thresholding step by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the"\-\-score-col-nums" command in plink2. To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters. 
+After the clumping step, we move to the thresholding step by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the"\-\-score-col-nums" command in PLINK2.0 To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters. 
 ```{r, echo=T,cache=T,warning=FALSE}
 #create a coefficient matrix 
 #rows are the total number of SNPs

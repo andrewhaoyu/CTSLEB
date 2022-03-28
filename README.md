@@ -1,6 +1,6 @@
 CTSLEB
 =======
-CT-SLEB is a method designed to generate multi-ancestry PRSs that incorporate existing large GWAS from EUR populations and smaller GWAS from non-EUR populations. The method has three key steps: 1. Clumping and Thresholding (CT) for selecting SNPs to be included in a PRS for the target population; 2. Empirical-Bayes (EB) method for estimating the coefficients of the SNPs; 3. Super-learning (SL) model to combine a series of PRSs generated under different SNP selection thresholds. The method requires three independent datasets: (1) GWAS summary statistics from training datasets across EUR and non-EUR populations; (2) a tuning dataset for the target population to find optimal model parameters; and (3) a validation dataset for the target population to report the final prediction performance. 
+CT-SLEB is a method designed to generate multi-ancestry PRSs that incorporate existing large GWAS from EUR populations and smaller GWAS from non-EUR populations. The method has three key steps: 1. Clumping and Thresholding for selecting SNPs to be included in a PRS for the target population; 2. Empirical-Bayes method for estimating the coefficients of the SNPs; 3. Super-learning model to combine a series of PRSs generated under different SNP selection thresholds. The method requires three independent datasets: (1) GWAS summary statistics from training datasets across EUR and non-EUR populations; (2) a tuning dataset for the target population to find optimal model parameters; and (3) a validation dataset for the target population to report the final prediction performance. 
 
 Usage
 =======
@@ -18,7 +18,7 @@ Data
 =======
 The example dataset for the vignette can be downloaded through this [link](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing).
 
-For data analyses, the pipelines require reference sample from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data can also be used as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be download through the following links:
+For data analyses, the pipelines require reference samples from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data can also be used as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be downloaded through the following links:
 
 [African (AFR) populations](https://drive.google.com/file/d/1pwQuM3pb8qSNyNyEsCeoy_jqz5CLIjg_/view?usp=sharing)
 
