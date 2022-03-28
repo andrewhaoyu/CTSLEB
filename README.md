@@ -30,6 +30,10 @@ For data analyses, the pipelines require reference sample from different populat
 
 [South Asian (SAS) populations](https://drive.google.com/file/d/1n2yR2ZoMHCS_UHr2wMzACXF9wDWCVu6r/view?usp=sharing)
 
+Data sharing
+=======
+Simulation can be challenging and time-consuming to generate large-scale genotype data with realistic LD for diverse ancestries. We have generated independent 60,000 subjects for five ancestries: African, American, European, East Asian, and South Asian using the LD estimated from the 1000 Genomes Project (Phase 3). Each of the five ancestries contains 12,000 subjects with around ~19 million SNPs. We are releasing this data to help researchers develop and test methods in multi-ancestry GWAS settings. All the simulated genotype data, phenotype data, and summary statistics used in the manuscript will be available. Simulation details are included in the manuscript. We are currently uploading data. Once the process finishes, I will add the link to this section. 
+
 Other software
 =======
 The analyses also need [PLINK 1.9](https://www.cog-genomics.org/plink/) for clumping purpose and [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRSs. Guidance can be found in the vignette.
