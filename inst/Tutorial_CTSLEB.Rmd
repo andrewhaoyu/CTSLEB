@@ -178,17 +178,17 @@ p_value_file_temp = p_value_file
       p_value_file_temp$P[idx] = 0
       write.table(p_value_file_temp,file = paste0(temp.dir,"p_value_file"),col.names = F,row.names = F,quote=F)
       n_col = ncol(score_file)
-
+ #the output of plink2 create 9 different files named as prs_p_other_k1.p_tar_k2.sscore
+ #this output file contains 16 columns
+ #the column 1-4 are: family ID, individual ID, 2*total number of SNPs in the PRS, the sum of allele count
+ #column 5-16 are the PRS scores with SNP of p_target<p_thres[k2]|p_eur<p_thres[k1] for different combinations of r2-cutoff and base_window_size
  res = system(paste0(soft.dir,"plink2 ",
                             "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
                             "--score-col-nums 3-",n_col," ",
                             "--score ",temp.dir,"score_file  ",
                             "--bfile ",data.dir,"AFR_test_chr22 ",
                             "--out ",temp.dir,"prs_p_other_",k1))
- #the output of plink2 create 9 different files named as prs_p_other_k1.p_tar_k2.sscore
- #this output file contains 16 columns
- #the column 1-4 are: family ID, individual ID, 2*total number of SNPs in the PRS, the sum of allele count
- #column 5-16 are the PRS scores with SNP of p_target<p_thres[k2]|p_eur<p_thres[k1] for different combinations of r2-cutoff and base_window_size
+
     }
 ```
 
@@ -384,6 +384,3 @@ r2_ctsleb <- summary(model)$r.square
 print(r2_ctsleb)
 ```
 
-
-## GWAS Data Avaiable From More Than Two Ancestries
-In step 3, we use all the PRSs under differnt tuning parameters as the input and train the super learning model on the tuning dataset to predict the outcome. The super-learning model is a linear combination of different predictors based on multiple supervised learning algorithms. The set of prediction algorithm can be self-designed or chosen from classicial prediction algorithms. In this tutorial, we chosse Lasso, ridge regression and neural networks as our predictors. The user can also choose other predictors. We use the R package SuperLearner to implement this step. Detailed guidance of SuperLearner package can be found at: https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html. 
