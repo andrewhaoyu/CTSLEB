@@ -22,6 +22,7 @@ EstimatePrior <- function(SNP_set){
   z_other = BETA_other/SE_other
 
   z_mat <-na.omit(cbind(z_tar,z_other))
+  colnames(z_mat) = c("Z_tar","Z_other")
 
 
   prior.mat <- cov(z_mat)-diag(2)

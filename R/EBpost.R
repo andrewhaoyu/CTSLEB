@@ -6,7 +6,7 @@
 #' @export
 #' @return Bayesian postier mean for all SNPs after-clumping
 EBpost <- function(unique_infor,SNP_set){
-  EBprior = EstimatePrior(SNP_set)
+  prior_sigma = EstimatePrior(SNP_set)
   BETA_tar = as.numeric(unique_infor$BETA)
   SE_tar = as.numeric(unique_infor$SE)
   BETA_other = as.numeric(unique_infor$BETA_other)
@@ -18,7 +18,6 @@ EBpost <- function(unique_infor,SNP_set){
   #it's equivalent to applying the Bayes rule on z-statistics scale
   #the advantage of z-statistics scale is the covariance matrix is identity
   #it can make the computation faster.
-  prior_sigma = EBprior
 
   z_tar = BETA_tar/SE_tar
   z_other = BETA_other/SE_other

@@ -5,7 +5,6 @@
 #' @return the q range file
 #' @export
 #'
-#' @examples
 CreateQRange <- function(pthres){
   n_pthres = length(pthres)
   q_range = data.frame(

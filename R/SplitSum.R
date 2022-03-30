@@ -6,17 +6,6 @@
 #' @export
 #'
 #' @examples
-#'
-#'#this is a simulated breast cancer example
-#'#there are around 5000 breast cancer cases and 5000 controls, i.e. people without disease
-#' data[1:5,]
-
-#'#four different tumor characteristics were included, ER (positive vs negative), PR (positive vs negative), HER2 (positive vs negative), grade (ordinal 1, 2, 3)
-#'#the phenotype file
-#'y <- data[,1:5]
-#'#generate the combinations of all the subtypes
-#'#by default, we remove all the subtypes with less than 10 cases
-#'z.standard <- GenerateZstandard(y)
 
 SplitSum <- function(sum_com){
   sum_com_select = sum_com %>%

@@ -24,6 +24,7 @@ PreparePlinkFileEB = function(snp_list,
 
   #number of ancestry
   n_ans = ncol(post_beta_mat)
+  post_beta_mat = as.matrix(post_beta_mat)
   post_beta_mat[is.na(post_beta_mat)] = 0
 
   beta_mat = matrix(rep(post_beta_mat,n_col),nrow =n_row,ncol =n_col*n_ans)

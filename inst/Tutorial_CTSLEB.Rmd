@@ -116,6 +116,14 @@ for(r_ind in 1:length(r2_vec)){
 }
 
 #snp_list contains SNPs ID with different clumping parameters
+#In this example, we only shows the example for chromosome 22
+#If you conduct clumping step separetely for 22 chromosomes,
+#you need to combine the snp_list for all the chromosomes together before the EB step
+#since the order of clumping parameters is the same for different chromosomes,
+#you can combine them directly using rbind()
+#for example, suppose there are clumping results: snp_list_1 from chromsome 1 and snp_list_2 from chromsome 2
+#to combine them as a new snp_list, you can use for loop with snp_list[[i]] = rbind(snp_list_1[[i]],snp_list_2[[i]])
+#since PLINK 1.9 processes clumping step very efficiently, I would recommend running the analyses for all chromosomes together if the memory allows.
 ```
 
 After the clumping step, we move to the thresholding step by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the"\-\-score-col-nums" command in PLINK2.0 To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters. 
@@ -182,6 +190,9 @@ p_value_file_temp = p_value_file
  #this output file contains 16 columns
  #the column 1-4 are: family ID, individual ID, 2*total number of SNPs in the PRS, the sum of allele count
  #column 5-16 are the PRS scores with SNP of p_target<p_thres[k2]|p_eur<p_thres[k1] for different combinations of r2-cutoff and base_window_size
+#AFR_test_chr22 contains 20,000 subjects
+#we use the first 10,000 subjects as tuning dataset
+#we use the second 10,000 subjects as validation dataset      
  res = system(paste0(soft.dir,"plink2 ",
                             "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
                             "--score-col-nums 3-",n_col," ",
@@ -216,6 +227,7 @@ for(k1 in 1:length(pthres)){
   }
 }
 prs_mat = as.data.frame(cbind(prs_temp[,1:2],bind_cols(prs_list)))
+#take the first 10,000 subjects for tuning purpose
 prs_tun = prs_mat[1:10000,]
 
 #find the best R-square among the all the PRSs to find candidate set
@@ -236,7 +248,7 @@ max_ind = which.max(prs_r2_vec_test)
 print(colnames(prs_tun)[max_ind+2])
 ```
 ## Step 2: Empirical-Bayes (EB) Estimation of Effect Sizes
-Now we move to the EB step for estimating the regression coefficients of PRSs by using the genetic correlations of effect sizes across populations. At the end of two-dimensional clumping and thresholding step, we get SNP set with corresponding tuning parameters for estimating the covariance matrix for the prior distribution. In this particular example using data from chromosome 22, it's using clumping r2-cutoff at 0.5, window size at 100kb, SNPs with p_EUR < 5E-08 or p_target < 5E-08. In real data analyses, PRSs need to be calculated based on all chromsome together to determine the SNP set. 
+Now we move to the EB step for estimating the regression coefficients of PRSs by using the genetic correlations of effect sizes across populations. At the end of two-dimensional clumping and thresholding step, we get SNP set with corresponding tuning parameters for estimating the covariance matrix for the prior distribution. In this particular example using data from chromosome 22, it's using clumping r2-cutoff at 0.01, window size at 10000kb, SNPs with p_EUR < 5E-08 or p_target < 0.05. In real data analyses, PRSs need to be calculated based on all chromsome together to determine the SNP set. 
 ```{r, echo=T,cache=T,warning=FALSE}
 #Get the SNP set with the best performance in the CT step
 snp_set_ind = colnames(prs_tun)[max_ind+2]
@@ -262,7 +274,7 @@ plink_file_eb = PreparePlinkFileEB(snp_list,
 #score_file description
 #the first column contains the unique SNPs after clumping results under all combinations of r2-cutoff and window_size
 #the second column is the effect allele
-#the third to the last columns contains the regression coefficients of the EUR and target population for SNPs after LD-clumping under a specific combination of r2-cutoff and base_window_size
+#the third to the last columns contains the EB posterior mean of the EUR and target population for SNPs after LD-clumping under a specific combination of r2-cutoff and base_window_size
 #the coefficients is put as 0 if a SNP doesn't exist in the clumping results under a specific combination of r2-cutoff and base_window_size
 score_file = plink_file_eb[[1]]
 write.table(score_file,file = paste0(temp.dir,"score_file_eb"),row.names = F,col.names = F,quote=F)
@@ -326,6 +338,7 @@ for(k1 in 1:length(pthres)){
 }
 prs_mat = as.data.frame(cbind(prs_temp[,1:2],bind_cols(prs_list)))
  #we have got the PRSs calcualted based on EB coefficients of the EUR and the target population under all combinations of clumping r2-cutoff, window size, p-value thresholds
+# we will use these PRS as the input for the super learning model to construct the PRS for the target population
 ```
 
 ## Step 3: Super Learning
@@ -357,7 +370,7 @@ library(ranger)
 SL.libray <- c(
   "SL.glmnet",
   "SL.ridge",
-   "SL.nnet"
+  "SL.nnet"
   #"SL.bayesglm"
   #"SL.stepAIC"
   #"SL.xgboost"
@@ -381,6 +394,161 @@ y_pred <- predict(sl, prs_vad_clean, onlySL = TRUE)
 #evaluate the CT-SLEB prs performance on the validation
 model <- lm(y_vad$V1~y_pred[[1]])
 r2_ctsleb <- summary(model)$r.square
+print(r2_ctsleb)
+```
+## GWAS Data Avaiable From More Than Two Ancestries
+In previous analysis, we use GWAS summary statistics from AFR and EUR to construct the PRS for the target population. When GWAS summary statistics from more than two ancestries are avaiable, they can also be incorporated into the CT-SLEB framework. Here we assume the GWAS summary statistics from American (AMR), East Asian (EAS), and Sout Asian (SAS) are also avaiable. We use these data in the EB step to estimate the posterior effect sizes and super-learning step to train the model. We don't use these data in the CT step due to the computation burden. We directly start with the SNP set to estimate the prior distribution for five ancestries. 
+```{r, echo=T,cache=T,warning=FALSE}
+#load data from the AMR, EAS and SAS 
+sum_AMR = fread(paste0(data.dir,"AMR_sumdata.txt"),header=T)
+sum_EAS = fread(paste0(data.dir,"EAS_sumdata.txt"),header=T)
+sum_SAS = fread(paste0(data.dir,"SAS_sumdata.txt"),header=T)
+#align GWAS summary stat to the target population
+#we will use AlignSumMulti function for this purpose
+#AlignSumMulti is similar as AlignSum
+#But AlignSumMulti can handle more than two ancestries data
+sum_other_list = list(sum_EUR,sum_AMR,sum_EAS,sum_SAS)
+other_ans_names = c("EUR","AMR","EAS","SAS")
+sum_com <- AlignSumMulti(sum_tar = sum_AFR,
+                    sum_other_list = sum_other_list,
+                    other_ans_names = other_ans_names)
+#we use the same SNP set from CT step results
+#we perform EB using five ancestries data
+#EBpostMulti is similar as EBpost
+#But EBpostMulti can handle more than two ancestries data
+#SNP_set is used for estimating the covariance matrix for the prior distribution
+#Estimate the EB posterior mean for all SNPs in unqiue_infor
+unique_infor_post = EBpostMulti(unique_infor,SNP_set,
+                        sum_com,other_ans_names)
+#get the posterior coefficient matrix
+#here we only use the EB-calibrated effect sizes of the target population and EUR population as weights to calucate PRSs
+#the EB-calibriated coefficients from other non-EUR populations can also be used
+#but practically, we found the improvement of prediction is small, but the computation time of super learning can increase a lot
+#the user can expore the columns to use in their analyses
+#eb_post_col_names = c("BETA_EB_target",paste0("BETA_EB_",other_ans_names))
+eb_post_col_names = c("BETA_EB_target",paste0("BETA_EB_",other_ans_names[1]))
+post_beta_mat = unique_infor_post %>% 
+  select(all_of(eb_post_col_names))
+
+
+#In the EB step, the correlation of effect-sizes across populations are already incorported
+#But the PRS based on poterior mean for other non-EUR populations may contribute in the risk prediction in super learning step. Therefore, we are computing the PRS using the posterior mean for five ancestries into the analyses
+#When the sample size of the other non-EUR populations are very small
+#The PRS based on the posterior mean of the other non-EUR populations may not be predictive
+#It's also okay to only use the Bayesian posterior mean of target population and EUR population
+#If the PRS are only calcualted based on the poterior mean of the target population and EUR population
+#the computation time will be similar as previous two ancestries setting
+plink_file_eb = PreparePlinkFileEB(snp_list,
+                            unique_infor_post,
+                            post_beta_mat)
+#score_file description
+#the first column contains the unique SNPs after clumping results under all combinations of r2-cutoff and window_size
+#the second column is the effect allele
+#the third to the last columns contains the EB posterior mean for all five ancestries after LD-clumping under a specific combination of r2-cutoff and base_window_size
+#the coefficients is put as 0 if a SNP doesn't exist in the clumping results under a specific combination of r2-cutoff and base_window_size
+score_file = plink_file_eb[[1]]
+write.table(score_file,file = paste0(temp.dir,"score_file_eb"),row.names = F,col.names = F,quote=F)
+#p_value_file description
+#the second column is the p-values of SNPs from the GWAS of the target population
+p_value_file = plink_file_eb[[2]]
+
+
+#we only use the coefficients from AMR, EAS, SAS to estimate posterior effect sizes
+#the two-dimensional p-value thresholding is still based on AFR and EUR
+#the later section of calculating PRS and super learning is similar as before
+#vary the p-values under two dimensions
+#select SNPs with p_target < cutoff1 | p_other < cutoff2
+#the current p-value file contains the P-value from the target population
+#--q-score-range command select SNPs under specific p-value threshold given p_value_file
+#To select the SNPs with p-value in European less than cutoff2,
+#we put the p-value of these SNPs as 0 in the p-value file, so that they are guarated to be selected.
+#create a temporary p_value_file
+p_value_file_temp = p_value_file
+    for(k1 in 1:length(pthres)){
+      #keep al the SNPs with P_EUR less than pthres[k1] in the analyses
+      idx <- which(unique_infor$P_other<=pthres[k1])
+      p_value_file_temp$P[idx] = 0
+      write.table(p_value_file_temp,file = paste0(temp.dir,"p_value_file"),col.names = F,row.names = F,quote=F)
+      n_col = ncol(score_file)
+
+ res = system(paste0(soft.dir,"plink2 ",
+                            "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
+                            "--score-col-nums 3-",n_col," ",
+                            "--score ",temp.dir,"score_file_eb  ",
+                            "--bfile ",data.dir,"AFR_test_chr22 ",
+                            "--out ",temp.dir,"eb_prs_p_other_",k1))
+ #the output of plink2 create 9 different files named as prs_p_other_k1.p_tar_k2.sscore
+ #this output file contains 16 columns
+ #the column 1-4 are: family ID, individual ID, 2*total number of SNPs in the PRS, the sum of allele count
+ #column 5-16 are the PRS scores with SNP of p_target<p_thres[k2]|p_eur<p_thres[k1] for different combinations of r2-cutoff and base_window_size
+    }
+
+#combine all the prs
+prs_list = list()
+temp = 1
+#take the column name of different clumping parameters
+names = colnames(score_file)[3:ncol(score_file)]
+for(k1 in 1:length(pthres)){
+  for(k2 in 1:length(pthres)){
+  #the --score command in plink2 computes PRS as G*beta/(2*number of SNPs)
+ #This doesn't affect prediction R2 of the PRS if you compute PRS for all chromosomes together
+ #But if you compute PRS by chromosome, you need to times (2*number of SNPs) before sum the score together
+#here I am scaling the score by (2*number of SNPs) to aviod this potential
+    
+    #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
+    prs_temp = fread(paste0(temp.dir,"eb_prs_p_other_",k1,".p_tar_",k2,".sscore"))
+    # times (2*number of SNPs)
+    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]*2*nrow(score_file)
+   
+    colnames(prs_list[[temp]]) = paste0(names,"_","p_other_",pthres[k1],"_p_tar_",pthres[k2])
+    temp = temp + 1
+  }
+}
+prs_mat = as.data.frame(cbind(prs_temp[,1:2],bind_cols(prs_list)))
+
+n.test = 10000
+prs_tun = as.data.frame(prs_mat[1:n.test,-c(1:2),drop=F])
+prs_vad = as.data.frame(prs_mat[(n.test+1):nrow(prs_mat),-c(1:2),drop=F])
+#we first dorp all the prs columns with pairwise correlation more than 0.98
+mtx = cor(prs_tun)
+library(caret)
+drop = findCorrelation(mtx,cutoff=0.98)
+drop = names(prs_tun)[drop]
+prs_tun_clean = prs_tun %>% 
+  select(-all_of(drop))
+prs_vad_clean = prs_vad %>% 
+  select(-all_of(drop))
+library(SuperLearner)
+library(ranger)
+#choose the prediction algorithms
+SL.libray <- c(
+  "SL.glmnet",
+  "SL.ridge",
+  "SL.nnet"
+  #"SL.bayesglm"
+  #"SL.stepAIC"
+  #"SL.xgboost"
+  #"SL.randomForest"
+  #"SL.ksvm",
+  #"SL.bartMachine", 
+  #"SL.kernelKnn",
+  #"SL.rpartPrune", 
+  #"SL.lm"
+  #"SL.mean"
+)
+
+#train the super-learning model
+sl = SuperLearner(Y = y_tun$V1, X = prs_tun_clean, family = gaussian(),
+                  # For a real analysis we would use V = 10.
+                  # V = 3,
+                  SL.library = SL.libray)
+
+#predict the outcome using the independent validation dataset
+y_pred <- predict(sl, prs_vad_clean, onlySL = TRUE)
+#evaluate the CT-SLEB prs performance on the validation
+model <- lm(y_vad$V1~y_pred[[1]])
+r2_ctsleb <- summary(model)$r.square
+#print CT-SLEB prediction r2 with five ancestries GWAS data
 print(r2_ctsleb)
 ```
 
