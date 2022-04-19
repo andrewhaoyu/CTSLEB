@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Overview
-This vignette provides a tutorial on the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) of multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use [PLINK 1.90](https://www.cog-genomics.org/plink/1.9/) for clumping (flag: \-\-clump), which currently is not supported in PLINK 2.0. We use [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: \-\-score) because it allows calculating PRS with multiple effect sizes columns simultaneously (\-\-score-col-nums). We use R package for implementing empirical-Bayes and super-learning steps. For simplicity of demonstration, we will use the system( ) command to call plink directly from R. The user can also directly use plink through the terminal.
+This vignette provides a tutorial on the CT-SLEB method. CT-SLEB is a multi-ancestry polygenic risk score (PRS) method using summary statistics from genomewide association studies (GWAS) of multiple populations. The method contains three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super-learning step to combine PRS under different tuning parameters (p-value thresholds, clumping window size, r2-cutoff). We use [PLINK 1.90](https://www.cog-genomics.org/plink/1.9/) for clumping (flag: \-\-clump), which currently is not supported in PLINK 2.0. We use [PLINK 2.0](https://www.cog-genomics.org/plink/2.0/) for calculating PRS (command: \-\-score) because it allows calculating PRS with multiple effect sizes columns simultaneously (\-\-score-col-nums). We use R package for implementing empirical-Bayes and super-learning steps. For simplicity of demonstration, we will use the system( ) command to call plink directly from R. The user can also directly use plink through the terminal.
 
 
 ## Data and Software Preparation
@@ -512,6 +512,10 @@ prs_vad = as.data.frame(prs_mat[(n.test+1):nrow(prs_mat),-c(1:2),drop=F])
 #we first dorp all the prs columns with pairwise correlation more than 0.98
 mtx = cor(prs_tun)
 library(caret)
+set.seed(666)
+#there could be some randomness of findCorrelation and super learning model in this example
+#due to the extremely small signal on chr 22.
+#when you use all chr data, the prediction can be stable.
 drop = findCorrelation(mtx,cutoff=0.98)
 drop = names(prs_tun)[drop]
 prs_tun_clean = prs_tun %>% 
