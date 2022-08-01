@@ -196,7 +196,7 @@ p_value_file_temp = p_value_file
  res = system(paste0(soft.dir,"plink2 ",
                             "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
                             "--score-col-nums 3-",n_col," ",
-                            "--score ",temp.dir,"score_file  ",
+                            "--score ",temp.dir,"score_file cols=+scoresums,-scoreavgs ",
                             "--bfile ",data.dir,"AFR_test_chr22 ",
                             "--out ",temp.dir,"prs_p_other_",k1))
 
@@ -212,15 +212,12 @@ temp = 1
 names = colnames(score_file)[3:ncol(score_file)]
 for(k1 in 1:length(pthres)){
   for(k2 in 1:length(pthres)){
-  #the --score command in plink2 computes PRS as G*beta/(2*number of SNPs)
- #This doesn't affect prediction R2 of the PRS if you compute PRS for all chromosomes together
- #But if you compute PRS by chromosome, you need to times (2*number of SNPs) before sum the score together
-#here I am scaling the score by (2*number of SNPs) to aviod this potential
-    
-    #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
+  #the --score file cols=+scoresums,-scoreavgs command in plink2 computes PRS as G*beta
+  #If you compute PRS by chromosome, you need to sum the PRS scores for all chromosomes. 
+  #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
     prs_temp = fread(paste0(temp.dir,"prs_p_other_",k1,".p_tar_",k2,".sscore"))
     # times (2*number of SNPs)
-    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]*2*nrow(score_file)
+    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]
    
     colnames(prs_list[[temp]]) = paste0(names,"_","p_other_",pthres[k1],"_p_tar_",pthres[k2])
     temp = temp + 1
@@ -306,7 +303,7 @@ p_value_file_temp = p_value_file
  res = system(paste0(soft.dir,"plink2 ",
                             "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
                             "--score-col-nums 3-",n_col," ",
-                            "--score ",temp.dir,"score_file_eb  ",
+                            "--score ",temp.dir,"score_file_eb cols=+scoresums,-scoreavgs ",
                             "--bfile ",data.dir,"AFR_test_chr22 ",
                             "--out ",temp.dir,"eb_prs_p_other_",k1))
  #the output of plink2 create 9 different files named as prs_p_other_k1.p_tar_k2.sscore
@@ -322,15 +319,12 @@ temp = 1
 names = colnames(score_file)[3:ncol(score_file)]
 for(k1 in 1:length(pthres)){
   for(k2 in 1:length(pthres)){
-  #the --score command in plink2 computes PRS as G*beta/(2*number of SNPs)
- #This doesn't affect prediction R2 of the PRS if you compute PRS for all chromosomes together
- #But if you compute PRS by chromosome, you need to times (2*number of SNPs) before sum the score together
-#here I am scaling the score by (2*number of SNPs) to aviod this potential
-    
-    #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
+  #the --score file cols=+scoresums,-scoreavgs command in plink2 computes PRS as G*beta
+  #If you compute PRS by chromosome, you need to sum the PRS scores for all chromosomes. 
+  #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
     prs_temp = fread(paste0(temp.dir,"eb_prs_p_other_",k1,".p_tar_",k2,".sscore"))
     # times (2*number of SNPs)
-    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]*2*nrow(score_file)
+    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]
    
     colnames(prs_list[[temp]]) = paste0(names,"_","p_other_",pthres[k1],"_p_tar_",pthres[k2])
     temp = temp + 1
@@ -474,7 +468,7 @@ p_value_file_temp = p_value_file
  res = system(paste0(soft.dir,"plink2 ",
                             "--q-score-range ",temp.dir,"q_range_file ",temp.dir,"p_value_file ",
                             "--score-col-nums 3-",n_col," ",
-                            "--score ",temp.dir,"score_file_eb  ",
+                            "--score ",temp.dir,"score_file_eb cols=+scoresums,-scoreavgs ",
                             "--bfile ",data.dir,"AFR_test_chr22 ",
                             "--out ",temp.dir,"eb_prs_p_other_",k1))
  #the output of plink2 create 9 different files named as prs_p_other_k1.p_tar_k2.sscore
@@ -490,15 +484,14 @@ temp = 1
 names = colnames(score_file)[3:ncol(score_file)]
 for(k1 in 1:length(pthres)){
   for(k2 in 1:length(pthres)){
-  #the --score command in plink2 computes PRS as G*beta/(2*number of SNPs)
- #This doesn't affect prediction R2 of the PRS if you compute PRS for all chromosomes together
- #But if you compute PRS by chromosome, you need to times (2*number of SNPs) before sum the score together
-#here I am scaling the score by (2*number of SNPs) to aviod this potential
+ #the --score file cols=+scoresums,-scoreavgs command in plink2 computes PRS as G*beta
+  #If you compute PRS by chromosome, you need to sum the PRS scores for all chromosomes. 
+  #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
     
     #load PRS for SNPs with p_target<p_thres[k2]|p_eur<p_thres[k1] 
     prs_temp = fread(paste0(temp.dir,"eb_prs_p_other_",k1,".p_tar_",k2,".sscore"))
     # times (2*number of SNPs)
-    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]*2*nrow(score_file)
+    prs_list[[temp]] = prs_temp[,5:ncol(prs_temp)]
    
     colnames(prs_list[[temp]]) = paste0(names,"_","p_other_",pthres[k1],"_p_tar_",pthres[k2])
     temp = temp + 1
