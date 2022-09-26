@@ -36,8 +36,8 @@ To demonstrate the method, we use the GWAS summary statistics from Chromosome 22
 ```{r, echo=T,cache=T}
 library(data.table)
 #load data from the EUR and the target population
-sum_EUR = fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
-sum_AFR = fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
+sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
 head(sum_EUR)
 head(sum_AFR)
 ```
