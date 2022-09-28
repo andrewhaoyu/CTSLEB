@@ -14,7 +14,7 @@ AlignSumMulti = function(sum_tar,sum_other_list,
   coeff_other_list = list()
   for(i in 1:length(other_ans_names)){
     sum_other_temp  = sum_other_list[[i]]
-    sum_com_temp <- AlignSum(sum_tar = sum_AFR,
+    sum_com_temp <- AlignSum(sum_tar = sum_tar,
                              sum_other = sum_other_temp)
     #a temporary matrix to save the aligned cofficients for the target population
     coeff_other = sum_com_temp[,c("BETA_other","SE_other","P_other")]
