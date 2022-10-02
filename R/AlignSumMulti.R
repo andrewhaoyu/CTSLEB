@@ -23,6 +23,9 @@ AlignSumMulti = function(sum_tar,sum_other_list,
   }
   coeff_mat = bind_cols(coeff_other_list)
 
-  sum_com = cbind(sum_tar,coeff_mat)
+  sum_com = cbind(sum_tar,coeff_mat) %>%
+    mutate(P = as.numeric(P),
+           BETA = as.numeric(BETA),
+           SE = as.numeric(SE))
   return(sum_com)
 }
