@@ -16,7 +16,7 @@ AlignSum = function(sum_tar,sum_other){
            BETA_other = as.numeric(BETA),
            SE_other = as.numeric(SE),
            P_other = as.numeric(P),
-           SNP = as.numeric(SNP)) %>%
+           SNP = as.character(SNP)) %>%
     select(SNP,
            A1_other,
            BETA_other,
