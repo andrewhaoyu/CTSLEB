@@ -59,7 +59,7 @@ EBpostMulti <- function(unique_infor,SNP_set,
   unique_infor_EB =cbind(unique_infor,beta_mat_post) %>%
     select(SNP,A1,all_of(eb_beta_names),P,P_other)
   return(unique_infor_EB)
-  return(beta_mat_post)
+  #return(beta_mat_post)
 }
 
 

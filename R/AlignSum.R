@@ -12,15 +12,25 @@
 AlignSum = function(sum_tar,sum_other){
   #match alleles
   sum_other_select = sum_other %>%
-    rename(A1_other = A1,
-           BETA_other = BETA,
-           SE_other = SE,
-           P_other = P) %>%
+    mutate(A1_other = A1,
+           BETA_other = as.numeric(BETA),
+           SE_other = as.numeric(SE),
+           P_other = as.numeric(P)，
+           SNP = as.numeric(SNP)) %>%
     select(SNP,
            A1_other,
            BETA_other,
            SE_other,
            P_other)
+  sum_tar = sum_tar %>%
+    mutate(BETA = as.numeric(BETA),
+           SE = as.numeric(SE),
+           P = as.numeric(P),
+           A1 = as.character(A1),
+           CHR = as.integer(CHR),
+           BP = as.integer(BP),
+           SNP = as.character(SNP))
+
   sum_com <- left_join(sum_tar,sum_other_select,by="SNP")
   idx <- which(sum_com$A1!=sum_com$A1_other)
   sum_com$BETA_other[idx] <- -sum_com$BETA_other[idx]
