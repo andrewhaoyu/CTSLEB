@@ -4,14 +4,14 @@
 \alias{AlignSumMulti}
 \title{Generate the combinations of all the tumor characteristics.}
 \usage{
-AlignSumMulti(sum_tar, sum_other_list, other_ans_names)
+AlignSumMulti(sum_target, sum_other_list, other_ans_names)
 }
 \arguments{
-\item{sum_tar}{The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.}
-
 \item{sum_other_list}{A list that contains the GWAS summary statistics for multiple populations.}
 
 \item{other_ans_names}{The names of the other anescestries for GWAS summary statistics}
+
+\item{sum_tar}{The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.}
 }
 \value{
 GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other populations

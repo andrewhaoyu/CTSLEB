@@ -2,18 +2,34 @@
 % Please edit documentation in R/AlignSum.R
 \name{AlignSum}
 \alias{AlignSum}
-\title{Generate the combinations of all the tumor characteristics.}
+\title{Align GWAS summary stat for the reference population to the target population}
 \usage{
-AlignSum(sum_tar, sum_other)
+AlignSum(sum_target, sum_ref, SplitSum = TRUE)
 }
 \arguments{
-\item{sum_tar}{The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.}
+\item{sum_ref}{The GWAS summary statistics for the other population. The most
+commonly used other population is European. The data have similar format as
+sum_tar.}
 
-\item{sum_other}{The GWAS summary statistics for the other population. The most commonly used other population is European. The data have similar format as sum_tar.}
+\item{SplitSum}{Execute the SplitSum() function. Default = TRUE}
+
+\item{sum_tar}{The GWAS summary statistics for the target population.
+The data needs to have following columns at least: CHR, SNP, BP, A1, BETA,
+SE, P. A1 is the effect allele. BETA is the regression coefficients for
+linear regression, log-odds ratio for logistic regression. SE is the
+standard error for BETA.}
 }
 \value{
-GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other population
+GWAS summary statistics for the target population with aligned
+effects, standard error and p-value for the reference population. The data.table
+object is named "sum_com"
 }
 \description{
-Generate the combinations of all the tumor characteristics.
+Align GWAS summary stat for the reference population to the target population
+}
+\examples{
+data.dir <- "data/"
+sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
+AlignSum(sum_tar = sum_AFR, sum_ref = sum_EUR, SplitSum=TRUE)
 }
