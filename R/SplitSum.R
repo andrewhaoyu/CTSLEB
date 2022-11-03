@@ -1,11 +1,17 @@
-#' Generate the combinations of all the tumor characteristics.
+#' Split the SNPs into two groups
+#' @description
+#' Split the SNPs into two groups: 1. SNPs with p-values in the ref population
+#' smaller than the target population. 2. SNPs with p-values in the target
+#' population smaller than the ref population.
 #'
-#' @param sum_com The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.
-#'
-#' @return GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other population
+#' @param sum_com Data.table object produced by AlignSum()
+#' @return  A list with the two data.tables SNPs with p-values in the ref population
+#' smaller than the target population in the [[1]] slot. SNPs with p-values in the target
+#' population smaller than the ref population in the [[2]] slot
 #' @export
-#'
 #' @examples
+#' sum_com <- AlignSum(sum_tar = sum_AFR, sum_other = sum_EUR)
+#' split_list <- SplitSum(sum_com)
 
 SplitSum <- function(sum_com){
   sum_com_select <- sum_com %>%
