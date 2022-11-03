@@ -1,17 +1,16 @@
 #' Align GWAS summary stat for the reference population to the target population
-#'
+#' @description
+#' Align GWAS summary statistics for the reference population to the target population.
+#' The summary statistics data must have similar formats and include the
+#' following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect
+#' allele. BETA is the regression coefficients for linear regression, log-odds
+#' ratio for logistic regression. SE is the standard error for BETA.
 #' @param sum_tar The GWAS summary statistics for the target population.
-#' The data needs to have following columns at least: CHR, SNP, BP, A1, BETA,
-#' SE, P. A1 is the effect allele. BETA is the regression coefficients for
-#' linear regression, log-odds ratio for logistic regression. SE is the
-#' standard error for BETA.
-#' @param sum_ref The GWAS summary statistics for the other population. The most
-#' commonly used other population is European. The data have similar format as
-#' sum_tar.
+#' @param sum_ref The GWAS summary statistics for the reference population.
+#' The most commonly used reference population is European.
 #' @param SplitSum Execute the SplitSum() function. Default = TRUE
-#' @return GWAS summary statistics for the target population with aligned
-#' effects, standard error and p-value for the reference population. The data.table
-#' object is named "sum_com"
+#' @return Data.table object with ref population GWAS summary statistics
+#' aligned with target GWAS summary statistics. The global variable is named "sum_com"
 #' @export
 #' @examples
 #' data.dir <- "data/"
