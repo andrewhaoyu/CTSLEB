@@ -17,7 +17,7 @@
 WriteSplitTables <- function(x,
                              refFile = "sum",
                              targetFile = "sum") {
-  ref_out <- paste0(tools::file_path_sans_ext(baseFile),"_ref")
+  ref_out <- paste0(tools::file_path_sans_ext(refFile),"_ref")
   target_out <- paste0(tools::file_path_sans_ext(targetFile),"_target")
   print("creating sum_ref")
   assign("sum_ref", x[[1]], envir = .GlobalEnv)

@@ -45,13 +45,14 @@ AlignSum <- function(sum_target,sum_ref,SplitSum=TRUE){
   sum_com$BETA_ref[idx] <- -sum_com$BETA_ref[idx]
   sum_com <- sum_com %>%
     select(-A1_ref)
-  assign("sum_com", sum_com, envir = .GlobalEnv)
 
   if (SplitSum) {
+    assign("sum_com", sum_com, envir = .GlobalEnv)
     split_list <- SplitSum(sum_com)
-    writeSplitTables(x = split_list)
+    WriteSplitTables(x = split_list)
   } else {
     print(paste0("SplitSum() was not performed"))
+    assign("sum_com", sum_com, envir = .GlobalEnv)
   }
 }
 
