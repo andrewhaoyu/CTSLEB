@@ -9,7 +9,7 @@
 
 dog_function <- function(love=TRUE){
   if(love==TRUE){
-    print("Liliuokalani rules!")
+    print("dev1 Liliuokalani rules!")
   }
   else {
     print("I am not a cool person.")
