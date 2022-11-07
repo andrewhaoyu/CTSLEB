@@ -1,13 +1,13 @@
 #' Creates the two data tables created by SplitSum()
 #' @description
-#' Creates the two data tables created by SplitSum() and writes them to
+#' Creates two data.frame objects from SplitSum() result and writes them to
 #' files used by Plink 1.9 for LD clumping.
-#' @param x List containing data.tables created by SplitSum()
-#' @param refFile export path and prefix file name for ref data.table.
+#' @param x List containing data.frame objecss created by SplitSum()
+#' @param refFile export path and prefix file name for ref data.frame
 #' Output file will be named "<refFile>_ref"
-#' @param targetFile export path and prefix file name for target data.table.
+#' @param targetFile export path and prefix file name for target data.frame
 #' Output file will be named "<targetFile>_target"
-#' @return Two data.table objects named "sum_ref" for the reference snps and
+#' @return Two data.frame objects named "sum_ref" for the reference snps and
 #' "sum_target" for the target snps created by SplitSum().
 #' @export
 #' @examples

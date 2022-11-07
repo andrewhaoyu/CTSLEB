@@ -1,13 +1,14 @@
-#' Split the SNPs into two groups
+#' Inputs an AlignSum() object and splits SNPs into two groups
 #' @description
 #' Split the SNPs into two groups: 1. SNPs with p-values in the ref population
 #' smaller than the target population. 2. SNPs with p-values in the target
 #' population smaller than the ref population.
 #'
-#' @param sum_com Data.table object produced by AlignSum()
-#' @return  A list with the two data.tables SNPs with p-values in the ref population
-#' smaller than the target population in the [[1]] slot. SNPs with p-values in the target
-#' population smaller than the ref population in the [[2]] slot
+#' @param sum_com data.frame object produced by AlignSum().
+#' @return  A list with the two data.frame objects of SNPs with p-values in the
+#' ref population smaller than the target population in the [[1]] slot.
+#' SNPs with p-values in the target population smaller than the ref population
+#' in the [[2]] slot.
 #' @export
 #' @examples
 #' sum_com <- AlignSum(sum_tar = sum_AFR, sum_other = sum_EUR)

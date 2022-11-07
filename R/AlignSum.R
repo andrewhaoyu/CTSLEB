@@ -1,4 +1,4 @@
-#' Align GWAS summary stat for the reference population to the target population
+#' Align GWAS summary stat for the reference population to the target population.
 #' @description
 #' Align GWAS summary statistics for the reference population to the target population.
 #' The summary statistics data must have similar formats and include the
@@ -8,9 +8,13 @@
 #' @param sum_tar The GWAS summary statistics for the target population.
 #' @param sum_ref The GWAS summary statistics for the reference population.
 #' The most commonly used reference population is European.
-#' @param SplitSum Execute the SplitSum() function. Default = TRUE
-#' @return Data.table object with ref population GWAS summary statistics
-#' aligned with target GWAS summary statistics. The global variable is named "sum_com"
+#' @param SplitSum Execute the SplitSum() function. Default = TRUE.
+#' @return data.frame object with ref population GWAS summary statistics
+#' aligned with target GWAS summary statistics. The resulting global variable is
+#' named "sum_com". If SplitSum = TRUE, the SplitSum() and WriteSplitTables()
+#' functions will be executed and the following global variables will be created;
+#' "sum_ref" for the reference snps and "sum_target" for the target snps created
+#' by SplitSum().
 #' @export
 #' @examples
 #' data.dir <- "data/"
