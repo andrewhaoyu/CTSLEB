@@ -17,13 +17,14 @@
 WriteSplitTables <- function(x,
                              refFile = "sum",
                              targetFile = "sum") {
-  ref_out <- paste0(tools::file_path_sans_ext(refFile),"_ref")
-  target_out <- paste0(tools::file_path_sans_ext(targetFile),"_target")
+  ref_out <- paste0(refFile,"_ref.txt")
+  print(ref_out)
+  target_out <- paste0(targetFile,"_target.txt")
   print("creating sum_ref")
   assign("sum_ref", x[[1]], envir = .GlobalEnv)
   print("creating sum_target")
   assign("sum_target", x[[2]], envir = .GlobalEnv)
 
-  write.table(sum_ref,paste0(ref_out),col.names = T,row.names = F,quote=F)
-  write.table(sum_target,paste0(target_out),col.names = T,row.names = F,quote=F)
+  write.table(sum_ref,ref_out,col.names = T,row.names = F,quote=F)
+  write.table(sum_target,target_out,col.names = T,row.names = F,quote=F)
 }

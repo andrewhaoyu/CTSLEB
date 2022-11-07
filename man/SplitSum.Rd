@@ -2,16 +2,25 @@
 % Please edit documentation in R/SplitSum.R
 \name{SplitSum}
 \alias{SplitSum}
-\title{Generate the combinations of all the tumor characteristics.}
+\title{Inputs an AlignSum() object and splits SNPs into two groups}
 \usage{
 SplitSum(sum_com)
 }
 \arguments{
-\item{sum_com}{The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.}
+\item{sum_com}{data.frame object produced by AlignSum().}
 }
 \value{
-GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other population
+A list with the two data.frame objects of SNPs with p-values in the
+ref population smaller than the target population in the [[1]] slot.
+SNPs with p-values in the target population smaller than the ref population
+in the [[2]] slot.
 }
 \description{
-Generate the combinations of all the tumor characteristics.
+Split the SNPs into two groups: 1. SNPs with p-values in the ref population
+smaller than the target population. 2. SNPs with p-values in the target
+population smaller than the ref population.
+}
+\examples{
+sum_com <- AlignSum(sum_tar = sum_AFR, sum_other = sum_EUR)
+split_list <- SplitSum(sum_com)
 }

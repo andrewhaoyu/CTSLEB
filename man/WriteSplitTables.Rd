@@ -2,21 +2,28 @@
 % Please edit documentation in R/WriteSplitTables.R
 \name{WriteSplitTables}
 \alias{WriteSplitTables}
-\title{Creates the two data tables created by SplitSum() and writes them to
-files used by Plink 1.9 for LD clumping.}
+\title{Creates the two data tables created by SplitSum()}
 \usage{
 WriteSplitTables(x, refFile = "sum", targetFile = "sum")
 }
 \arguments{
-\item{x}{List containing data.tables created by SplitSum()}
+\item{x}{List containing data.frame objects created by SplitSum()}
 
-\item{refFile}{export path and prefix file name for ref data.table.
+\item{refFile}{export path and prefix file name for ref data.frame
 Output file will be named "<refFile>_ref"}
 
-\item{targetFile}{export path and prefix file name for target data.table.
+\item{targetFile}{export path and prefix file name for target data.frame
 Output file will be named "<targetFile>_target"}
 }
+\value{
+Two data.frame objects named "sum_ref" for the reference snps and
+"sum_target" for the target snps created by SplitSum().
+}
 \description{
-Creates the two data tables created by SplitSum() and writes them to
+Creates two data.frame objects from SplitSum() result and writes them to
 files used by Plink 1.9 for LD clumping.
+}
+\examples{
+sum_com_split <- SplitSum(sum_com)
+WriteSplitTables(x=split_com_split, refFile = "sum", targetFile = "sum")
 }
