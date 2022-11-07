@@ -2,7 +2,7 @@
 #' @description
 #' Creates two data.frame objects from SplitSum() result and writes them to
 #' files used by Plink 1.9 for LD clumping.
-#' @param x List containing data.frame objecss created by SplitSum()
+#' @param x List containing data.frame objects created by SplitSum()
 #' @param refFile export path and prefix file name for ref data.frame
 #' Output file will be named "<refFile>_ref"
 #' @param targetFile export path and prefix file name for target data.frame
