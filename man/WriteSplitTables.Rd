@@ -16,14 +16,14 @@ Output file will be named "<refFile>_ref"}
 Output file will be named "<targetFile>_target"}
 }
 \value{
-Two data.frame objects named "sum_ref" for the reference snps and
-"sum_target" for the target snps created by SplitSum().
+The ref and target aligned data.frames produced by SplitSum() are
+written to default files named "sum_ref.txt" and "sum_target.txt" respectively
 }
 \description{
 Creates two data.frame objects from SplitSum() result and writes them to
-files used by Plink 1.9 for LD clumping.
+files. These files are inputs to the Plink 1.9 --clump flag for LD clumping.
 }
 \examples{
 sum_com_split <- SplitSum(sum_com)
-WriteSplitTables(x=split_com_split, refFile = "sum", targetFile = "sum")
+WriteSplitTables(x=sum_com_split, refFile = "sum", targetFile = "sum")
 }

@@ -1,18 +1,18 @@
 #' Creates the two data tables created by SplitSum()
 #' @description
 #' Creates two data.frame objects from SplitSum() result and writes them to
-#' files used by Plink 1.9 for LD clumping.
+#' files. These files are inputs to the Plink 1.9 --clump flag for LD clumping.
 #' @param x List containing data.frame objects created by SplitSum()
 #' @param refFile export path and prefix file name for ref data.frame
 #' Output file will be named "<refFile>_ref"
 #' @param targetFile export path and prefix file name for target data.frame
 #' Output file will be named "<targetFile>_target"
-#' @return Two data.frame objects named "sum_ref" for the reference snps and
-#' "sum_target" for the target snps created by SplitSum().
+#' @return The ref and target aligned data.frames produced by SplitSum() are
+#' written to default files named "sum_ref.txt" and "sum_target.txt" respectively
 #' @export
 #' @examples
 #' sum_com_split <- SplitSum(sum_com)
-#' WriteSplitTables(x=split_com_split, refFile = "sum", targetFile = "sum")
+#' WriteSplitTables(x=sum_com_split, refFile = "sum", targetFile = "sum")
 
 WriteSplitTables <- function(x,
                              refFile = "sum",
