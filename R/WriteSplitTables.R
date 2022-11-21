@@ -20,6 +20,7 @@ WriteSplitTables <- function(x,
   ref_out <- paste0(refFile,"_ref.txt")
   print(ref_out)
   target_out <- paste0(targetFile,"_target.txt")
+  print(target_out)
   print("creating sum_ref")
   assign("sum_ref", x[[1]], envir = .GlobalEnv)
   print("creating sum_target")
