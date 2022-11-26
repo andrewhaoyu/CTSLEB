@@ -4,7 +4,7 @@
 \alias{WriteSplitTables}
 \title{Creates the two data tables created by SplitSum()}
 \usage{
-WriteSplitTables(x, refFile = "sum", targetFile = "sum")
+WriteSplitTables(x, refFile = "sum_ref.txt", targetFile = "sum_target.txt")
 }
 \arguments{
 \item{x}{List containing data.frame objects created by SplitSum()}

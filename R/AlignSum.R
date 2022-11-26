@@ -10,12 +10,12 @@
 #' The most commonly used reference population is European.
 #' @param SplitSum Execute the SplitSum() and WriteSplitTables() function.
 #' Default = TRUE.
-#' @param refFile If SplitSum = TRUE (Default) provide a file path and prefix name
+#' @param ref_split_file If SplitSum = TRUE (Default) provide a file path and prefix name
 #' for the reference snps produced from the SplitSum() function.  The default
 #' name "sum" is passed to WriteSplitTables() which creates the file
 #' "sum_ref.txt" in the current working directory. This file is the input for the
 #' plink --clump flag
-#' @param targetFile If SplitSum = TRUE (Default) provide a file path and prefix name
+#' @param target_split_file If SplitSum = TRUE (Default) provide a file path and prefix name
 #' for the target snps produced from the SplitSum() function. The default
 #' name "sum" is passed to WriteSplitTables() which creates the file
 #' "sum_target.txt" in the current working directory. This file is the input for
@@ -37,17 +37,18 @@
 AlignSum <- function(sum_target,
                      sum_ref,
                      SplitSum=TRUE,
-                     refFile='sum',
-                     targetFile='sum')
+                     ref_split_file="sum_ref.txt",
+                     target_split_file="sum_target.txt"
+                     )
   {
+
   #match alleles
   sum_ref_select <- sum_ref %>%
     mutate(A1_ref = A1,
            BETA_ref = as.numeric(BETA),
            SE_ref = as.numeric(SE),
            P_ref = as.numeric(P),
-           SNP = as.character(SNP)) %>%
-    select(SNP,
+           SNP = as.character(SNP)) %>% select(SNP,
            A1_ref,
            BETA_ref,
            SE_ref,
@@ -67,13 +68,17 @@ AlignSum <- function(sum_target,
   sum_com <- sum_com %>%
     select(-A1_ref)
 
-  if (SplitSum) {
-    assign("sum_com", sum_com, envir = .GlobalEnv)
-    split_list <- SplitSum(sum_com)
-    WriteSplitTables(x = split_list, refFile = refFile, targetFile = targetFile)
-  } else {
-    print(paste0("SplitSum() was not performed"))
-    assign("sum_com", sum_com, envir = .GlobalEnv)
-  }
+  helper_SplitSum(x = SplitSum,
+                  sum_com = sum_com,
+                  ref_split_file = ref_split_file,
+                  target_split_file = target_split_file)
+#  if (SplitSum) {
+#    assign("sum_com", sum_com, envir = .GlobalEnv)
+#    split_list <- SplitSum(sum_com)
+#    WriteSplitTables(x = split_list, ref_split_file = ref_split_file, target_split_file = target_split_file)
+#  } else {
+#    print(paste0("SplitSum() was not performed"))
+#    assign("sum_com", sum_com, envir = .GlobalEnv)
+#  }
 }
 

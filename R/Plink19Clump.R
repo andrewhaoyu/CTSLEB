@@ -18,23 +18,25 @@
 #' clump_r2 thresholds have a larger clumping window size
 #' @param threads maximum number of concurrent threads
 #' @param memory primary workspace memory
-#' @param out out file prefix. Output files end with .clumped
+#' @param out output folder and file prefix for Plink1.9. Output files will end
+#' with .clumped
 #' @keywords plink1.9 clump
-#' @usage Plink19Clump(plink19_exec, clump_farm)
+#' @usage Plink19Clump(plink19_exec, clump, bfile, out, clump_farm)
 #' @export
 #' @examples
 #' r2_vec <- c(0.01,0.05,0.1,0.2,0.5,0.8)
 #' wc_base_vec <- c(50,100)
 #' bfile <- "data/EUR_ref_chr22"
-#' clump <- "temp/sum_other_ref"
+#' clump <- "temp/sum_ref.txt"
 #' clump_r2 <- r2_vec[1]
 #' clump_kb <- wc_base_vec[1]/clump_r2
+#'
 #' plink19_clump(plink19_exec,
-#' bfile = bfile,
-#' clump = clump,
-#' clump_r2 = clump_r2,
-#' clump_kb = clump_kb,
-#' out = temp/ref)
+#'               bfile = refFile,
+#'               clump = clump,
+#'               clump_r2 = clump_r2,
+#'               clump_kb = clump_kb,
+#'               out = temp/ref)
 
 Plink19Clump <- function(plink19_exec = "plink",
                          bfile,
@@ -44,7 +46,17 @@ Plink19Clump <- function(plink19_exec = "plink",
                          clump_kb,
                          threads = 4,
                          memory = 8000,
-                         out){
+                         out,
+                         clumpFarm=as.null()){
+
+  if (is.null(clumpFarm)) {
+    print("no clumpFarm")
+  } else {
+    print("clumpFarm list will be used")
+    mem <- as.character(unlist(clump_farm["mem"]))
+    threads <- as.character(unlist(clump_farm["threads"]))
+  }
+
   system(paste0(plink19_exec, " ",
                 "--bfile ", bfile, " ",
                 "--clump ", clump, " ",

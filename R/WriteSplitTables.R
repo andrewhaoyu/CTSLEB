@@ -15,15 +15,15 @@
 #' WriteSplitTables(x=sum_com_split, refFile = "sum", targetFile = "sum")
 
 WriteSplitTables <- function(x,
-                             refFile = "sum_ref.txt",
-                             targetFile = "sum_target.txt") {
-  print(refFile)
-  print(targetFile)
-  print("creating sum_ref")
+                             ref_split_file = "sum_ref.txt",
+                             target_split_file = "sum_target.txt") {
+  #print(paste0("refFile: ", ref_split_file))
+  #print(paste0("targetFile: ", target_split_file))
+  print("creating sum_ref object")
   assign("sum_ref", x[[1]], envir = .GlobalEnv)
-  print("creating sum_target")
+  print("creating sum_target object")
   assign("sum_target", x[[2]], envir = .GlobalEnv)
 
-  write.table(sum_ref,refFile,col.names = T,row.names = F,quote=F)
-  write.table(sum_target,targetFile,col.names = T,row.names = F,quote=F)
+  write.table(sum_ref,ref_split_file,col.names = T,row.names = F,quote=F)
+  write.table(sum_target,target_split_file,col.names = T,row.names = F,quote=F)
 }
