@@ -44,10 +44,10 @@ PreparePlinkFile <- function(snp_list,
   print("score_file complete")
 
   p_value_file <- data.frame(SNP = unique_id,P = unique_infor$P)
-  helper_p_value_file(x = p_value_file,
-                      pthres = pthres,
-                      output = output)
-  print("p_value_file complete")
+#  helper_p_value_file(x = p_value_file,
+#                      pthres = pthres,
+#                      output = output)
+#  print("p_value_file complete")
 
   q_range <- helper_CreateQRange(pthres)
   print("q_range complete")
