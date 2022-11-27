@@ -1,16 +1,20 @@
 #' Prepare the files for PLINK2 to calculate PRSs
-#'
+#' @description
+#' Calls CreateQRange() using either the default pthres or user input values
 #' @param snp_list the snp_list result from the two-dimensional clumping
 #' @param sum_com the sum_com result from the AlignSum function.
 #' @param pthres vector of p-value thresholds. Default
 #' c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)
+#' @param return_list Return as a list instead of creating a global variable
 #' @return the score_file, p_value_file and p_other_file for the two-dimensional thresholding
 #' @export
 #'
 #' @examples
 PreparePlinkFile <- function(snp_list,
                              sum_com,
-                             pthres = c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0))
+                             pthres = as.null(),
+                             output,
+                             return_list = FALSE)
   {
   #create unique SNP list by combind LD clumping results under different parameters
   unique_id <- unique(rbindlist(snp_list,use.name =FALSE))
@@ -37,26 +41,40 @@ PreparePlinkFile <- function(snp_list,
   }
   colnames(beta_mat) <- names
   score_file <- data.frame(SNP = unique_id,A1 = unique_infor$A1,beta_mat)
+  print("score_file complete")
+
   p_value_file <- data.frame(SNP = unique_id,P = unique_infor$P)
+  helper_p_value_file(x = p_value_file,
+                      pthres = pthres,
+                      output = output)
+  print("p_value_file complete")
 
+  q_range <- helper_CreateQRange(pthres)
+  print("q_range complete")
+  helper_return_list(x = return_list,
+                     output = output,
+                     score_file,
+                     p_value_file,
+                     unique_infor,
+                     q_range)
+#  if (is.null(pthres)) {
+#    pthres <- c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,
+#                5E-02,5E-01,1.0)
+#    print(paste0("pthres is NULL...using default values "))
+#    q_range <- CreateQRange(pthres)
+#  }
 
-  q_range <- CreateQRange(pthres)
-  if (is.null(pthres)) {
-    pthres <- c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,
-                5E-02,5E-01,1.0)
-    print(paste0("pthres is NULL...using default values "))
-  }
-  if (return_list) {
-    result <- list(score_file,
-                   p_value_file,
-                   unique_infor)
-  } else {
-    assign("score_file", score_file, envir = .GlobalEnv)
-    assign("p_value_file", p_value_file, envir = .GlobalEnv)
-    assign("unique_infor", unique_infor, envir = .GlobalEnv)
-  }
-
-  assign("q_range", q_range, envir = .GlobalEnv)
-  #return(result)
+  # if (return_list) {
+  #   result <- list(score_file,
+  #                  p_value_file,
+  #                  unique_infor)
+  # } else {
+  #   assign("score_file", score_file, envir = .GlobalEnv)
+  #   assign("p_value_file", p_value_file, envir = .GlobalEnv)
+  #   assign("unique_infor", unique_infor, envir = .GlobalEnv)
+  # }
+  #
+  # assign("q_range", q_range, envir = .GlobalEnv)
+  # return(result)
 
 }
