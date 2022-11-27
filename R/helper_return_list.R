@@ -1,9 +1,11 @@
 #' Helper function for PreparePlinkFile()
 #' @description
-#' Either a list containing the score_file, p_value_file, unique_infor and
-#' q_range or the global variables for the same objects and writes the files.
+#' Return either a list containing the score_file, p_value_file, unique_infor and
+#' q_range or the global variables for the same objects and write the files.
 #' Not exported
 #' @param x return_list
+#' @param output path to output folder
+#' @param score_file
 #' @param p_value_file
 #' @param unique_infor
 #' @param q_range

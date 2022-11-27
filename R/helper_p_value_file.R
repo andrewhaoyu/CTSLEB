@@ -1,7 +1,7 @@
 #' Helper function for PreparePlinkFile()
 #' @description
-#' Either a list containing the score_file, p_value_file, unique_infor and
-#' q_range or the global variables for the same objects and writes the files.
+#' Find reference SNPs with p-value less than pthres and set the p-value to
+#' 0 to guarantee their selection.
 #' Not exported
 #' @param x p_value_file
 #' @return updated p_value_file object

@@ -1,6 +1,6 @@
 #' Helper function for PreparePlinkFile()
 #' @description
-#' Calls CreateQRange() using either the default pthres or user input values
+#' Calls CreateQRange() with either the default pthres or user input values
 #' Not exported
 #' @param x pthres
 #' @return CreateQRange() object
