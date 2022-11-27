@@ -12,13 +12,13 @@ helper_p_value_file <- function(x,pthres,output)
   p_value_file_temp <- x
   for(k1 in 1:length(pthres)){
     #keep all the SNPs with P_EUR less than pthres[k1] in the analyses
-    idx <- which(unique_infor$P_other<=pthres[k1])
+    idx <- which(unique_infor$P_ref<=pthres[k1])
     p_value_file_temp$P[idx] <- 0
-    write.table(p_value_file_temp,
-                file = paste0(output,"p_value_file"),
-                col.names = F,
-                row.names = F,
-                quote=F)
     n_col <- ncol(score_file)
   }
+  write.table(p_value_file_temp,
+              file = paste0(output,"p_value_file"),
+              col.names = F,
+              row.names = F,
+              quote=F)
 }
