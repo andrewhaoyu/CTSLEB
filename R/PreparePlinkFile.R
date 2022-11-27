@@ -51,6 +51,7 @@ PreparePlinkFile <- function(snp_list,
 
   q_range <- helper_CreateQRange(pthres)
   print("q_range complete")
+
   helper_return_list(x = return_list,
                      output = output,
                      score_file,
