@@ -8,8 +8,8 @@ AlignSum(
   sum_target,
   sum_ref,
   SplitSum = TRUE,
-  refFile = "sum",
-  targetFile = "sum"
+  ref_split_file = "sum_ref.txt",
+  target_split_file = "sum_target.txt"
 )
 }
 \arguments{
@@ -19,13 +19,13 @@ The most commonly used reference population is European.}
 \item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
 Default = TRUE.}
 
-\item{refFile}{If SplitSum = TRUE (Default) provide a file path and prefix name
+\item{ref_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
 for the reference snps produced from the SplitSum() function.  The default
 name "sum" is passed to WriteSplitTables() which creates the file
 "sum_ref.txt" in the current working directory. This file is the input for the
 plink --clump flag}
 
-\item{targetFile}{If SplitSum = TRUE (Default) provide a file path and prefix name
+\item{target_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
 for the target snps produced from the SplitSum() function. The default
 name "sum" is passed to WriteSplitTables() which creates the file
 "sum_target.txt" in the current working directory. This file is the input for
@@ -51,7 +51,15 @@ ratio for logistic regression. SE is the standard error for BETA.
 }
 \examples{
 data.dir <- "data/"
+temp.dir = "test/temp.dir/"
 sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
 sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-AlignSum(sum_tar = sum_AFR, sum_ref = sum_EUR, SplitSum=TRUE)
+ref_split_file <- paste0(temp.dir,"sum_EUR.txt")
+target_split_file <- paste0(temp.dir,"sum_AFR.txt")
+
+AlignSum(sum_target = sum_AFR,
+         sum_ref = sum_EUR,
+         ref_split_file = ref_split_file,
+         target_split_file = target_split_file,
+         SplitSum = TRUE)
 }

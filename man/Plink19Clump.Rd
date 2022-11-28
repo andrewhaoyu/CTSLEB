@@ -4,7 +4,7 @@
 \alias{Plink19Clump}
 \title{plink19Clump}
 \usage{
-Plink19Clump(plink19_exec, clump_farm)
+Plink19Clump(plink19_exec, clump, bfile, out, clump_farm)
 }
 \arguments{
 \item{plink19_exec}{Plink binary execute file. Default "plink".}
@@ -30,7 +30,8 @@ clump_r2 thresholds have a larger clumping window size}
 
 \item{memory}{primary workspace memory}
 
-\item{out}{out file prefix. Output files end with .clumped}
+\item{out}{output folder and file prefix for Plink1.9. Output files will end
+with .clumped}
 }
 \description{
 This function sets the standard options LD clumping with plink1.9.
@@ -41,15 +42,16 @@ as demonstrated in the vignette.
 r2_vec <- c(0.01,0.05,0.1,0.2,0.5,0.8)
 wc_base_vec <- c(50,100)
 bfile <- "data/EUR_ref_chr22"
-clump <- "temp/sum_other_ref"
+clump <- "temp/sum_ref.txt"
 clump_r2 <- r2_vec[1]
 clump_kb <- wc_base_vec[1]/clump_r2
+
 plink19_clump(plink19_exec,
-bfile = bfile,
-clump = clump,
-clump_r2 = clump_r2,
-clump_kb = clump_kb,
-out = temp/ref)
+              bfile = refFile,
+              clump = clump,
+              clump_r2 = clump_r2,
+              clump_kb = clump_kb,
+              out = temp/ref)
 }
 \keyword{clump}
 \keyword{plink1.9}

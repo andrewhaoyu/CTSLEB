@@ -1,0 +1,39 @@
+Updates 11/28/2022
+
+AlignSum.R
+Add SplitSum, ref_split_file and target_split_file options
+Modified code to create global variables instead of returning an object
+calls helper_SplitSum() function
+Creates global variables
+add flag SplitSum to call SplitSum() and WriteSplitTables()
+
+Created private helper_SplitSum.R
+
+SplitSum.R
+P_col col name changed to P_ref
+
+Created WriteSplitTables.R 
+Writes SplitSum() tables
+ 
+Created SetClumpFarm.R
+sets Plink19 parameters
+
+Created Plink19Clump.R
+Function for LD clumping with Plink1.9
+
+Created dimCT.R
+Function for executing the clumping workflow with AlignSum() and Plink19Clump()
+
+vignette_step12.R
+Example vignette for steps 1 and 2
+
+PreparePlinkFile.R
+Modified code to use private helper functions
+Calls helper_return_lists() function
+Calls helper_CreateQRange() function
+Inpusts now include snp_list, pthres, output and return_list
+Add return_list option which either creates the global variables 'core_file', 'p_value_file', 
+  'q_range' and 'unique_infor' or the variable 'plink_list' which contains the four dataframes 
+  in a list
+ 
+

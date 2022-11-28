@@ -30,9 +30,17 @@
 #' @export
 #' @examples
 #' data.dir <- "data/"
+#' temp.dir = "test/temp.dir/"
 #' sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
 #' sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-#' AlignSum(sum_tar = sum_AFR, sum_ref = sum_EUR, SplitSum=TRUE)
+#' ref_split_file <- paste0(temp.dir,"sum_EUR.txt")
+#' target_split_file <- paste0(temp.dir,"sum_AFR.txt")
+#'
+#' AlignSum(sum_target = sum_AFR,
+#'          sum_ref = sum_EUR,
+#'          ref_split_file = ref_split_file,
+#'          target_split_file = target_split_file,
+#'          SplitSum = TRUE)
 
 AlignSum <- function(sum_target,
                      sum_ref,
@@ -72,13 +80,13 @@ AlignSum <- function(sum_target,
                   sum_com = sum_com,
                   ref_split_file = ref_split_file,
                   target_split_file = target_split_file)
-#  if (SplitSum) {
-#    assign("sum_com", sum_com, envir = .GlobalEnv)
-#    split_list <- SplitSum(sum_com)
-#    WriteSplitTables(x = split_list, ref_split_file = ref_split_file, target_split_file = target_split_file)
-#  } else {
-#    print(paste0("SplitSum() was not performed"))
-#    assign("sum_com", sum_com, envir = .GlobalEnv)
-#  }
+  if (SplitSum) {
+    assign("sum_com", sum_com, envir = .GlobalEnv)
+    split_list <- SplitSum(sum_com)
+    WriteSplitTables(x = split_list, ref_split_file = ref_split_file, target_split_file = target_split_file)
+  } else {
+    print(paste0("SplitSum() was not performed"))
+    assign("sum_com", sum_com, envir = .GlobalEnv)
+  }
 }
 

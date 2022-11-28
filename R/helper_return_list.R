@@ -21,12 +21,12 @@ helper_return_list <- function(x,
   file1 <- paste0(output,"score_file")
 
   if (x) {
-    print("return plink_list")
+    print("return plink_file")
     result <- list(score_file,
                    p_value_file,
                    unique_infor,
                    q_range)
-    assign("plink_list", result, envir = .GlobalEnv)
+    assign("plink_files", result, envir = .GlobalEnv)
   } else {
     score_file_out <- paste0(output, "score_file")
     print(paste0("printing score file: ", score_file_out))

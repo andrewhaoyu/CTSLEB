@@ -4,16 +4,27 @@
 \alias{PreparePlinkFile}
 \title{Prepare the files for PLINK2 to calculate PRSs}
 \usage{
-PreparePlinkFile(snp_list, sum_com)
+PreparePlinkFile(
+  snp_list,
+  sum_com,
+  pthres = as.null(),
+  output,
+  return_list = FALSE
+)
 }
 \arguments{
 \item{snp_list}{the snp_list result from the two-dimensional clumping}
 
 \item{sum_com}{the sum_com result from the AlignSum function.}
+
+\item{pthres}{vector of p-value thresholds. Default
+c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
+
+\item{return_list}{Return as a list instead of creating a global variable}
 }
 \value{
 the score_file, p_value_file and p_other_file for the two-dimensional thresholding
 }
 \description{
-Prepare the files for PLINK2 to calculate PRSs
+Calls CreateQRange() using either the default pthres or user input values
 }

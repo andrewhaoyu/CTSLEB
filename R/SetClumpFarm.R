@@ -13,24 +13,12 @@
 #' @keywords plink1.9 clump
 #' @export
 #' @examples
-#' data.dir <- "data/"
-#' temp.dir <- test/temp.dir
-#' system("mkdir -p test/temp.dir")
-#' sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
-#' sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-#' Eur_plinkfile <- paste0(data.dir,"EUR_ref_chr22")
-#' Afr_plinkfile <- paste0(data.dir,"AFR_ref_chr22")
+
 #' clump_farm <- SetClumpFarm(plink19exec = /Apps/plink1.9/plink,
-#'                            ref_plink = Eur_plinkfile,
-#'                            target_plink = Afr_plinkfile,
-#'                            ref_split_file = "test/temp/Eur",
-#'                            target_split_file = "test/temp/Afr",
 #'                            wc_base_vec = c(50,100),
 #'                            r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
 #'                            threads = 2,
-#'                            mem = 8000,
-#'                            ref_out = "test/temp/ref",
-#'                            target_out = "test/temp/target"
+#'                            mem = 8000
 #' )
 
 
