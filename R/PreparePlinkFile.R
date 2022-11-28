@@ -5,7 +5,8 @@
 #' @param sum_com the sum_com result from the AlignSum function.
 #' @param pthres vector of p-value thresholds. Default
 #' c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)
-#' @param return_list Return as a list instead of creating a global variable
+#' @param return_list Return as a list instead of creating a global variable.
+#' Default return_list=FALSE
 #' @return Creates either the global variables 'core_file', 'p_value_file',
 #' 'q_range' and 'unique_infor' or the variable 'plink_list' which contains the
 #' four dataframes in a list

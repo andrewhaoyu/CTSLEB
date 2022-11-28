@@ -14,8 +14,8 @@ helper_CreateQRange <- function(x)
   } else {
     pthres <- x
   }
-  print(x)
-  print(pthres)
+  #print(x)
+  #print(pthres)
   q_range <- CreateQRange(pthres)
   return (q_range)
 }
