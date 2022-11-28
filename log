@@ -31,7 +31,7 @@ PreparePlinkFile.R
 Modified code to use private helper functions
 Calls helper_return_lists() function
 Calls helper_CreateQRange() function
-Inpusts now include snp_list, pthres, output and return_list
+Inputs now include snp_list, pthres, output and return_list
 Add return_list option which either creates the global variables 'core_file', 'p_value_file', 
   'q_range' and 'unique_infor' or the variable 'plink_list' which contains the four dataframes 
   in a list
