@@ -15,13 +15,12 @@
 #' @return SplitSum() and WriteSplitTables() objects and files
 #'
 helper_SplitSum <- function(sum_com,
-                            results_dir,
-                            ref_split_file,
-                            target_split_file
+                            results_dir = results_dir,
+                            ref_split_file = ref_split_file,
+                            target_split_file = target_split_file
                             )
   {
     split_list <- SplitSum(sum_com)
-
     WriteSplitTables(x = split_list,
                      results_dir = results_dir,
                      ref_split_file = ref_split_file,

@@ -3,6 +3,7 @@
 #' @param plink19_exec Plink binary execute file. Default "plink".
 #' @param sum_ref
 #' @param sum_target
+#' @param results_dir
 #' @param ref_plink
 #' @param target_plink
 #' @param ref_split_file
@@ -39,6 +40,7 @@
 
 helper_clump <- function(ref_plink = ref_plink,
                   target_plink = target_plink,
+                  results_dir = results_dir,
                   ref_split_file = ref_split_file,
                   target_split_file = target_split_file,
                   ref_clump_out = ref_clump_out,
@@ -57,14 +59,17 @@ helper_clump <- function(ref_plink = ref_plink,
 
   snp_list <-list()
   temp <- 1
+  temp.dir <- paste0(results_dir,"temp/")
+  ref_split_file <- paste0(temp.dir, ref_split_file)
+  target_split_file <- paste0(temp.dir,target_split_file)
   for(r_ind in 1:length(r2_vec)){
     wc_vec <- wc_base_vec/r2_vec[r_ind]
     for(w_ind in 1:length(wc_vec)){
       pthr <-1
       r2thr <- r2_vec[r_ind]
       kbpthr <- wc_vec[w_ind]
-      ref_outfile <- paste0(ref_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
-      target_outfile <- paste0(target_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      ref_outfile <- paste0(temp.dir,ref_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      target_outfile <- paste0(temp.dir,target_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                          bfile = ref_plink,
                          clump = ref_split_file,
