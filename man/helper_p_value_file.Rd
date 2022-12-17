@@ -4,16 +4,22 @@
 \alias{helper_p_value_file}
 \title{Helper function for PreparePlinkFile()}
 \usage{
-helper_p_value_file(x, pthres, output)
+helper_p_value_file(
+  x = p_value_file,
+  pthres = pthres,
+  unique_infor = unique_infor,
+  score_file = score_file,
+  output = "./"
+)
 }
 \arguments{
-\item{x}{p_value_file}
+\item{x}{p_value_file_temp}
 }
 \value{
 updated p_value_file object
 }
 \description{
 Find reference SNPs with p-value less than pthres and set the p-value to
-0 to guarantee their selection.
+0 and guarantee their selection.
 Not exported
 }

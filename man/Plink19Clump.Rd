@@ -2,9 +2,9 @@
 % Please edit documentation in R/Plink19Clump.R
 \name{Plink19Clump}
 \alias{Plink19Clump}
-\title{plink19Clump}
+\title{Plink19Clump}
 \usage{
-Plink19Clump(plink19_exec, clump, bfile, out, clump_farm)
+Plink19Clump(plink19_exec, clump, bfile, out, PRS_farm)
 }
 \arguments{
 \item{plink19_exec}{Plink binary execute file. Default "plink".}
@@ -45,13 +45,13 @@ bfile <- "data/EUR_ref_chr22"
 clump <- "temp/sum_ref.txt"
 clump_r2 <- r2_vec[1]
 clump_kb <- wc_base_vec[1]/clump_r2
-
+clump_out <- paste0(temp.dir, "ref")
 plink19_clump(plink19_exec,
               bfile = refFile,
               clump = clump,
               clump_r2 = clump_r2,
               clump_kb = clump_kb,
-              out = temp/ref)
+              out = clump_out)
 }
 \keyword{clump}
 \keyword{plink1.9}

@@ -20,6 +20,7 @@
 #' name "sum" is passed to WriteSplitTables() which creates the file
 #' "sum_target.txt" in the current working directory. This file is the input for
 #' the plink --clump flag
+#' @param results.dr
 #' @return data.frame object with ref population GWAS summary statistics
 #' aligned with target GWAS summary statistics. The resulting global variable is
 #' named "sum_com". If SplitSum = TRUE, the SplitSum() and WriteSplitTables()
@@ -33,20 +34,22 @@
 #' temp.dir = "test/temp.dir/"
 #' sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
 #' sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-#' ref_split_file <- paste0(temp.dir,"sum_EUR.txt")
-#' target_split_file <- paste0(temp.dir,"sum_AFR.txt")
+#' ref_split_file <- "sum_EUR.txt"
+#' target_split_file <- "sum_AFR.txt"
 #'
 #' AlignSum(sum_target = sum_AFR,
 #'          sum_ref = sum_EUR,
+#'          results_dir = results.dir,
 #'          ref_split_file = ref_split_file,
 #'          target_split_file = target_split_file,
 #'          SplitSum = TRUE)
 
 AlignSum <- function(sum_target,
                      sum_ref,
-                     SplitSum=TRUE,
+                     results_dir = results.dir,
                      ref_split_file="sum_ref.txt",
-                     target_split_file="sum_target.txt"
+                     target_split_file="sum_target.txt",
+                     SplitSum=TRUE
                      )
   {
 
@@ -73,20 +76,16 @@ AlignSum <- function(sum_target,
   sum_com <- left_join(sum_target,sum_ref_select,by="SNP")
   idx <- which(sum_com$A1!=sum_com$A1_ref)
   sum_com$BETA_ref[idx] <- -sum_com$BETA_ref[idx]
-  sum_com <- sum_com %>%
-    select(-A1_ref)
+  sum_com <- sum_com %>% select(-A1_ref)
 
-  helper_SplitSum(x = SplitSum,
-                  sum_com = sum_com,
-                  ref_split_file = ref_split_file,
-                  target_split_file = target_split_file)
+  assign("sum_com", sum_com, envir = .GlobalEnv)
+
   if (SplitSum) {
-    assign("sum_com", sum_com, envir = .GlobalEnv)
-    split_list <- SplitSum(sum_com)
-    WriteSplitTables(x = split_list, ref_split_file = ref_split_file, target_split_file = target_split_file)
+    helper_SplitSum(sum_com = sum_com,
+                    ref_split_file = ref_split_file,
+                    target_split_file = target_split_file)
   } else {
     print(paste0("SplitSum() was not performed"))
-    assign("sum_com", sum_com, envir = .GlobalEnv)
   }
 }
 

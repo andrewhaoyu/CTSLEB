@@ -38,7 +38,7 @@ dimCT(plink19_exec=plink19_exec,
       target_plink=target_plink,
       ref_clump_out=ref_clump_out,
       target_clump_out=target_clump_out,
-      clump_farm)
+      PRS_farm)
 }
 \keyword{clump}
 \keyword{plink1.9}

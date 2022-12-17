@@ -14,20 +14,14 @@
 #' name "sum_target.txt" is passed to WriteSplitTables().
 #' @return SplitSum() and WriteSplitTables() objects and files
 #'
-helper_SplitSum <- function(x,
-                            sum_com,
+helper_SplitSum <- function(sum_com,
                             ref_split_file,
                             target_split_file
                             )
   {
-  if (x) {
-    assign("sum_com", sum_com, envir = .GlobalEnv)
     split_list <- SplitSum(sum_com)
+
     WriteSplitTables(x = split_list,
                      ref_split_file = ref_split_file,
                      target_split_file = target_split_file)
-    } else {
-      print(paste0("SplitSum() was not performed"))
-      assign("sum_com", sum_com, envir = .GlobalEnv)
-    }
 }

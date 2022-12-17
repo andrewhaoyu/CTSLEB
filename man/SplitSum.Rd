@@ -4,10 +4,10 @@
 \alias{SplitSum}
 \title{Inputs an AlignSum() object and splits SNPs into two groups}
 \usage{
-SplitSum(sum_com)
+SplitSum(x)
 }
 \arguments{
-\item{sum_com}{data.frame object produced by AlignSum().}
+\item{x}{sum_com data.frame object produced by AlignSum().}
 }
 \value{
 A list with the two data.frame objects of SNPs with p-values in the

@@ -5,7 +5,7 @@
 \title{Prepare the files for PLINK2 to calculate PRSs}
 \usage{
 PreparePlinkFile(
-  snp_list,
+  snp_list = snp_list,
   sum_com,
   pthres = as.null(),
   output,
@@ -20,10 +20,18 @@ PreparePlinkFile(
 \item{pthres}{vector of p-value thresholds. Default
 c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
 
-\item{return_list}{Return as a list instead of creating a global variable}
+\item{return_list}{TRUE will return a 'plink_files' list containing the
+plink_files[1]"scores" plink_files[2]"p_values", plink_files[3]"unique_infor"
+and plink_files[4]"q_range" objects. FALSE will create the global variables for
+the same objects and write the q-range and scores objects to tables named
+"q_range_file" and "scores_file" respectively. The location of these tables
+will be stored as global variables named  "q_range_file" and "scores_file"
+respectively. Default return_list=FALSE}
 }
 \value{
-the score_file, p_value_file and p_other_file for the two-dimensional thresholding
+Creates either the global variables 'scores', 'p_values',
+'q_range' and 'unique_infor' or the variable 'plink_list' which contains the
+four dataframes in a list
 }
 \description{
 Calls CreateQRange() using either the default pthres or user input values

@@ -5,14 +5,14 @@
 #' @return the q range file
 #' @export
 #'
-CreateQRange <- function(pthres){
-  n_pthres = length(pthres)
-  q_range = data.frame(
-    filename = rep("p_tar",n_pthres),
-    small_P = rep(0,n_pthres),
-    max_P = rep(1,n_pthres))
+CreateQRange <- function(x){
+  pthres <- x
+  n_pthres <- length(pthres)
+  q_range <- data.frame(filename = rep("p_tar",n_pthres),
+                        small_P = rep(0,n_pthres),
+                        max_P = rep(1,n_pthres))
 
-  temp = 1
+  temp <- 1
 
   for(k2 in 1:length(pthres)){
 

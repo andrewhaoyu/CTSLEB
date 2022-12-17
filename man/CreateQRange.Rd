@@ -4,7 +4,7 @@
 \alias{CreateQRange}
 \title{Create the q range file used for plink2}
 \usage{
-CreateQRange(pthres)
+CreateQRange(x)
 }
 \arguments{
 \item{pthres}{the p value thresholds for selecting SNPs}

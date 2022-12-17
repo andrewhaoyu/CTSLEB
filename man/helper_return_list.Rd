@@ -4,7 +4,7 @@
 \alias{helper_return_list}
 \title{Helper function for PreparePlinkFile()}
 \usage{
-helper_return_list(x, output, score_file, p_value_file, unique_infor, q_range)
+helper_return_list(x, output = "./", scores, p_values, unique_infor, q_range)
 }
 \arguments{
 \item{x}{return_list}
@@ -15,7 +15,7 @@ helper_return_list(x, output, score_file, p_value_file, unique_infor, q_range)
 CreateQRange() object
 }
 \description{
-Return either a list containing the score_file, p_value_file, unique_infor and
+Return either a list containing the score_file, p_values, unique_infor and
 q_range or the global variables for the same objects and write the files.
 Not exported
 }
