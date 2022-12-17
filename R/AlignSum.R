@@ -20,7 +20,7 @@
 #' name "sum" is passed to WriteSplitTables() which creates the file
 #' "sum_target.txt" in the current working directory. This file is the input for
 #' the plink --clump flag
-#' @param results.dr
+#' @param results_dir
 #' @return data.frame object with ref population GWAS summary statistics
 #' aligned with target GWAS summary statistics. The resulting global variable is
 #' named "sum_com". If SplitSum = TRUE, the SplitSum() and WriteSplitTables()
@@ -46,7 +46,7 @@
 
 AlignSum <- function(sum_target,
                      sum_ref,
-                     results_dir = results.dir,
+                     results_dir,
                      ref_split_file="sum_ref.txt",
                      target_split_file="sum_target.txt",
                      SplitSum=TRUE
@@ -82,6 +82,7 @@ AlignSum <- function(sum_target,
 
   if (SplitSum) {
     helper_SplitSum(sum_com = sum_com,
+                    results_dir = results_dir,
                     ref_split_file = ref_split_file,
                     target_split_file = target_split_file)
   } else {

@@ -15,6 +15,7 @@
 #' WriteSplitTables(x=sum_com_split, refFile = "sum", targetFile = "sum")
 
 WriteSplitTables <- function(x,
+                             results_dir,
                              ref_split_file = "sum_ref.txt",
                              target_split_file = "sum_target.txt") {
   temp.dir <- paste0(results_dir,"temp/")
