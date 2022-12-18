@@ -56,8 +56,6 @@ dimCT <- function(plink19_exec = 'plink',
                   ref_clump_out = 'ref',
                   target_clump_out = 'target',
                   scores = scores,
-                  q_range_file = q_range_file,
-                  p_value_file = p_value_file,
                   p_values = p_values,
                   pthres,
                   r2_vec,
@@ -91,79 +89,21 @@ dimCT <- function(plink19_exec = 'plink',
                target_split_file = target_split_file,
                ref_clump_out = ref_clump_out,
                target_clump_out = target_clump_out)
-  # print("executing PreparePlinkFile()")
-  # PreparePlinkFile(params_farm = params_farm,
-  #                  snp_list = snp_list,
-  #                  sum_com = sum_com,
-  #                  results_dir = results.dir,
-  #                  return_list = FALSE)
-  # print("executing PRSscore()")
-  # PRSscore(params_farm = params_farm,
-  #          plink2_exec = plink2_exec,
-  #          bfile = target_plink,
-  #          q_range_file = q_range_file,
-  #          scores = scores,
-  #          scores_file = scores_file,
-  #          p_values = p_values,
-  #          p_value_file = p_value_file,
-  #          pthres = pthres,
-  #          threads = 4,
-  #          memory = 8000,
-  #          results_dir = results.dir
-  #)
+  print("executing PreparePlinkFile()")
+  PreparePlinkFile(params_farm = params_farm,
+                   snp_list = snp_list,
+                   sum_com = sum_com,
+                   results_dir = results.dir,
+                   return_list = FALSE)
+  print("executing PRSscore()")
+  PRSscore(params_farm = params_farm,
+           plink2_exec = plink2_exec,
+           bfile = target_plink,
+           scores = scores,
+           p_values = p_values,
+           pthres = pthres,
+           threads = 4,
+           memory = 8000,
+           results_dir = results_dir)
 
-
-  # snp_list <-list()
-  # temp <- 1
-  # for(r_ind in 1:length(r2_vec)){
-  #   wc_vec <- wc_base_vec/r2_vec[r_ind]
-  #   for(w_ind in 1:length(wc_vec)){
-  #     pthr <-1
-  #     r2thr <- r2_vec[r_ind]
-  #     kbpthr <- wc_vec[w_ind]
-  #     ref_outfile <- paste0(ref_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
-  #     target_outfile <- paste0(target_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
-  #     Plink19Clump(plink19_exec = plink19_exec,
-  #                        bfile = ref_plink,
-  #                        clump = ref_split_file,
-  #                        clump_p1 = pthr,
-  #                        clump_r2 = r2thr,
-  #                        clump_kb = kbpthr,
-  #                        threads = threads,
-  #                        memory = mem,
-  #                        out = ref_outfile
-  #     )
-  #     Plink19Clump(plink19_exec = plink19_exec,
-  #                        bfile = target_plink,
-  #                        clump = target_split_file,
-  #                        clump_p1 = pthr,
-  #                        clump_r2 = r2thr,
-  #                        clump_kb = kbpthr,
-  #                        threads = threads,
-  #                        memory = mem,
-  #                        out = target_outfile
-  #     )
-  #     LD_ref <-fread(paste0(ref_outfile,
-  #                           ".clumped"))[,3,drop=F]
-  #     LD_target <-fread(paste0(target_outfile,
-  #                              ".clumped"))[,3,drop=F]
-  #     print(paste0("binding rows for ",
-  #                  ref_outfile,
-  #                  ".clumped and ",
-  #                  target_outfile,
-  #                  ".clumped"))
-  #     LD  <- rbind(LD_ref,LD_target)
-  #     snp_list[[temp]] <- LD
-  #     print(paste0("creating snp list for clump_r2_",
-  #                  r2thr,
-  #                  "_ws_",
-  #                  kbpthr))
-  #     names(snp_list[[temp]]) <- paste0("clump_r2_",
-  #                                       r2thr,
-  #                                       "_ws_",
-  #                                       kbpthr)
-  #     temp <- temp + 1
-  #   }
-  # }
-  # assign("snp_list", snp_list, envir = .GlobalEnv)
 }

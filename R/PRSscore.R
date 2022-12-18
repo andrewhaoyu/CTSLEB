@@ -45,11 +45,8 @@
 
 PRSscore <- function(plink2_exec = "plink2 ",
                      bfile,
-                     q_range_file = q_range_file,
                      scores = scores,
-                     scores_file = scores_file,
                      p_values = p_values,
-                     p_value_file = p_value_file,
                      pthres = pthres,
                      threads = 4,
                      memory = 8000,
@@ -67,19 +64,16 @@ PRSscore <- function(plink2_exec = "plink2 ",
   n_col <- ncol(scores)
   helper_score_loop(plink2_exec,
                     bfile = bfile,
-                    q_range_file = q_range_file,
-                    p_value_file = p_value_file,
                     p_values = p_values,
                     score_col_nums = n_col,
-                    scores_file = scores_file,
                     pthres = pthres,
                     threads = threads,
                     memory = mem,
                     results_dir = results_dir,
                     params_farm = params_farm)
 
-  prs_mat <- helper_combine_PRS(scores = scores,
-                                pthres = pthres,
-                                results_dir = out)
- return(prs_mat)
+ #  prs_mat <- helper_combine_PRS(scores = scores,
+ #                                pthres = pthres,
+ #                                results_dir = out)
+ # return(prs_mat)
 }

@@ -42,7 +42,7 @@ plink2score <- function(plink2_exec = "plink2 ",
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
   }
-  prs_out <- paste0(results_dir,"temp/",prs_p_other_,k1)
+  prs_out <- paste0(results_dir,"temp/",prs_p_other_,pthres_idx)
   system(paste0(plink2_exec, " ",
                 "--bfile ", bfile, " ",
                 "--q-score-range ", q_range_file, " ", p_value_file, " ",
