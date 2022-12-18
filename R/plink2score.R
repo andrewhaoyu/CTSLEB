@@ -16,8 +16,9 @@
 #' @param p_values p_values dataframe produced by PreparePlinkfile()
 #' @param threads maximum number of concurrent threads
 #' @param memory primary workspace memory
-#' @param out output folder and file prefix for Plink2. Default name prs_p_other_
-#' <pthres column number>.<range name>.sscore
+#' @param results_dir output folder forvPlink2. Results will appear as results_dir/
+#' temp/prs_p_other_<pthres index>.<range name>.sscore
+#' @param pthres_idx pthres vector index number
 #' @param prs_farm prs_farm object name
 #' @keywords plink2 score
 #' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
@@ -31,9 +32,11 @@ plink2score <- function(plink2_exec = "plink2 ",
                         q_range_file = q_range_file,
                         score_col_nums,
                         scores_file = scores_file,
+                        results_dir,
+                        pthres_idx,
                         threads = 4,
                         memory = 8000,
-                        out,
+                        prs_p_other_ = "prs_p_other_",
                         params_farm=as.null())
   {
 
@@ -45,6 +48,8 @@ plink2score <- function(plink2_exec = "plink2 ",
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
   }
+
+  prs_out <- paste0(results_dir,prs_p_other_,k1)
   system(paste0(plink2_exec, " ",
                 "--bfile ", bfile, " ",
                 "--q-score-range ", q_range_file, " ", p_value_file, " ",

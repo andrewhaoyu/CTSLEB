@@ -54,7 +54,6 @@ PRSscore <- function(plink2_exec = "plink2 ",
                      threads = 4,
                      memory = 8000,
                      results_dir = results_dir,
-                     out = "prs_p_other",
                      params_farm=as.null()){
 
   # if (is.null(params_farm)) {
@@ -77,10 +76,10 @@ PRSscore <- function(plink2_exec = "plink2 ",
                     threads = threads,
                     memory = mem,
                     results_dir = results_dir,
-                    out = out,
                     params_farm = params_farm)
-#  prs_mat <- helper_combine_PRS(scores = scores,
-#                     pthres = pthres,
-#                     prs_file_prefix = out)
-#  return(prs_mat)
+
+  prs_mat <- helper_combine_PRS(scores = scores,
+                                pthres = pthres,
+                                results_dir = out)
+ return(prs_mat)
 }

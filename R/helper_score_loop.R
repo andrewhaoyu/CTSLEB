@@ -43,7 +43,6 @@ helper_score_loop <- function(plink2_exec,
                         threads = threads,
                         memory = mem,
                         results_dir = results_dir,
-                        out = out,
                         params_farm = params_farm){
 
   if (is.null(params_farm)) {
@@ -55,6 +54,7 @@ helper_score_loop <- function(plink2_exec,
     pthres <- as.character(unlist(params_farm["pthres"]))
   }
 
+  prs_prefix <- "prs_p_other_"
   p_values_temp <- p_values
   p_value_file <- paste0(temp.dir,"p_value_file")
   for(k1 in 1:length(pthres)){
@@ -67,7 +67,7 @@ helper_score_loop <- function(plink2_exec,
                 row.names = F,
                 quote=F)
     temp.dir <- paste0(results_dir,"temp/")
-    out_file <- paste0(temp.dir,out,"_",k1)
+    out_file <- paste0(temp.dir,prs_prefix,k1)
     plink2score(params_farm = params_farm,
                 plink2_exec = plink2_exec,
                 bfile = AFR_plinkfile,

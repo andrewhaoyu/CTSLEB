@@ -4,14 +4,24 @@
 #' Not exported
 #' @param scores
 #' @param pthres
-#' @param prs_file_prefix
+#' @param result_dir
+#' @param params_dir
 #' @return 'prs_mat' global variable. Matrix of combined PRSs with clumping and
 #' pthres as column name
 #'
 helper_combine_PRS <- function(scores = scores,
                                pthres = pthres,
-                               prs_file_prefix)
+                               results_dir = results_dir,
+                               params_farm = params_farm)
   {
+  if (is.null(params_farm)) {
+    print("no params_farm")
+  } else {
+    print("params_farm list will be used")
+    pthres <- as.character(unlist(params_farm["pthres"]))
+  }
+  temp.dir <- paste0(results_dir,"temp/")
+  prs_file_prefix <- paste0()
   prs_list <- list()
   temp <- 1
   names <- colnames(scores[3:ncol(scores)])
