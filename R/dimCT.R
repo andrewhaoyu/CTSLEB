@@ -55,6 +55,11 @@ dimCT <- function(plink19_exec = 'plink',
                   target_split_file,
                   ref_clump_out = 'ref',
                   target_clump_out = 'target',
+                  scores = scores,
+                  q_range_file = q_range_file,
+                  p_value_file = p_value_file,
+                  p_values = p_values,
+                  pthres,
                   r2_vec,
                   wc_base_vec,
                   mem = 8000,
@@ -86,13 +91,13 @@ dimCT <- function(plink19_exec = 'plink',
                target_split_file = target_split_file,
                ref_clump_out = ref_clump_out,
                target_clump_out = target_clump_out)
-
+  print("executing PreparePlinkFile()")
   PreparePlinkFile(params_farm = params_farm,
                    snp_list = snp_list,
                    sum_com = sum_com,
                    results_dir = results.dir,
                    return_list = FALSE)
-
+  print("executing PRSscore()")
   PRSscore(params_farm = params_farm,
            plink2_exec = plink2_exec,
            bfile = target_plink,

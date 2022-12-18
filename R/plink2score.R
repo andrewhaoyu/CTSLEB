@@ -41,8 +41,9 @@ plink2score <- function(plink2_exec = "plink2 ",
     print("no params_farm")
   } else {
     print("params_farm list will be used")
-    mem <- as.character(unlist(score_farm["mem"]))
-    threads <- as.character(unlist(score_farm["threads"]))
+    plink2_exec <- as.character(unlist(params_farm["plink2_exec"]))
+    mem <- as.character(unlist(params_farm["mem"]))
+    threads <- as.character(unlist(params_farm["threads"]))
   }
   system(paste0(plink2_exec, " ",
                 "--bfile ", bfile, " ",

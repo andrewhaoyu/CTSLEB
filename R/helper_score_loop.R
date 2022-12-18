@@ -44,7 +44,7 @@ helper_score_loop <- function(plink2_exec,
                         memory = mem,
                         results_dir = results_dir,
                         out = out,
-                        params_farm=as.null()){
+                        params_farm = params_farm){
 
   if (is.null(params_farm)) {
     print("no params_farm")
@@ -68,7 +68,8 @@ helper_score_loop <- function(plink2_exec,
                 quote=F)
     temp.dir <- paste0(results_dir,"temp/")
     out_file <- paste0(temp.dir,out,"_",k1)
-    plink2score(plink2_exec = plink2_exec,
+    plink2score(params_farm = params_farm,
+                plink2_exec = plink2_exec,
                 bfile = AFR_plinkfile,
                 q_range_file = q_range_file,
                 p_value_file = p_value_file,
