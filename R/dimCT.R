@@ -57,12 +57,9 @@ dimCT <- function(plink19_exec = 'plink',
                   target_clump_out = 'target',
                   scores = scores,
                   p_values = p_values,
-                  pthres,
-                  r2_vec,
-                  wc_base_vec,
                   mem = 8000,
                   threads = 2,
-                  params_farm = params_farm) {
+                  params_farm) {
   # if (is.null(params_farm)) {
   #   print("no params_farm")
   # } else {
@@ -101,7 +98,6 @@ dimCT <- function(plink19_exec = 'plink',
            bfile = target_plink,
            scores = scores,
            p_values = p_values,
-           pthres = pthres,
            threads = 4,
            memory = 8000,
            results_dir = results_dir)

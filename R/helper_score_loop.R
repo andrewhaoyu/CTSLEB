@@ -34,7 +34,7 @@ helper_score_loop <- function(plink2_exec,
                         threads = threads,
                         memory = mem,
                         results_dir = results_dir,
-                        params_farm = params_farm){
+                        params_farm=as.null()){
 
   if (is.null(params_farm)) {
     print("no params_farm")
@@ -45,7 +45,8 @@ helper_score_loop <- function(plink2_exec,
     pthres <- as.character(unlist(params_farm["pthres"]))
   }
 
-  prs_prefix <- "prs_p_other_"
+  prs_p_other_ <- paste0(results_dir,"temp/prs_p_other_")
+  assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- p_values
   for(k1 in 1:length(pthres)){
     #keep all the SNPs with P_EUR less than pthres[k1] in the analyses
@@ -66,6 +67,7 @@ helper_score_loop <- function(plink2_exec,
                 results_dir = results_dir,
                 pthres_idx = k1,
                 threads = 4,
+                prs_p_other = prs_p_other_,
                 memory = 8000)
   }
 }
