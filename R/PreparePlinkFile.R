@@ -60,6 +60,8 @@ PreparePlinkFile <- function(snp_list = snp_list,
   print("scores complete")
 
   p_values <- data.frame(SNP = unique_id,P = unique_infor$P)
+  p_value_file <- paste0(results_dir,"temp/p_value_file")
+  assign("p_value_file", p_value_file, envir = .GlobalEnv)
   print("p_values complete")
 
   q_range <- helper_CreateQRange(pthres)

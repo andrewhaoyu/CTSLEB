@@ -6,9 +6,6 @@
 #' @param bfile prefix for target plink binary set (prefix.bed, prefix.bim, prefix.fam)
 #' @param q_range_file File name and location of written q_range dataframe produced
 #' by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'
-#' @param p_value_file File name and location of written p_values_temp dataframe
-#' either produced by helper_score_loop() or manually as indicated in the
-#' vignette section 'Generate plink2 PRS'
 #' @param score_col_nums number of columns in scores dataframe produced by
 #' PreparePlinkfile().
 #' @param scores_file File name and location of written scores dataframe produced
@@ -28,10 +25,7 @@
 #'
 plink2score <- function(plink2_exec = "plink2 ",
                         bfile,
-                        p_value_file = p_value_file,
-                        q_range_file = q_range_file,
                         score_col_nums,
-                        scores_file = scores_file,
                         results_dir,
                         pthres_idx,
                         threads = 4,
@@ -48,8 +42,7 @@ plink2score <- function(plink2_exec = "plink2 ",
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
   }
-
-  prs_out <- paste0(results_dir,prs_p_other_,k1)
+  prs_out <- paste0(results_dir,"temp/",prs_p_other_,k1)
   system(paste0(plink2_exec, " ",
                 "--bfile ", bfile, " ",
                 "--q-score-range ", q_range_file, " ", p_value_file, " ",
@@ -57,6 +50,6 @@ plink2score <- function(plink2_exec = "plink2 ",
                 "--score ", scores_file, " cols=+scoresums,-scoreavgs ",
                 "--threads ", threads, " ",
                 "--memory ", memory, " ",
-                "--out ", out)
+                "--out ", prs_out)
   )
 }
