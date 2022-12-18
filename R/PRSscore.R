@@ -49,33 +49,38 @@ PRSscore <- function(plink2_exec = "plink2 ",
                      scores = scores,
                      scores_file = scores_file,
                      p_values = p_values,
+                     p_value_file = p_value_file,
                      pthres = pthres,
                      threads = 4,
                      memory = 8000,
+                     results_dir = results_dir,
                      out = "prs_p_other",
                      params_farm=as.null()){
 
-  if (is.null(params_farm)) {
-    print("no params_farm")
-  } else {
-    print("params_farm list will be used")
-    mem <- as.character(unlist(params_farm["mem"]))
-    threads <- as.character(unlist(params_farm["threads"]))
-  }
+  # if (is.null(params_farm)) {
+  #   print("no params_farm")
+  # } else {
+  #   print("params_farm list will be used")
+  #   mem <- as.character(unlist(params_farm["mem"]))
+  #   threads <- as.character(unlist(params_farm["threads"]))
+  # }
 
   n_col <- ncol(scores)
   helper_score_loop(plink2_exec,
                     bfile = bfile,
                     q_range_file = q_range_file,
+                    p_value_file = p_value_file,
+                    p_values = p_values,
                     score_col_nums = n_col,
                     scores_file = scores_file,
-                    p_values = p_values,
                     pthres = pthres,
-                    threads = 4,
-                    memory = 8000,
-                    out = out)
-  prs_mat <- helper_combine_PRS(scores = scores,
-                     pthres = pthres,
-                     prs_file_prefix = out)
-  return(prs_mat)
+                    threads = threads,
+                    memory = mem,
+                    results_dir = results_dir,
+                    out = out,
+                    params_farm = params_farm)
+#  prs_mat <- helper_combine_PRS(scores = scores,
+#                     pthres = pthres,
+#                     prs_file_prefix = out)
+#  return(prs_mat)
 }

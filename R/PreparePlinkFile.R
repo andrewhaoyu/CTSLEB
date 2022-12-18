@@ -20,15 +20,17 @@
 #' @examples
 PreparePlinkFile <- function(snp_list = snp_list,
                              sum_com,
-                             pthres = as.null(),
+                             pthres = c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0),
                              results_dir,
-                             return_list = FALSE)
+                             return_list = FALSE,
+                             params_farm=as.null())
   {
 
-  if (is.null(pthres)) {
-    print("no pthres vector provided...creating pthres vector with default values")
-    pthres <- c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)
-    assign("pthres", pthres, envir = .GlobalEnv)
+  if (is.null(params_farm)) {
+    print("no params_farm")
+  } else {
+    print("params_farm list will be used")
+    pthres <- as.character(unlist(params_farm["pthres"]))
   }
   #create unique SNP list by combind LD clumping results under different parameters
   unique_id <- unique(rbindlist(snp_list,use.name =FALSE))
