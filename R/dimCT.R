@@ -89,7 +89,7 @@ dimCT <- function(plink19_exec = 'plink',
 
   PreparePlinkFile(snp_list = snp_list,
                    sum_com = sum_com,
-                   output = output,
+                   results_dir = results.dir,
                    return_list = FALSE)
 
 

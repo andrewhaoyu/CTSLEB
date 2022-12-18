@@ -12,11 +12,11 @@
 #' @return CreateQRange() object
 #'
 helper_return_list <- function(x,
-                               output = "./",
-                               scores,
-                               p_values,
-                               unique_infor,
-                               q_range)
+                               results_dir = results_dir,
+                               scores = scores,
+                               p_values = p_values,
+                               unique_infor = unique_infor,
+                               q_range = q_range)
   {
 
   if (x) {
@@ -27,14 +27,15 @@ helper_return_list <- function(x,
                    q_range = q_range)
     assign("plink_files", result, envir = .GlobalEnv)
   } else {
-    scores_file_out <- paste0(output, "scores_file")
+    temp.dir <- paste0(results_dir,"temp/")
+    scores_file_out <- paste0(temp.dir, "scores_file")
     print(paste0("printing scores_file: ", scores_file_out))
     write.table(scores,
                file = scores_file_out,
                row.names = F,
                col.names = F,
                quote=F)
-    q_range_out <- paste0(output, "q_range_file")
+    q_range_out <- paste0(temp.dir, "q_range_file")
     print(paste0("printing q_range_file: ", q_range_out))
     write.table(q_range,
                file = q_range_out,

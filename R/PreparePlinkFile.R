@@ -5,6 +5,7 @@
 #' @param sum_com the sum_com result from the AlignSum function.
 #' @param pthres vector of p-value thresholds. Default
 #' c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)
+#' @param results_dir
 #' @param return_list TRUE will return a 'plink_files' list containing the
 #' plink_files[1]"scores" plink_files[2]"p_values", plink_files[3]"unique_infor"
 #' and plink_files[4]"q_range" objects. FALSE will create the global variables for
@@ -20,7 +21,7 @@
 PreparePlinkFile <- function(snp_list = snp_list,
                              sum_com,
                              pthres = as.null(),
-                             output,
+                             results_dir,
                              return_list = FALSE)
   {
 
@@ -63,7 +64,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
   print("q_range complete")
 
   helper_return_list(x = return_list,
-                     output = output,
+                     results_dir = results_dir,
                      scores = scores,
                      p_values = p_values,
                      unique_infor = unique_infor,
