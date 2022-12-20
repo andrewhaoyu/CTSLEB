@@ -47,19 +47,18 @@
 dimCT <- function(plink19_exec = 'plink',
                   plink2_exec = 'plink',
                   results_dir = "./",
-                  sum_ref,
                   sum_target,
+                  sum_ref,
                   ref_plink,
                   target_plink,
-                  ref_split_file,
-                  target_split_file,
-                  ref_clump_out = 'ref',
-                  target_clump_out = 'target',
-                  scores = scores,
-                  p_values = p_values,
+                  out_prefix = as.null(),
+                  r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
+                  wc_base_vec = c(50,100),
+                  scores,
+                  p_values,
                   mem = 8000,
                   threads = 2,
-                  params_farm) {
+                  params_farm = as.null()) {
   # if (is.null(params_farm)) {
   #   print("no params_farm")
   # } else {
@@ -74,32 +73,29 @@ dimCT <- function(plink19_exec = 'plink',
   AlignSum(sum_target = sum_AFR,
            sum_ref = sum_EUR,
            results_dir = results_dir,
-           ref_split_file = ref_split_file,
-           target_split_file = target_split_file,
            SplitSum = TRUE)
 
   RunClump(params_farm = params_farm,
+           plink19_exec = plink19_exec,
            ref_plink = ref_plink,
            target_plink = target_plink,
-           results_dir = results_dir,
-           ref_split_file = ref_split_file,
-           target_split_file = target_split_file)
-           # ref_clump_out = ref_clump_out,
-           # target_clump_out = target_clump_out)
-  print("executing PreparePlinkFile()")
-  PreparePlinkFile(params_farm = params_farm,
-                   snp_list = snp_list,
-                   sum_com = sum_com,
-                   results_dir = results.dir,
-                   return_list = FALSE)
-  print("executing PRSscore()")
-  PRSscore(params_farm = params_farm,
-           plink2_exec = plink2_exec,
-           bfile = target_plink,
-           scores = scores,
-           p_values = p_values,
-           threads = 4,
-           memory = 8000,
+           out_prefix = out_prefix,
            results_dir = results_dir)
+
+  # print("executing PreparePlinkFile()")
+  # PreparePlinkFile(params_farm = params_farm,
+  #                  snp_list = snp_list,
+  #                  sum_com = sum_com,
+  #                  results_dir = results.dir,
+  #                  return_list = FALSE)
+  # print("executing PRSscore()")
+  # PRSscore(params_farm = params_farm,
+  #          plink2_exec = plink2_exec,
+  #          bfile = target_plink,
+  #          scores = scores,
+  #          p_values = p_values,
+  #          threads = 4,
+  #          memory = 8000,
+  #          results_dir = results_dir)
 
 }
