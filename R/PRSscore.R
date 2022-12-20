@@ -46,6 +46,7 @@ PRSscore <- function(plink2_exec = "plink2 ",
                      threads = 4,
                      memory = 8000,
                      results_dir = results_dir,
+                     out_prefix = as.null(),
                      params_farm=as.null()){
 
   # if (is.null(params_farm)) {
@@ -56,20 +57,34 @@ PRSscore <- function(plink2_exec = "plink2 ",
   #   threads <- as.character(unlist(params_farm["threads"]))
   #   pthres <- as.character(unlist(params_farm["pthres"]))
   # }
+  this.plink2_exec <- plink2_exec
+  this.bfile <- bfile
+  this.scores <- scores
+  this.p_values <- p_values
+  this.pthres <- pthres
+  this.threads <- threads
+  this.memory <- memory
+  this.results_dir <- results_dir
+  this.out_prefix <- out_prefix
+  this.params_farm <- params_farm
 
-  n_col <- ncol(scores)
-  helper_score_loop(plink2_exec,
-                    bfile = bfile,
-                    p_values = p_values,
+  n_col <- ncol(this.scores)
+
+  helper_score_loop(plink2_exec <- this.plink2_exec,
+                    bfile = this.bfile,
+                    p_values = this.p_values,
                     score_col_nums = n_col,
-                    pthres = pthres,
-                    threads = threads,
-                    memory = mem,
-                    results_dir = results_dir,
-                    params_farm = params_farm)
+                    pthres = this.pthres,
+                    threads = this.threads,
+                    memory = this.memory,
+                    results_dir = this.results_dir,
+                    out_prefix = this.out_prefix,
+                    params_farm = this.params_farm)
 
-  prs_mat <- helper_combine_PRS(scores = scores,
-                                pthres = pthres)
+  prs_mat <- helper_combine_PRS(scores = this.scores,
+                                pthres = this.pthres,
+                                out_prefix = this.out_prefix
+                                )
   assign("prs_mat", prs_mat, envir = .GlobalEnv)
   print("prs_mat object created")
 }

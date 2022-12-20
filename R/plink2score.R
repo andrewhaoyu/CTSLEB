@@ -13,6 +13,7 @@
 #' @param p_values p_values dataframe produced by PreparePlinkfile()
 #' @param threads maximum number of concurrent threads
 #' @param memory primary workspace memory
+#' @param out
 #' @param results_dir output folder forvPlink2. Results will appear as results_dir/
 #' temp/prs_p_other_<pthres index>.<range name>.sscore
 #' @param pthres_idx pthres vector index number
@@ -28,9 +29,9 @@ plink2score <- function(plink2_exec = "plink2 ",
                         score_col_nums,
                         results_dir,
                         pthres_idx,
-                        threads = 4,
+                        threads = 2,
                         memory = 8000,
-                        prs_p_other_ = prs_p_other_,
+                        out = prs_p_other_,
                         params_farm=as.null())
   {
 

@@ -5,11 +5,13 @@
 #' @param scores
 #' @param pthres
 #' @param params_farm
+#' @param out_prefix
 #' @return 'prs_mat' global variable. Matrix of combined PRSs with clumping and
 #' pthres as column name
 #'
 helper_combine_PRS <- function(scores,
                                pthres,
+                               out_prefix,
                                params_farm=as.null())
   {
   if (is.null(params_farm)) {

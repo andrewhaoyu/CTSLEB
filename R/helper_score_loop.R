@@ -34,8 +34,10 @@ helper_score_loop <- function(plink2_exec,
                         threads = threads,
                         memory = mem,
                         results_dir = results_dir,
-                        params_farm=as.null()){
-
+                        out_prefix = as.null(),
+                        params_farm = as.null()){
+  this.out_prefix <- out_prefix
+  print(this.out_prefix)
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
@@ -45,7 +47,16 @@ helper_score_loop <- function(plink2_exec,
     pthres <- as.character(unlist(params_farm["pthres"]))
   }
 
-  prs_p_other_ <- paste0(results_dir,"temp/prs_p_other_")
+  temp.dir <- paste0(results_dir,"temp/")
+  if (is.null(out_prefix)) {
+    print("not out_prefix")
+    out.prefix <- ""
+  } else {
+    print(paste0("out_prefix: ", out_prefix))
+    out.prefix <- paste0(out_prefix, "_")
+  }
+
+  prs_p_other_ <- paste0(temp.dir, out.prefix, "prs_p_other_")
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- p_values
   for(k1 in 1:length(pthres)){
@@ -67,7 +78,7 @@ helper_score_loop <- function(plink2_exec,
                 results_dir = results_dir,
                 pthres_idx = k1,
                 threads = 4,
-                prs_p_other = prs_p_other_,
+                out = prs_p_other_,
                 memory = 8000)
   }
 }

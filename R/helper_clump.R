@@ -46,8 +46,7 @@ helper_clump <- function(ref_plink = ref_plink,
                          ref_clump_out = ref_clump_out,
                          target_clump_out = target_clump_out,
                          r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
-
-                  params_farm = as.null()) {
+                         params_farm = as.null()) {
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
