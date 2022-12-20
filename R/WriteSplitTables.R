@@ -18,9 +18,8 @@ WriteSplitTables <- function(x,
                              results_dir,
                              ref_split_file = "sum_ref.txt",
                              target_split_file = "sum_target.txt") {
-  temp.dir <- paste0(results_dir,"temp/")
-  ref_split_file <- paste0(temp.dir, ref_split_file)
-  target_split_file <- paste0(temp.dir,target_split_file)
+  ref_split_file <- paste0(results_dir, ref_split_file)
+  target_split_file <- paste0(results_dir,target_split_file)
   #print(paste0("refFile: ", ref_split_file))
   #print(paste0("targetFile: ", target_split_file))
   print("creating sum_ref object")
@@ -28,6 +27,8 @@ WriteSplitTables <- function(x,
   print("creating sum_target object")
   assign("sum_target", x[[2]], envir = .GlobalEnv)
 
+  assign("ref_split_file", ref_split_file, envir = .GlobalEnv)
+  assign("target_split_file", target_split_file, envir = .GlobalEnv)
   write.table(sum_ref,ref_split_file,col.names = T,row.names = F,quote=F)
   write.table(sum_target,target_split_file,col.names = T,row.names = F,quote=F)
 }

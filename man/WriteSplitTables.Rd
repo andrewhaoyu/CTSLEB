@@ -6,6 +6,7 @@
 \usage{
 WriteSplitTables(
   x,
+  results_dir,
   ref_split_file = "sum_ref.txt",
   target_split_file = "sum_target.txt"
 )

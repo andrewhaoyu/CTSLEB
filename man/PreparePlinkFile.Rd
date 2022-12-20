@@ -7,9 +7,10 @@
 PreparePlinkFile(
   snp_list = snp_list,
   sum_com,
-  pthres = as.null(),
-  output,
-  return_list = FALSE
+  pthres = c(5e-08, 5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
+  results_dir,
+  return_list = FALSE,
+  params_farm = as.null()
 )
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{helper_combine_PRS}
 \title{Helper function for PRSscore()}
 \usage{
-helper_combine_PRS(scores = scores, pthres = pthres, prs_file_prefix)
+helper_combine_PRS(scores, pthres, params_farm = as.null())
 }
 \value{
 'prs_mat' global variable. Matrix of combined PRSs with clumping and

@@ -12,27 +12,27 @@ score, threads, memory, out, score_farm)
 
 \item{bfile}{prefix for target plink binary set (prefix.bed, prefix.bim, prefix.fam)}
 
-\item{p_value_file}{File name and location of written p_values_temp dataframe
-either produced by helper_score_loop() or manually as indicated in the
-vignette section 'Generate plink2 PRS'}
-
-\item{q_range_file}{File name and location of written q_range dataframe produced
-by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'}
-
 \item{score_col_nums}{number of columns in scores dataframe produced by
 PreparePlinkfile().}
 
-\item{scores_file}{File name and location of written scores dataframe produced
-by PreparePlinkfile(). By default PreparePlinkfile() names this 'scores_file'}
+\item{results_dir}{output folder forvPlink2. Results will appear as results_dir/
+temp/prs_p_other_<pthres index>.<range name>.sscore}
+
+\item{pthres_idx}{pthres vector index number}
 
 \item{threads}{maximum number of concurrent threads}
 
 \item{memory}{primary workspace memory}
 
-\item{out}{output folder and file prefix for Plink2. Default name prs_p_other_
-<pthres column number>.<range name>.sscore}
+\item{q_range_file}{File name and location of written q_range dataframe produced
+by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'}
+
+\item{scores_file}{File name and location of written scores dataframe produced
+by PreparePlinkfile(). By default PreparePlinkfile() names this 'scores_file'}
 
 \item{p_values}{p_values dataframe produced by PreparePlinkfile()}
+
+\item{prs_farm}{prs_farm object name}
 }
 \value{
 plink2 score files

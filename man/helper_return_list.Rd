@@ -4,7 +4,14 @@
 \alias{helper_return_list}
 \title{Helper function for PreparePlinkFile()}
 \usage{
-helper_return_list(x, output = "./", scores, p_values, unique_infor, q_range)
+helper_return_list(
+  x,
+  results_dir = results_dir,
+  scores = scores,
+  p_values = p_values,
+  unique_infor = unique_infor,
+  q_range = q_range
+)
 }
 \arguments{
 \item{x}{return_list}

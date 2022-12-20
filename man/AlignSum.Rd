@@ -7,17 +7,15 @@
 AlignSum(
   sum_target,
   sum_ref,
-  SplitSum = TRUE,
-  ref_split_file = "sum_ref.txt",
-  target_split_file = "sum_target.txt"
+  results_dir,
+  ref_split_file = "temp/sum_ref.txt",
+  target_split_file = "temp/sum_target.txt",
+  SplitSum = TRUE
 )
 }
 \arguments{
 \item{sum_ref}{The GWAS summary statistics for the reference population.
 The most commonly used reference population is European.}
-
-\item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
-Default = TRUE.}
 
 \item{ref_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
 for the reference snps produced from the SplitSum() function.  The default
@@ -30,6 +28,9 @@ for the target snps produced from the SplitSum() function. The default
 name "sum" is passed to WriteSplitTables() which creates the file
 "sum_target.txt" in the current working directory. This file is the input for
 the plink --clump flag}
+
+\item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
+Default = TRUE.}
 
 \item{sum_tar}{The GWAS summary statistics for the target population.}
 }
@@ -54,11 +55,12 @@ data.dir <- "data/"
 temp.dir = "test/temp.dir/"
 sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
 sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-ref_split_file <- paste0(temp.dir,"sum_EUR.txt")
-target_split_file <- paste0(temp.dir,"sum_AFR.txt")
+ref_split_file <- "sum_EUR.txt"
+target_split_file <- "sum_AFR.txt"
 
 AlignSum(sum_target = sum_AFR,
          sum_ref = sum_EUR,
+         results_dir = results.dir,
          ref_split_file = ref_split_file,
          target_split_file = target_split_file,
          SplitSum = TRUE)

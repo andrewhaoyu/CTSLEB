@@ -47,10 +47,10 @@
 AlignSum <- function(sum_target,
                      sum_ref,
                      results_dir,
-                     ref_split_file="sum_ref.txt",
-                     target_split_file="sum_target.txt",
-                     SplitSum=TRUE
-                     )
+                     SplitSum=TRUE)
+# ref_split_file="temp/sum_ref.txt",
+# target_split_file="temp/sum_target.txt",
+
   {
 
   #match alleles
@@ -82,9 +82,7 @@ AlignSum <- function(sum_target,
 
   if (SplitSum) {
     helper_SplitSum(sum_com = sum_com,
-                    results_dir = results_dir,
-                    ref_split_file = ref_split_file,
-                    target_split_file = target_split_file)
+                    results_dir = results_dir)
   } else {
     print(paste0("SplitSum() was not performed"))
   }

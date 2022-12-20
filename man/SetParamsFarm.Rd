@@ -39,8 +39,8 @@ c(0.01,0.05,0.1,0.2,0.5,0.8).}
 A named list
 }
 \description{
-This function sets the plink1.9 clumping parameters
-flags values, r square and base window size vectors
+This function sets the plink1.9 clumping and plink2a thresholding parameters
+and flags
 }
 \examples{
 params_farm <- SetParamsFarm(plink19exec = /Apps/plink1.9/plink,

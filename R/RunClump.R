@@ -1,53 +1,32 @@
 #'
-#' dimCT helper function for clumping with plink1.9
+#' Perform clumping with plink1.9
 #' @param plink19_exec Plink binary execute file. Default "plink".
 #' @param sum_ref
 #' @param sum_target
 #' @param results_dir
 #' @param ref_plink
 #' @param target_plink
-#' @param ref_split_file
-#' @param target_split_file
-#' @param ref_clump_out
-#' @param target_clump_out
+#' @param prefix
+#' @param r2_vec
+#' @param wc_base_vec
+#' @param mem
+#' @param threads
+#' @param params_farm
+
 #' @keywords plink1.9 clump
 #' @usage dimCT(plink19_exec, params_farm)
 
-#' @examples
-#' data.dir <- "data/"
-#' temp.dir <- test/temp.dir
-#' system("mkdir -p test/temp.dir")
-#' sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
-#' sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
-#' Eur_plinkfile <- paste0(data.dir,"EUR_ref_chr22")
-#' Afr_plinkfile <- paste0(data.dir,"AFR_ref_chr22")
-#' ref_out <- "test/temp/ref",
-#' target_out <- "test/temp/target"
-#' params_farm <- SetParamsFarm(plink19exec = /Apps/plink1.9/plink,
-#'                            wc_base_vec = c(50,100),
-#'                            r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
-#'                            threads = 2,
-#'                            mem = 8000,
-#' )
-#' dimCT(plink19_exec=plink19_exec,
-#'       sum_target = sum_AFR,
-#'       sum_ref = sum_EUR,
-#'       ref_plink=ref_plink,
-#'       target_plink=target_plink,
-#'       ref_clump_out=ref_clump_out,
-#'       target_clump_out=target_clump_out,
-#'       params_farm = params_farm)
-
-helper_clump <- function(ref_plink = ref_plink,
-                         target_plink = target_plink,
-                         results_dir = results_dir,
-                         ref_split_file = ref_split_file,
-                         target_split_file = target_split_file,
-                         ref_clump_out = ref_clump_out,
-                         target_clump_out = target_clump_out,
-                         r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
-
-                  params_farm = as.null()) {
+RunClump <- function(plink19_exec=plink19_exec,
+                     ref_plink = ref_plink,
+                     target_plink = target_plink,
+                     results_dir = results_dir,
+                     ref_split_file = ref_split_file,
+                     target_split_file = target_split_file,
+                     r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
+                     wc_base_vec = c(50,100),
+                     mem = 8000,
+                     threads = 2,
+                     params_farm = as.null()) {
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
@@ -62,16 +41,14 @@ helper_clump <- function(ref_plink = ref_plink,
   snp_list <-list()
   temp <- 1
   temp.dir <- paste0(results_dir,"temp/")
-  # ref_split_file <- paste0(temp.dir, ref_split_file)
-  # target_split_file <- paste0(temp.dir,target_split_file)
   for(r_ind in 1:length(r2_vec)){
     wc_vec <- wc_base_vec/r2_vec[r_ind]
     for(w_ind in 1:length(wc_vec)){
       pthr <-1
       r2thr <- r2_vec[r_ind]
       kbpthr <- wc_vec[w_ind]
-      ref_outfile <- paste0(temp.dir,ref_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
-      target_outfile <- paste0(temp.dir,target_clump_out, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      ref_outfile <- paste0(temp.dir,prefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      target_outfile <- paste0(temp.dir,prefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = ref_plink,
                    clump = ref_split_file,

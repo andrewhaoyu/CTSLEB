@@ -4,11 +4,14 @@
 \alias{helper_SplitSum}
 \title{Helper function for AlignSum()}
 \usage{
-helper_SplitSum(x, sum_com, ref_split_file, target_split_file)
+helper_SplitSum(
+  sum_com,
+  results_dir = results_dir,
+  ref_split_file = ref_split_file,
+  target_split_file = target_split_file
+)
 }
 \arguments{
-\item{x}{TRUE default}
-
 \item{ref_split_file}{If SplitSum = TRUE, this is the file path and name for
 the reference snps produced from the SplitSum() function.  The default name
 "sum_ref.txt" is passed to WriteSplitTables().}
@@ -16,6 +19,8 @@ the reference snps produced from the SplitSum() function.  The default name
 \item{target_split_file}{If SplitSum = TRUE, this is the file path and name
 for the target snps produced from the SplitSum() function. The default
 name "sum_target.txt" is passed to WriteSplitTables().}
+
+\item{x}{TRUE default}
 }
 \value{
 SplitSum() and WriteSplitTables() objects and files

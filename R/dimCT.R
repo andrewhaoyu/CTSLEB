@@ -78,14 +78,14 @@ dimCT <- function(plink19_exec = 'plink',
            target_split_file = target_split_file,
            SplitSum = TRUE)
 
-  helper_clump(params_farm = params_farm,
-               ref_plink = ref_plink,
-               target_plink = target_plink,
-               results_dir = results_dir,
-               ref_split_file = ref_split_file,
-               target_split_file = target_split_file,
-               ref_clump_out = ref_clump_out,
-               target_clump_out = target_clump_out)
+  RunClump(params_farm = params_farm,
+           ref_plink = ref_plink,
+           target_plink = target_plink,
+           results_dir = results_dir,
+           ref_split_file = ref_split_file,
+           target_split_file = target_split_file)
+           # ref_clump_out = ref_clump_out,
+           # target_clump_out = target_clump_out)
   print("executing PreparePlinkFile()")
   PreparePlinkFile(params_farm = params_farm,
                    snp_list = snp_list,
