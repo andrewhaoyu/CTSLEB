@@ -49,17 +49,16 @@ Plink19Clump <- function(plink19_exec = "plink",
                          clump_kb,
                          threads = 4,
                          memory = 8000,
-                         out,
+                         out = "",
                          params_farm=as.null()){
 
   if (is.null(params_farm)) {
-    print("no params_farm")
+    print("Plink19Clump() no params_farm")
   } else {
-    print("params_farm list will be used")
+    print("Plink19Clump() params_farm list will be used")
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
   }
-
   system(paste0(plink19_exec, " ",
                 "--bfile ", bfile, " ",
                 "--clump ", clump, " ",
