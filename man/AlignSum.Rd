@@ -4,18 +4,16 @@
 \alias{AlignSum}
 \title{Align GWAS summary stat for the reference population to the target population.}
 \usage{
-AlignSum(
-  sum_target,
-  sum_ref,
-  results_dir,
-  ref_split_file = "temp/sum_ref.txt",
-  target_split_file = "temp/sum_target.txt",
-  SplitSum = TRUE
-)
+AlignSum(sum_target, sum_ref, results_dir, SplitSum = TRUE)
 }
 \arguments{
 \item{sum_ref}{The GWAS summary statistics for the reference population.
 The most commonly used reference population is European.}
+
+\item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
+Default = TRUE.}
+
+\item{sum_tar}{The GWAS summary statistics for the target population.}
 
 \item{ref_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
 for the reference snps produced from the SplitSum() function.  The default
@@ -28,11 +26,6 @@ for the target snps produced from the SplitSum() function. The default
 name "sum" is passed to WriteSplitTables() which creates the file
 "sum_target.txt" in the current working directory. This file is the input for
 the plink --clump flag}
-
-\item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
-Default = TRUE.}
-
-\item{sum_tar}{The GWAS summary statistics for the target population.}
 }
 \value{
 data.frame object with ref population GWAS summary statistics

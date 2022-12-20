@@ -6,22 +6,20 @@
 #' @param results_dir
 #' @param ref_plink
 #' @param target_plink
-#' @param ref_outprefix
-#' @param target_outprefix
+#' @param outprefix
 #' @param r2_vec
 #' @param wc_base_vec
 #' @param mem
 #' @param threads
 #' @param params_farm
-
+#' @export
 #' @keywords plink1.9 clump
 #' @usage dimCT(plink19_exec, params_farm)
 
 RunClump <- function(plink19_exec=plink19_exec,
                      ref_plink = ref_plink,
                      target_plink = target_plink,
-                     ref_outprefix = "ref",
-                     ref_outprefix = "target",
+                     outprefix = "",
                      results_dir = results_dir,
                      ref_split_file = ref_split_file,
                      target_split_file = target_split_file,
@@ -50,8 +48,8 @@ RunClump <- function(plink19_exec=plink19_exec,
       pthr <-1
       r2thr <- r2_vec[r_ind]
       kbpthr <- wc_vec[w_ind]
-      ref_outfile <- paste0(temp.dir,ref_outprefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
-      target_outfile <- paste0(temp.dir,target_outprefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      ref_outfile <- paste0(temp.dir,"ref_", outprefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      target_outfile <- paste0(temp.dir,"target_", outprefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = ref_plink,
                    clump = ref_split_file,

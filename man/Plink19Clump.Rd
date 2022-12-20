@@ -39,18 +39,21 @@ If additional options are required, please use the source() command
 as demonstrated in the vignette.
 }
 \examples{
+bfile <- "data/EUR_ref_chr22"
+clump <- "chr22/sum_ref.txt"
 r2_vec <- c(0.01,0.05,0.1,0.2,0.5,0.8)
 wc_base_vec <- c(50,100)
-bfile <- "data/EUR_ref_chr22"
-clump <- "temp/sum_ref.txt"
-clump_r2 <- r2_vec[1]
-clump_kb <- wc_base_vec[1]/clump_r2
-clump_out <- paste0(temp.dir, "ref")
+r_ind <- 1
+r2thr <- r2_vec[r_ind]
+wc_vec <- wc_base_vec/r2_vec[r_ind]
+w_ind <- 1
+kbpthr <- wc_vec[w_ind]
+clump_out <- paste0("chr22/temp/","ref_chr22_CT_rind_",r_ind,"_wcind_",w_ind)
 plink19_clump(plink19_exec,
-              bfile = refFile,
+              bfile = bfile,
               clump = clump,
-              clump_r2 = clump_r2,
-              clump_kb = clump_kb,
+              clump_r2 = r2thr,
+              clump_kb = kbpthr,
               out = clump_out)
 }
 \keyword{clump}

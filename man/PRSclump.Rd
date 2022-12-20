@@ -9,11 +9,15 @@ Plink19Clump(plink19_exec, clump, bfile, out, params_farm)
 \arguments{
 \item{plink19_exec}{Plink binary execute file. Default "plink".}
 
-\item{bfile}{prefix for plink binary set (prefix.bed, prefix.bim, prefix.fam)}
+\item{threads}{maximum number of concurrent threads}
+
+\item{memory}{primary workspace memory}
 
 \item{clump}{PLINK-format association report(s) (text files with a header
 line, a column containing variant IDs, and another column
 containing p-values)}
+
+\item{bfile}{prefix for plink binary set (prefix.bed, prefix.bim, prefix.fam)}
 
 \item{clump_r2}{LD r^2 threshold for clumping. SNPs with a higher r^2
 with the index SNPs will be removed.}
@@ -22,10 +26,6 @@ with the index SNPs will be removed.}
 within the radius of the index SNP are considered for clumping.
 For PRS, clump_kb = base_window_size/clumping_r_square so that lower
 clump_r2 thresholds have a larger clumping window size}
-
-\item{threads}{maximum number of concurrent threads}
-
-\item{memory}{primary workspace memory}
 
 \item{out}{output folder and file prefix for Plink1.9. Output files will end
 with .clumped}
