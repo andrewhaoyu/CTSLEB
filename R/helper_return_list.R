@@ -4,7 +4,7 @@
 #' q_range or the global variables for the same objects and write the files.
 #' Not exported
 #' @param x return_list
-#' @param output path to output folder
+#' @param results_dir
 #' @param scores
 #' @param p_values
 #' @param unique_infor
@@ -12,11 +12,11 @@
 #' @return CreateQRange() object
 #'
 helper_return_list <- function(x,
-                               results_dir = results_dir,
-                               scores = scores,
-                               p_values = p_values,
-                               unique_infor = unique_infor,
-                               q_range = q_range)
+                               results_dir,
+                               scores,
+                               p_values,
+                               unique_infor,
+                               q_range)
   {
 
   if (x) {

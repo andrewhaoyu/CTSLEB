@@ -1,6 +1,6 @@
 #' Prepare the files for PLINK2 to calculate PRSs
 #' @description
-#' Calls CreateQRange() using either the default pthres or user input values
+#' Calls helper_return_list() and helper_CreateQRange()
 #' @param snp_list the snp_list result from the two-dimensional clumping
 #' @param sum_com the sum_com result from the AlignSum function.
 #' @param pthres vector of p-value thresholds. Default
@@ -32,6 +32,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
     print("params_farm list will be used")
     pthres <- as.character(unlist(params_farm["pthres"]))
   }
+
   #create unique SNP list by combind LD clumping results under different parameters
   unique_id <- unique(rbindlist(snp_list,use.name =FALSE))
   names(unique_id) <- "SNP"
