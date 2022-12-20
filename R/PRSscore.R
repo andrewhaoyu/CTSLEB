@@ -83,7 +83,7 @@ PRSscore <- function(plink2_exec = "plink2 ",
 
   prs_mat <- helper_combine_PRS(scores = this.scores,
                                 pthres = this.pthres,
-                                out_prefix = this.out_prefix
+                                prs_p_other_ = prs_p_other_
                                 )
   assign("prs_mat", prs_mat, envir = .GlobalEnv)
   print("prs_mat object created")

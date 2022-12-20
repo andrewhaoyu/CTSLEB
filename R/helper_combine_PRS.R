@@ -11,7 +11,7 @@
 #'
 helper_combine_PRS <- function(scores,
                                pthres,
-                               out_prefix,
+                               prs_p_other_,
                                params_farm=as.null())
   {
   if (is.null(params_farm)) {
