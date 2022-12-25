@@ -68,11 +68,25 @@ PreparePlinkFile <- function(snp_list = snp_list,
   q_range <- helper_CreateQRange(pthres)
   print("q_range complete")
 
-  helper_return_list(x = return_list,
-                     results_dir = results_dir,
-                     scores = scores,
-                     p_values = p_values,
-                     unique_infor = unique_infor,
-                     q_range = q_range)
+  result <- list(scores = scores,
+                 p_values = p_values,
+                 unique_infor = unique_infor,
+                 q_range = q_range)
+  return(result)
+
+  # if (x) {
+  #   print("return plink_file")
+  #   result <- list(scores = scores,
+  #                  p_values = p_values,
+  #                  unique_infor = unique_infor,
+  #                  q_range = q_range)
+  #   assign("plink_files", result, envir = .GlobalEnv)
+
+  # helper_return_list(x = return_list,
+  #                    results_dir = results_dir,
+  #                    scores = scores,
+  #                    p_values = p_values,
+  #                    unique_infor = unique_infor,
+  #                    q_range = q_range)
 
 }

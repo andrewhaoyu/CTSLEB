@@ -40,8 +40,8 @@
 
 PRSscore <- function(plink2_exec = "plink2 ",
                      bfile,
-                     scores = scores,
-                     p_values = p_values,
+                     scores,
+                     p_values,
                      pthres = c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0),
                      threads = 4,
                      memory = 8000,
@@ -69,7 +69,7 @@ PRSscore <- function(plink2_exec = "plink2 ",
   this.params_farm <- params_farm
 
   n_col <- ncol(this.scores)
-
+  print("n_col: ", n_col)
   helper_score_loop(plink2_exec <- this.plink2_exec,
                     bfile = this.bfile,
                     p_values = this.p_values,
