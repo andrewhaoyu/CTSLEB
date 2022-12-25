@@ -1,15 +1,12 @@
 #' Helper function for dimCT()
 #' @description
-#' Return either a list containing the score_file, p_values, unique_infor and
-#' q_range or the global variables for the same objects and write the files.
+#' Inputs list object from PreparePlinkFile() and creates global variables
+#' and write.tables.
+#' q_range from Prepare
 #' Not exported
-#' @param x return_list
+#' @param plink_list
 #' @param results_dir
-#' @param scores
-#' @param p_values
-#' @param unique_infor
-#' @param q_range
-#' @return CreateQRange() object
+#' @return
 #'
 helper_PreparePlinkFile <- function(plink_list,
                                     results_dir)
