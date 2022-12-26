@@ -94,15 +94,15 @@ dimCT <- function(plink19_exec = 'plink',
                        results_dir = results_dir)
   assign("snp_list", snp.list, envir = .GlobalEnv)
 
-  # print("executing PreparePlinkFile()")
-  # plink.list <- PreparePlinkFile(params_farm = params_farm,
-  #                                 snp_list = snp.list,
-  #                                 sum_com = sum_com,
-  #                                 results_dir = results_dir)
-  # helper_PreparePlinkFile(plink_list = plink.list,
-  #                         results_dir = results_dir)
-  # this.scores <- plink.list[[1]]
-  # this.p_values <- plink.list[[2]]
+  print("executing PreparePlinkFile()")
+  plink.list <- PreparePlinkFile(params_farm = params_farm,
+                                  snp_list = snp.list,
+                                  sum_com = sum.com,
+                                  results_dir = results_dir)
+  helper_PreparePlinkFile(plink_list = plink.list,
+                          results_dir = results_dir)
+  this.scores <- plink.list[[1]]
+  this.p_values <- plink.list[[2]]
   #
   # print("executing PRSscore()")
   # PRSscore(params_farm = params_farm,

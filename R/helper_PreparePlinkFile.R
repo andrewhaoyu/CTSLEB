@@ -35,10 +35,10 @@ helper_PreparePlinkFile <- function(plink_list,
               row.names = F,
               col.names = F,
               quote=F)
-    assign("scores", scores, envir = .GlobalEnv)
-    assign("scores_file", scores_file, envir = .GlobalEnv)
-    assign("unique_infor", unique_infor, envir = .GlobalEnv)
-    assign("q_range", q_range, envir = .GlobalEnv)
-    assign("q_range_file", q_range_file, envir = .GlobalEnv)
-    assign("p_values", p_values, envir = .GlobalEnv)
+  assign("scores", scores, envir = .GlobalEnv)
+  assign("scores_file", scores_file, envir = .GlobalEnv)
+  assign("unique_infor", unique_infor, envir = .GlobalEnv)
+  assign("q_range", q_range, envir = .GlobalEnv)
+  assign("q_range_file", q_range_file, envir = .GlobalEnv)
+  assign("p_values", p_values, envir = .GlobalEnv)
 }

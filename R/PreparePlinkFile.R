@@ -68,11 +68,17 @@ PreparePlinkFile <- function(snp_list = snp_list,
   q_range <- helper_CreateQRange(pthres)
   print("q_range complete")
 
-  result <- list(scores = scores,
-                 p_values = p_values,
-                 unique_infor = unique_infor,
-                 q_range = q_range)
-  return(result)
+  names <- c("scores",
+             "p-values",
+             "unique_infor",
+             "q_range")
+  values <- list(scores,
+                 p_values,
+                 unique_infor,
+                 q_range)
+  list <- setNames(values, names)
+  print("PreparePlinkFile() complete ...")
+  return(list)
 
   # if (x) {
   #   print("return plink_file")
