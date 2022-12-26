@@ -37,21 +37,21 @@ SetParamsFarm <- function(plink19_exec = 'plink',
                        mem = 8000)
   {
 
-  params_farm_names <- c("plink19_exec",
+  names <- c("plink19_exec",
                       "plink2_exec",
                          "r2_vec",
                          "wc_base_vec",
                          "pthres",
                          "threads",
                          "mem")
-  params_farm_values <- list(plink19_exec,
+  values <- list(plink19_exec,
                           plink2_exec,
                           r2_vec,
                           wc_base_vec,
                           pthres,
                           threads,
                           mem)
-  params_farm <- setNames(params_farm_values, params_farm_names)
+  params_farm <- setNames(values, names)
   assign("r2_vec", r2_vec, envir = .GlobalEnv)
   assign("wc_base_vec", wc_base_vec, envir = .GlobalEnv)
   assign("pthres", pthres, envir = .GlobalEnv)
