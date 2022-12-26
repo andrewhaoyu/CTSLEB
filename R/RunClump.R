@@ -16,17 +16,18 @@
 #' @keywords plink1.9 clump
 #' @usage dimCT(plink19_exec, params_farm)
 
-RunClump <- function(plink19_exec=plink19_exec,
-                     ref_plink = ref_plink,
-                     target_plink = target_plink,
+RunClump <- function(plink19_exec = plink19_exec,
+                     ref_plink,
+                     target_plink,
                      out_prefix = as.null(),
-                     results_dir = results_dir,
+                     results_dir,
                      ref.splitfile = ref_split_file,
                      target.splitfile = target_split_file,
                      r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
                      wc_base_vec = c(50,100),
                      mem = 8000,
                      threads = 2,
+                     return = FALSE,
                      params_farm = as.null()) {
   if (is.null(params_farm)) {
     print("RunClump() no params_farm")
@@ -45,9 +46,8 @@ RunClump <- function(plink19_exec=plink19_exec,
     out.prefix <- ""
   } else {
     print(paste0("out_prefix: ", out_prefix))
-    out.prefix <- paste0("_",out_prefix)
+    out.prefix <- paste0(out_prefix, "_")
   }
-
 
   snp_list <-list()
   temp <- 1
@@ -58,8 +58,8 @@ RunClump <- function(plink19_exec=plink19_exec,
       pthr <-1
       r2thr <- r2_vec[r_ind]
       kbpthr <- wc_vec[w_ind]
-      ref_outfile <- paste0(temp.dir, "ref", out.prefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
-      target_outfile <- paste0(temp.dir, "target", out.prefix, "_CT_rind_",r_ind,"_wcind_",w_ind)
+      ref_outfile <- paste0(temp.dir, out.prefix, "ref_CT_rind_",r_ind,"_wcind_",w_ind)
+      target_outfile <- paste0(temp.dir, out.prefix,"target_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = ref_plink,
                    clump = ref.splitfile,
@@ -105,4 +105,7 @@ RunClump <- function(plink19_exec=plink19_exec,
     }
   }
   assign("snp_list", snp_list, envir = .GlobalEnv)
+  if (return) {
+    return(snp_list)
+  }
 }
