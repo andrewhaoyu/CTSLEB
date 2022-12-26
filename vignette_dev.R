@@ -6,7 +6,7 @@ library(data.table)
 results.dir <- "test/"
 data.dir <- "data/"
 temp.dir <- "test/temp/"
-system("mkdir test/temp/")
+system(paste0("mkdir -p ", temp.dir))
 setwd('~/Projects/DCEG/BB/CTSLEB_dev')
 plink19_exec <- "/Users/dayneokuhara/Apps/plink_apps/plink1.9/plink"
 plink2_exec <- "/Users/dayneokuhara/Apps/plink_apps/plink2"
