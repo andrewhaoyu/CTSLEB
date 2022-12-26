@@ -92,7 +92,7 @@ dimCT <- function(plink19_exec = 'plink',
                        target_splitfile = target.splitfile,
                        out_prefix = out_prefix,
                        results_dir = results_dir)
-  assign("snp_list", snp_list, envir = .GlobalEnv)
+  assign("snp_list", snp.list, envir = .GlobalEnv)
 
   # print("executing PreparePlinkFile()")
   # plink.list <- PreparePlinkFile(params_farm = params_farm,
