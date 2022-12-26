@@ -81,15 +81,19 @@ dimCT <- function(plink19_exec = 'plink',
   write.list <- SplitSum(x = sum.com,
                          results_dir = results_dir,
                          write_tables = TRUE)
+  assign("write_list", write.list, envir = .GlobalEnv)
+  ref.splitfile <- unlist(write.list["ref_split_file"])
+  target.splitfile <- unlist(write.list["target_split_file"])
+  snp.list <- RunClump(params_farm = params_farm,
+                       plink19_exec = plink19_exec,
+                       ref_plink = ref_plink,
+                       target_plink = target_plink,
+                       ref_splitfile = ref.splitfile,
+                       target_splitfile = target.splitfile,
+                       out_prefix = out_prefix,
+                       results_dir = results_dir)
+  assign("snp_list", snp_list, envir = .GlobalEnv)
 
-  # snp.list <- RunClump(params_farm = params_farm,
-  #                      return = TRUE,
-  #                      plink19_exec = plink19_exec,
-  #                      ref_plink = ref_plink,
-  #                      target_plink = target_plink,
-  #                      out_prefix = out_prefix,
-  #                      results_dir = results_dir)
-  #
   # print("executing PreparePlinkFile()")
   # plink.list <- PreparePlinkFile(params_farm = params_farm,
   #                                 snp_list = snp.list,

@@ -8,15 +8,15 @@
 #' @param results_dir
 #' @return SplitSum() and WriteSplitTables() objects and files
 
-helper_SplitSum <- function(sum_com, results_dir = results_dir)
-  # ref_split_file = ref_split_file
-  # target_split_file = target_split_file
+helper_SplitSum <- function(sum_com,
+                            results_dir)
   {
-  split_list <- SplitSum(sum_com)
-  WriteSplitTables(x = split_list, results_dir = results_dir)
-  # ref_split_file = ref_split_file,
-  # target_split_file = target_split_file)
+  split.list <- SplitSum(sum_com)
+  write_list <- WriteSplitTables(x = split.list, results_dir = results_dir)
+
+  return(write_list)
 }
+
 #@param ref_split_file If SplitSum = TRUE, this is the file path and name for
 #the reference snps produced from the SplitSum() function.  The default name
 #"sum_ref.txt" is passed to WriteSplitTables().

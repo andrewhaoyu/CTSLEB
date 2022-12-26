@@ -16,18 +16,17 @@
 #' @keywords plink1.9 clump
 #' @usage dimCT(plink19_exec, params_farm)
 
-RunClump <- function(plink19_exec = plink19_exec,
+RunClump <- function(plink19_exec,
                      ref_plink,
                      target_plink,
                      out_prefix = as.null(),
                      results_dir,
-                     ref.splitfile = ref_split_file,
-                     target.splitfile = target_split_file,
+                     ref_splitfile,
+                     target_splitfile,
                      r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
                      wc_base_vec = c(50,100),
                      mem = 8000,
                      threads = 2,
-                     return = FALSE,
                      params_farm = as.null()) {
   if (is.null(params_farm)) {
     print("RunClump() no params_farm")
@@ -62,7 +61,7 @@ RunClump <- function(plink19_exec = plink19_exec,
       target_outfile <- paste0(temp.dir, out.prefix,"target_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = ref_plink,
-                   clump = ref.splitfile,
+                   clump = ref_splitfile,
                    clump_p1 = pthr,
                    clump_r2 = r2thr,
                    clump_kb = kbpthr,
@@ -73,7 +72,7 @@ RunClump <- function(plink19_exec = plink19_exec,
       )
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = target_plink,
-                   clump = target.splitfile,
+                   clump = target_splitfile,
                    clump_p1 = pthr,
                    clump_r2 = r2thr,
                    clump_kb = kbpthr,
@@ -104,8 +103,6 @@ RunClump <- function(plink19_exec = plink19_exec,
       temp <- temp + 1
     }
   }
-  assign("snp_list", snp_list, envir = .GlobalEnv)
-  if (return) {
-    return(snp_list)
-  }
+  print("RunClump() complete ...")
+  return(snp_list)
 }
