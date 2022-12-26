@@ -66,42 +66,48 @@ dimCT <- function(plink19_exec = 'plink',
   } else {
     print("params_farm list will be used")
     plink19_exec <- as.character(unlist(params_farm["plink19_exec"]))
+    plink2_exec <-  as.character(unlist(params_farm["plink2_exec"]))
     r2_vec <- as.vector(unlist(params_farm["r2_vec"]))
     wc_base_vec <- as.vector(unlist(params_farm["wc_base_vec"]))
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
   }
 
-  AlignSum(sum_target = sum_AFR,
-           sum_ref = sum_EUR,
-           results_dir = results_dir,
-           SplitSum = TRUE)
+  sum.com <- AlignSum(sum_target = sum_AFR,
+                      sum_ref = sum_EUR,
+                      results_dir = results_dir,
+                      SplitSum = FALSE)
+  assign("sum_com", sum.com, envir = .GlobalEnv)
+  write.list <- SplitSum(x = sum.com,
+                         results_dir = results_dir,
+                         write_tables = TRUE)
 
-  RunClump(params_farm = params_farm,
-           plink19_exec = plink19_exec,
-           ref_plink = ref_plink,
-           target_plink = target_plink,
-           out_prefix = out_prefix,
-           results_dir = results_dir)
-
-  print("executing PreparePlinkFile()")
-  plink.list <- PreparePlinkFile(params_farm = params_farm,
-                                  snp_list = snp_list,
-                                  sum_com = sum_com,
-                                  results_dir = results_dir)
-  helper_PreparePlinkFile(plink_list = plink.list,
-                          results_dir = results_dir)
-  this.scores <- plink.list[[1]]
-  this.p_values <- plink.list[[2]]
-
-  print("executing PRSscore()")
-  PRSscore(params_farm = params_farm,
-           plink2_exec = plink2_exec,
-           bfile = target_plink,
-           scores = this.scores,
-           p_values = this.p_values,
-           threads = 4,
-           memory = 8000,
-           results_dir = results_dir)
+  # snp.list <- RunClump(params_farm = params_farm,
+  #                      return = TRUE,
+  #                      plink19_exec = plink19_exec,
+  #                      ref_plink = ref_plink,
+  #                      target_plink = target_plink,
+  #                      out_prefix = out_prefix,
+  #                      results_dir = results_dir)
+  #
+  # print("executing PreparePlinkFile()")
+  # plink.list <- PreparePlinkFile(params_farm = params_farm,
+  #                                 snp_list = snp.list,
+  #                                 sum_com = sum_com,
+  #                                 results_dir = results_dir)
+  # helper_PreparePlinkFile(plink_list = plink.list,
+  #                         results_dir = results_dir)
+  # this.scores <- plink.list[[1]]
+  # this.p_values <- plink.list[[2]]
+  #
+  # print("executing PRSscore()")
+  # PRSscore(params_farm = params_farm,
+  #          plink2_exec = plink2_exec,
+  #          bfile = target_plink,
+  #          scores = this.scores,
+  #          p_values = this.p_values,
+  #          threads = 4,
+  #          memory = 8000,
+  #          results_dir = results_dir)
 
 }
