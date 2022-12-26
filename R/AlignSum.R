@@ -47,10 +47,7 @@
 AlignSum <- function(sum_target,
                      sum_ref,
                      results_dir,
-                     SplitSum=TRUE)
-# ref_split_file="temp/sum_ref.txt",
-# target_split_file="temp/sum_target.txt",
-
+                     SplitSum=FALSE)
   {
 
   #match alleles
@@ -73,18 +70,21 @@ AlignSum <- function(sum_target,
            BP = as.integer(BP),
            SNP = as.character(SNP))
 
-  sum_com <- left_join(sum_target,sum_ref_select,by="SNP")
-  idx <- which(sum_com$A1!=sum_com$A1_ref)
-  sum_com$BETA_ref[idx] <- -sum_com$BETA_ref[idx]
-  sum_com <- sum_com %>% select(-A1_ref)
-
-  assign("sum_com", sum_com, envir = .GlobalEnv)
+  sum.com <- left_join(sum_target,sum_ref_select,by="SNP")
+  idx <- which(sum.com$A1!=sum.com$A1_ref)
+  sum.com$BETA_ref[idx] <- -sum.com$BETA_ref[idx]
+  sum.com <- sum.com %>% select(-A1_ref)
 
   if (SplitSum) {
-    helper_SplitSum(sum_com = sum_com,
-                    results_dir = results_dir)
+    #assign("sum_com", sum.com, envir = .GlobalEnv)
+
+    list <- helper_SplitSum(sum_com = sum.com,
+                            results_dir = results_dir)
+    list <- c(list, sum_com=sum.com)
+    return(list)
   } else {
     print(paste0("SplitSum() was not performed"))
+    return(sum.com)
   }
 }
 
