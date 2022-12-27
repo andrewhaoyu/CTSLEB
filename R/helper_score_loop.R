@@ -56,31 +56,34 @@ helper_score_loop <- function(plink2_exec,
   this.scores <- plink_list[[1]]
   this.p_values <- plink_list[[2]]
   this.unique_infor <- plink_list[[3]]
-  this.p_value_file <- unlist(plink_list["p_value_file"])
-  this.scores_file <- unlist(plink_list["scores_file"])
-  this.q_range_file <- unlist(plink_list["q_range_file"])
+  this.p_value_file <- as.character(unlist(plink_list["p_value_file"]))
+  this.scores_file <- as.character(unlist(plink_list["scores_file"]))
+  this.q_range_file <- as.character(unlist(plink_list["q_range_file"]))
   prs_p_other_ <- paste0(temp.dir, out.prefix, "prs_p_other_")
+  this.pthres <- pthres
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- this.p_values
 
-  for(k1 in 1:length(pthres)){
+  for(k1 in 1:length(this.pthres)){
     #keep all the SNPs with P_EUR less than pthres[k1] in the analyses
-    idx <- which(this.unique_infor$P_ref<=pthres[k1])
+    idx <- which(this.unique_infor$P_ref<=this.pthres[k1])
+    print(paste0("pthres: ", this.pthres[k1]))
+    print(paste0("length idx: ", length(idx)))
     p_values_temp$P[idx] <- 0
-    print("writing ", )
+    print(paste0("writing ", this.p_value_file))
     write.table(p_values_temp,
                 file = this.p_value_file,
                 col.names = F,
                 row.names = F,
                 quote=F)
-    score_col_nums <- ncol(this.scores)
+    score.col_nums <- ncol(this.scores)
     plink2score(params_farm = params_farm,
                 plink2_exec = plink2_exec,
                 bfile = bfile,
                 q_range_file = this.q_range_file,
                 p_value_file = this.p_value_file,
                 scores_file = this.scores_file,
-                score_col_nums = score_col_nums,
+                score_col_nums = score.col_nums,
                 results_dir = results_dir,
                 pthres_idx = k1,
                 threads = 4,
