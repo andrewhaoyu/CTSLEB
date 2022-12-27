@@ -61,15 +61,13 @@ PreparePlinkFile <- function(snp_list = snp_list,
   print("scores complete")
 
   p_values <- data.frame(SNP = unique_id,P = unique_infor$P)
-  p_value_file <- paste0(results_dir,"temp/p_value_file")
-  assign("p_value_file", p_value_file, envir = .GlobalEnv)
   print("p_values complete")
 
   q_range <- helper_CreateQRange(pthres)
   print("q_range complete")
 
   names <- c("scores",
-             "p-values",
+             "p_values",
              "unique_infor",
              "q_range")
   values <- list(scores,
@@ -78,21 +76,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
                  q_range)
   list <- setNames(values, names)
   print("PreparePlinkFile() complete ...")
+
   return(list)
-
-  # if (x) {
-  #   print("return plink_file")
-  #   result <- list(scores = scores,
-  #                  p_values = p_values,
-  #                  unique_infor = unique_infor,
-  #                  q_range = q_range)
-  #   assign("plink_files", result, envir = .GlobalEnv)
-
-  # helper_return_list(x = return_list,
-  #                    results_dir = results_dir,
-  #                    scores = scores,
-  #                    p_values = p_values,
-  #                    unique_infor = unique_infor,
-  #                    q_range = q_range)
 
 }

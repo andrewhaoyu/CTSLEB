@@ -40,47 +40,44 @@
 
 PRSscore <- function(plink2_exec = "plink2 ",
                      bfile,
-                     scores,
-                     p_values,
+                     plink_list,
                      pthres = c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0),
                      threads = 4,
                      memory = 8000,
-                     results_dir = results_dir,
+                     results_dir,
                      out_prefix = as.null(),
                      params_farm=as.null()){
 
-  # if (is.null(params_farm)) {
-  #   print("no params_farm")
-  # } else {
-  #   print("params_farm list will be used")
-  #   mem <- as.character(unlist(params_farm["mem"]))
-  #   threads <- as.character(unlist(params_farm["threads"]))
-  #   pthres <- as.character(unlist(params_farm["pthres"]))
-  # }
+  if (is.null(params_farm)) {
+    print("no params_farm")
+  } else {
+    print("params_farm list will be used")
+    plink2_exec <- as.character(unlist(params_farm["plink2_exec"]))
+    memory <- as.character(unlist(params_farm["mem"]))
+    threads <- as.character(unlist(params_farm["threads"]))
+    pthres <- as.character(unlist(params_farm["pthres"]))
+  }
+
   this.plink2_exec <- plink2_exec
   this.bfile <- bfile
-  this.scores <- scores
-  this.p_values <- p_values
   this.pthres <- pthres
   this.threads <- threads
   this.memory <- memory
   this.results_dir <- results_dir
   this.out_prefix <- out_prefix
   this.params_farm <- params_farm
+  this.plink_list <- plink_list
 
-  n_col <- ncol(this.scores)
-  print("n_col: ", n_col)
-  helper_score_loop(plink2_exec <- this.plink2_exec,
-                    bfile = this.bfile,
-                    p_values = this.p_values,
-                    score_col_nums = n_col,
-                    pthres = this.pthres,
-                    threads = this.threads,
-                    memory = this.memory,
-                    results_dir = this.results_dir,
-                    out_prefix = this.out_prefix,
-                    params_farm = this.params_farm)
-
+  prs_p_other_ <- helper_score_loop(plink2_exec = this.plink2_exec,
+                                    bfile = this.bfile,
+                                    pthres = this.pthres,
+                                    threads = this.threads,
+                                    memory = this.memory,
+                                    plink_list = this.plink_list,
+                                    results_dir = this.results_dir,
+                                    out_prefix = this.out_prefix,
+                                    params_farm = this.params_farm)
+  this.scores <- this.scores <- plink_list[[1]]
   prs_mat <- helper_combine_PRS(scores = this.scores,
                                 pthres = this.pthres,
                                 prs_p_other_ = prs_p_other_

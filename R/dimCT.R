@@ -99,19 +99,20 @@ dimCT <- function(plink19_exec = 'plink',
                                   snp_list = snp.list,
                                   sum_com = sum.com,
                                   results_dir = results_dir)
-  helper_PreparePlinkFile(plink_list = plink.list,
-                          results_dir = results_dir)
-  this.scores <- plink.list[[1]]
-  this.p_values <- plink.list[[2]]
-  #
-  # print("executing PRSscore()")
-  # PRSscore(params_farm = params_farm,
-  #          plink2_exec = plink2_exec,
-  #          bfile = target_plink,
-  #          scores = this.scores,
-  #          p_values = this.p_values,
-  #          threads = 4,
-  #          memory = 8000,
-  #          results_dir = results_dir)
+
+  file_list <- helper_PreparePlinkFile(plink_list = plink.list,
+                                       results_dir = results_dir)
+  plink.list <- c(plink.list,file_list)
+  assign("plink_list", plink.list, envir = .GlobalEnv)
+
+  print("executing PRSscore()")
+  PRSscore(params_farm = params_farm,
+           plink2_exec = plink2_exec,
+           bfile = target_plink,
+           plink_list = plink.list,
+           threads = 4,
+           memory = 8000,
+           out_prefix = out_prefix,
+           results_dir = results_dir)
 
 }

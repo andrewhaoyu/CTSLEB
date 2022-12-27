@@ -26,12 +26,15 @@
 #'
 plink2score <- function(plink2_exec = "plink2 ",
                         bfile,
+                        q_range_file,
+                        p_value_file,
+                        scores_file,
                         score_col_nums,
                         results_dir,
                         pthres_idx,
                         threads = 2,
                         memory = 8000,
-                        out = prs_p_other_,
+                        out,
                         params_farm=as.null())
   {
 

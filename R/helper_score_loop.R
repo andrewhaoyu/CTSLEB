@@ -28,20 +28,18 @@
 
 helper_score_loop <- function(plink2_exec,
                         bfile,
-                        score_col_nums,
-                        p_values = p_values,
-                        pthres = pthres,
-                        threads = threads,
-                        memory = mem,
-                        results_dir = results_dir,
+                        plink_list,
+                        pthres,
+                        threads,
+                        memory,
+                        results_dir,
                         out_prefix = as.null(),
                         params_farm = as.null()){
-  this.out_prefix <- out_prefix
-  print(this.out_prefix)
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
     print("params_farm list will be used")
+    plink2_exec <- unlist(params_farm["mem"])
     mem <- as.character(unlist(params_farm["mem"]))
     threads <- as.character(unlist(params_farm["threads"]))
     pthres <- as.character(unlist(params_farm["pthres"]))
@@ -55,25 +53,33 @@ helper_score_loop <- function(plink2_exec,
     print(paste0("out_prefix: ", out_prefix))
     out.prefix <- paste0(out_prefix, "_")
   }
-
+  this.scores <- plink_list[[1]]
+  this.p_values <- plink_list[[2]]
+  this.unique_infor <- plink_list[[3]]
+  this.p_value_file <- unlist(plink_list["p_value_file"])
+  this.scores_file <- unlist(plink_list["scores_file"])
+  this.q_range_file <- unlist(plink_list["q_range_file"])
   prs_p_other_ <- paste0(temp.dir, out.prefix, "prs_p_other_")
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
-  p_values_temp <- p_values
+  p_values_temp <- this.p_values
+
   for(k1 in 1:length(pthres)){
     #keep all the SNPs with P_EUR less than pthres[k1] in the analyses
-    idx <- which(unique_infor$P_ref<=pthres[k1])
+    idx <- which(this.unique_infor$P_ref<=pthres[k1])
     p_values_temp$P[idx] <- 0
+    print("writing ", )
     write.table(p_values_temp,
-                file = p_value_file,
+                file = this.p_value_file,
                 col.names = F,
                 row.names = F,
                 quote=F)
-    #temp.dir <- paste0(results_dir,"temp/")
-    #out_file <- paste0(temp.dir,prs_prefix,k1)
-
+    score_col_nums <- ncol(this.scores)
     plink2score(params_farm = params_farm,
                 plink2_exec = plink2_exec,
                 bfile = bfile,
+                q_range_file = this.q_range_file,
+                p_value_file = this.p_value_file,
+                scores_file = this.scores_file,
                 score_col_nums = score_col_nums,
                 results_dir = results_dir,
                 pthres_idx = k1,
@@ -81,4 +87,5 @@ helper_score_loop <- function(plink2_exec,
                 out = prs_p_other_,
                 memory = 8000)
   }
+  return(prs_p_other_)
 }
