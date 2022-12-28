@@ -6,18 +6,18 @@
 #' @param bfile prefix for target plink binary set (prefix.bed, prefix.bim, prefix.fam)
 #' @param q_range_file File name and location of written q_range dataframe produced
 #' by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'
-#' @param score_col_nums number of columns in scores dataframe produced by
-#' PreparePlinkfile().
+#' @param p_value_file
 #' @param scores_file File name and location of written scores dataframe produced
 #' by PreparePlinkfile(). By default PreparePlinkfile() names this 'scores_file'
-#' @param p_values p_values dataframe produced by PreparePlinkfile()
-#' @param threads maximum number of concurrent threads
-#' @param memory primary workspace memory
-#' @param out
+#' @param score_col_nums number of columns in scores dataframe produced by
+#' PreparePlinkfile().
 #' @param results_dir output folder forvPlink2. Results will appear as results_dir/
 #' temp/prs_p_other_<pthres index>.<range name>.sscore
 #' @param pthres_idx pthres vector index number
-#' @param prs_farm prs_farm object name
+#' @param threads maximum number of concurrent threads
+#' @param memory primary workspace memory
+#' @param out
+#' @param params_farm prs_farm object name
 #' @keywords plink2 score
 #' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
 #' score, threads, memory, out, score_farm)
