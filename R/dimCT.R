@@ -107,8 +107,7 @@ dimCT <- function(plink19_exec = 'plink',
   plink.list <- c(plink.list,file_list)
   assign("plink_list", plink.list, envir = .GlobalEnv)
 
-  print("executing PRSscore()")
-  PRSscore(params_farm = params_farm,
+  prs_mat <- PRSscore(params_farm = params_farm,
            plink2_exec = plink2_exec,
            bfile = test_target_plink,
            plink_list = plink.list,
@@ -116,5 +115,5 @@ dimCT <- function(plink19_exec = 'plink',
            memory = memory,
            out_prefix = out_prefix,
            results_dir = results_dir)
-
+  assign("prs_mat", prs_mat, envir = .GlobalEnv)
 }

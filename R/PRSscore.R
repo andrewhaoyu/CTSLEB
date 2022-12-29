@@ -39,14 +39,15 @@ PRSscore <- function(plink2_exec = "plink2 ",
                      out_prefix = as.null(),
                      params_farm=as.null()){
 
+  print("executing PRSscore()... ")
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
     print("params_farm list will be used")
     plink2_exec <- as.character(unlist(params_farm["plink2_exec"]))
-    memory <- as.character(unlist(params_farm["mem"]))
-    threads <- as.character(unlist(params_farm["threads"]))
-    pthres <- as.character(unlist(params_farm["pthres"]))
+    memory <- as.integer(unlist(params_farm["mem"]))
+    threads <- as.integer(unlist(params_farm["threads"]))
+    pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
   this.plink2_exec <- plink2_exec
@@ -59,20 +60,18 @@ PRSscore <- function(plink2_exec = "plink2 ",
   this.params_farm <- params_farm
   this.plink_list <- plink_list
 
-  prs_p_other_ <- helper_score_loop(plink2_exec = this.plink2_exec,
+  this.prs_p_other_ <- helper_score_loop(plink2_exec = this.plink2_exec,
                                     bfile = this.bfile,
                                     pthres = this.pthres,
                                     threads = this.threads,
                                     memory = this.memory,
                                     plink_list = this.plink_list,
                                     results_dir = this.results_dir,
-                                    out_prefix = this.out_prefix,
-                                    params_farm = this.params_farm)
+                                    out_prefix = this.out_prefix)
   this.scores <- this.scores <- plink_list[[1]]
-  prs_mat <- helper_combine_PRS(scores = this.scores,
+  this.prs_mat <- helper_combine_PRS(scores = this.scores,
                                 pthres = this.pthres,
-                                prs_p_other_ = prs_p_other_,
-                                params_farm = this.params_farm)
-  assign("prs_mat", prs_mat, envir = .GlobalEnv)
+                                prs_p_other_ = this.prs_p_other_)
   print("prs_mat object created")
+  return(this.prs_mat)
 }

@@ -14,16 +14,6 @@
 #' @keywords plink2 score
 #' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
 #' score, threads, memory, out, params_farm)
-#' @examples
-#' PRSscore(plink2_exec = "plink2 ",
-#'             bfile = bfile,
-#'             score_col_nums = ncols,
-#'             p_values = p_values,
-#'             pthres = pthres,
-#'             threads = 4,
-#'             memory = 8000,
-#'             results_dir = results_dir,
-#'             params_farm = params_farm)
 
 helper_score_loop <- function(plink2_exec,
                         bfile,
@@ -32,17 +22,16 @@ helper_score_loop <- function(plink2_exec,
                         threads,
                         memory,
                         results_dir,
-                        out_prefix = as.null(),
-                        params_farm = as.null()){
-  if (is.null(params_farm)) {
-    print("no params_farm")
-  } else {
-    print("params_farm list will be used")
-    plink2_exec <- unlist(params_farm["mem"])
-    memory <- as.integer(unlist(params_farm["mem"]))
-    threads <- as.integer(unlist(params_farm["threads"]))
-    pthres <- as.numeric(unlist(params_farm["pthres"]))
-  }
+                        out_prefix = as.null()){
+  # if (is.null(params_farm)) {
+  #   print("no params_farm")
+  # } else {
+  #   print("params_farm list will be used")
+  #   plink2_exec <- unlist(params_farm["mem"])
+  #   memory <- as.integer(unlist(params_farm["mem"]))
+  #   threads <- as.integer(unlist(params_farm["threads"]))
+  #   pthres <- as.numeric(unlist(params_farm["pthres"]))
+  # }
 
   temp.dir <- paste0(results_dir,"temp/")
   if (is.null(out_prefix)) {
@@ -65,12 +54,14 @@ helper_score_loop <- function(plink2_exec,
 
   for(k1 in 1:length(this.pthres)){
     idx <- which(this.unique_infor$P_ref <= this.pthres[k1])
-    print(this.unique_infor$P_ref[1:20])
-    print(str(this.unique_infor))
+    #print(this.unique_infor$P_ref[1:20])
+    #print(str(this.unique_infor))
     print(paste0("pthres: ", this.pthres[k1]))
     print(class(this.pthres[k1]))
-    print(idx[1:20])
+    #print(idx[1:20])
     p_values_temp$P[idx] <- 0
+    print(paste0("Number of variants less than pthres :",
+                 sum(p_values_temp$P == 0)))
     print(paste0("writing ", this.p_value_file))
     write.table(p_values_temp,
                 file = this.p_value_file,
@@ -78,8 +69,7 @@ helper_score_loop <- function(plink2_exec,
                 row.names = F,
                 quote=F)
     score.col_nums <- ncol(this.scores)
-    plink2score(params_farm = params_farm,
-                plink2_exec = plink2_exec,
+    plink2score(plink2_exec = plink2_exec,
                 bfile = bfile,
                 q_range_file = this.q_range_file,
                 p_value_file = this.p_value_file,
