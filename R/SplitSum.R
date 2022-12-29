@@ -19,6 +19,7 @@
 SplitSum <- function(x,
                      results_dir,
                      write_tables = TRUE){
+  print("executing SplitSum() ...")
   sum.com <- x
   sum.com_select <- sum.com %>%
     mutate(split_ind =
@@ -49,7 +50,7 @@ SplitSum <- function(x,
     print(paste0("WriteSplitTables() was not performed"))
     return(sum_list)
   }
-
+  print("SplitSum() complete ... ")
   return(sum_list)
 
 }

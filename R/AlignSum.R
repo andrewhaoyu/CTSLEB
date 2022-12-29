@@ -30,7 +30,7 @@
 AlignSum <- function(sum_target,
                      sum_ref)
   {
-
+  print("executing AlignSum()")
   #match alleles
   sum_ref_select <- sum_ref %>%
     mutate(A1_ref = A1,
@@ -55,6 +55,8 @@ AlignSum <- function(sum_target,
   idx <- which(sum.com$A1!=sum.com$A1_ref)
   sum.com$BETA_ref[idx] <- -sum.com$BETA_ref[idx]
   sum.com <- sum.com %>% select(-A1_ref)
+  print("AlignSum() complete ...")
+  return(sum.com)
 
   # if (SplitSum) {
   #   #assign("sum_com", sum.com, envir = .GlobalEnv)

@@ -25,7 +25,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
                              return_list = FALSE,
                              params_farm=as.null())
   {
-
+  print("executing PreparePlinkFile()")
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {

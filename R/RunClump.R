@@ -28,15 +28,16 @@ RunClump <- function(plink19_exec,
                      mem = 8000,
                      threads = 2,
                      params_farm = as.null()) {
+  print("executing RunClump()... ")
   if (is.null(params_farm)) {
     print("RunClump() no params_farm")
   } else {
     print("RunClump() params_farm list will be used")
     plink19_exec <- as.character(unlist(params_farm["plink19_exec"]))
-    r2_vec <- as.vector(unlist(params_farm["r2_vec"]))
-    wc_base_vec <- as.vector(unlist(params_farm["wc_base_vec"]))
-    mem <- as.character(unlist(params_farm["mem"]))
-    threads <- as.character(unlist(params_farm["threads"]))
+    r2_vec <- as.numeric(unlist(params_farm["r2_vec"]))
+    wc_base_vec <- as.integer(unlist(params_farm["wc_base_vec"]))
+    mem <- as.integer(unlist(params_farm["mem"]))
+    threads <- as.integer(unlist(params_farm["threads"]))
   }
 
   temp.dir <- paste0(results_dir,"temp/")

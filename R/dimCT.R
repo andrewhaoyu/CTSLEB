@@ -77,14 +77,13 @@ dimCT <- function(plink19_exec = 'plink',
   }
 
   sum.com <- AlignSum(sum_target = sum_AFR,
-                      sum_ref = sum_EUR,
-                      results_dir = results_dir,
-                      SplitSum = FALSE)
+                      sum_ref = sum_EUR)
   assign("sum_com", sum.com, envir = .GlobalEnv)
   write.list <- SplitSum(x = sum.com,
                          results_dir = results_dir,
                          write_tables = TRUE)
   assign("write_list", write.list, envir = .GlobalEnv)
+
   ref.splitfile <- unlist(write.list["ref_split_file"])
   target.splitfile <- unlist(write.list["target_split_file"])
   snp.list <- RunClump(params_farm = params_farm,
@@ -97,7 +96,7 @@ dimCT <- function(plink19_exec = 'plink',
                        results_dir = results_dir)
   assign("snp_list", snp.list, envir = .GlobalEnv)
 
-  print("executing PreparePlinkFile()")
+
   plink.list <- PreparePlinkFile(params_farm = params_farm,
                                   snp_list = snp.list,
                                   sum_com = sum.com,
