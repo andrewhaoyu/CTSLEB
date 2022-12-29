@@ -8,26 +8,9 @@
 #' @param sum_tar The GWAS summary statistics for the target population.
 #' @param sum_ref The GWAS summary statistics for the reference population.
 #' The most commonly used reference population is European.
-#' @param SplitSum Execute the SplitSum() and WriteSplitTables() function.
-#' Default = TRUE.
-#' @param ref_split_file If SplitSum = TRUE (Default) provide a file path and prefix name
-#' for the reference snps produced from the SplitSum() function.  The default
-#' name "sum" is passed to WriteSplitTables() which creates the file
-#' "sum_ref.txt" in the current working directory. This file is the input for the
-#' plink --clump flag
-#' @param target_split_file If SplitSum = TRUE (Default) provide a file path and prefix name
-#' for the target snps produced from the SplitSum() function. The default
-#' name "sum" is passed to WriteSplitTables() which creates the file
-#' "sum_target.txt" in the current working directory. This file is the input for
-#' the plink --clump flag
-#' @param results_dir
 #' @return data.frame object with ref population GWAS summary statistics
 #' aligned with target GWAS summary statistics. The resulting global variable is
-#' named "sum_com". If SplitSum = TRUE, the SplitSum() and WriteSplitTables()
-#' functions will be executed and the following global variables will be created;
-#' "sum_ref" for the reference snps and "sum_target" for the target snps created
-#' by SplitSum(). The data.frames are also written to files named "sum_ref.txt"
-#' and "sum_target.txt" respectively
+#' named "sum_com".
 #' @export
 #' @examples
 #' data.dir <- "data/"
@@ -45,9 +28,7 @@
 #'          SplitSum = TRUE)
 
 AlignSum <- function(sum_target,
-                     sum_ref,
-                     results_dir,
-                     SplitSum=FALSE)
+                     sum_ref)
   {
 
   #match alleles
@@ -75,16 +56,16 @@ AlignSum <- function(sum_target,
   sum.com$BETA_ref[idx] <- -sum.com$BETA_ref[idx]
   sum.com <- sum.com %>% select(-A1_ref)
 
-  if (SplitSum) {
-    #assign("sum_com", sum.com, envir = .GlobalEnv)
-
-    list <- helper_SplitSum(sum_com = sum.com,
-                            results_dir = results_dir)
-    list <- c(list, sum_com=sum.com)
-    return(list)
-  } else {
-    print(paste0("SplitSum() was not performed"))
-    return(sum.com)
-  }
+  # if (SplitSum) {
+  #   #assign("sum_com", sum.com, envir = .GlobalEnv)
+  #
+  #   list <- helper_SplitSum(sum_com = sum.com,
+  #                           results_dir = results_dir)
+  #   list <- c(list, sum_com=sum.com)
+  #   return(list)
+  # } else {
+  #   print(paste0("SplitSum() was not performed"))
+  #   return(sum.com)
+  # }
 }
 
