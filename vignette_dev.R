@@ -41,12 +41,12 @@ dimCT(results_dir = results.dir,
       out_prefix = outprefix,
       params_farm = PRS_farm)
 
-pheno_file <- "data/y_tuning.txt"
-y_tune <- fread(pheno_file)
-PRS_tune(x = prs_mat,
-         r2_vec = r2_vec,
-         pthres = pthres,
-         wc_base_vec = wc_base_vec,
-         pheno_df = y_tune,
-         tune_samples=10000,
-         out = prs_out)
+# pheno_file <- "data/y_tuning.txt"
+# y_tune <- fread(pheno_file)
+# PRS_tune(x = prs_mat,
+#          r2_vec = r2_vec,
+#          pthres = pthres,
+#          wc_base_vec = wc_base_vec,
+#          pheno_df = y_tune,
+#          tune_samples=10000,
+#          out = prs_out)
