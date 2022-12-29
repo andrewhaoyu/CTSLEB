@@ -39,9 +39,9 @@ helper_score_loop <- function(plink2_exec,
   } else {
     print("params_farm list will be used")
     plink2_exec <- unlist(params_farm["mem"])
-    memory <- as.character(unlist(params_farm["mem"]))
-    threads <- as.character(unlist(params_farm["threads"]))
-    pthres <- as.character(unlist(params_farm["pthres"]))
+    memory <- as.integer(unlist(params_farm["mem"]))
+    threads <- as.integer(unlist(params_farm["threads"]))
+    pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
   temp.dir <- paste0(results_dir,"temp/")
@@ -64,10 +64,12 @@ helper_score_loop <- function(plink2_exec,
   p_values_temp <- this.p_values
 
   for(k1 in 1:length(this.pthres)){
-    #keep all the SNPs with P_EUR less than pthres[k1] in the analyses
-    idx <- which(this.unique_infor$P_ref<=this.pthres[k1])
+    idx <- which(this.unique_infor$P_ref <= this.pthres[k1])
+    print(this.unique_infor$P_ref[1:20])
+    print(str(this.unique_infor))
     print(paste0("pthres: ", this.pthres[k1]))
-    print(paste0("length idx: ", length(idx)))
+    print(class(this.pthres[k1]))
+    print(idx[1:20])
     p_values_temp$P[idx] <- 0
     print(paste0("writing ", this.p_value_file))
     write.table(p_values_temp,
@@ -88,6 +90,7 @@ helper_score_loop <- function(plink2_exec,
                 threads = threads,
                 out = prs_p_other_,
                 memory = memory)
+
   }
   return(prs_p_other_)
 }
