@@ -69,10 +69,11 @@ dimCT <- function(plink19_exec = 'plink',
     print("params_farm list will be used")
     plink19_exec <- as.character(unlist(params_farm["plink19_exec"]))
     plink2_exec <-  as.character(unlist(params_farm["plink2_exec"]))
-    r2_vec <- as.vector(unlist(params_farm["r2_vec"]))
-    wc_base_vec <- as.vector(unlist(params_farm["wc_base_vec"]))
-    memory <- as.character(unlist(params_farm["mem"]))
-    threads <- as.character(unlist(params_farm["threads"]))
+    r2_vec <- as.numeric(unlist(params_farm["r2_vec"]))
+    wc_base_vec <- as.integer(unlist(params_farm["wc_base_vec"]))
+    memory <- as.integer(unlist(params_farm["mem"]))
+    threads <- as.integer(unlist(params_farm["threads"]))
+    pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
   sum.com <- AlignSum(sum_target = sum_AFR,

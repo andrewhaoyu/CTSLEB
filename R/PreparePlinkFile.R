@@ -30,7 +30,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
     print("no params_farm")
   } else {
     print("params_farm list will be used")
-    pthres <- as.character(unlist(params_farm["pthres"]))
+    pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
   #create unique SNP list by combind LD clumping results under different parameters

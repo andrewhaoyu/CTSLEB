@@ -71,8 +71,8 @@ PRSscore <- function(plink2_exec = "plink2 ",
   this.scores <- this.scores <- plink_list[[1]]
   prs_mat <- helper_combine_PRS(scores = this.scores,
                                 pthres = this.pthres,
-                                prs_p_other_ = prs_p_other_
-                                )
+                                prs_p_other_ = prs_p_other_,
+                                params_farm = this.params_farm)
   assign("prs_mat", prs_mat, envir = .GlobalEnv)
   print("prs_mat object created")
 }

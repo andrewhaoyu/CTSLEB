@@ -25,7 +25,7 @@ helper_PreparePlinkFile <- function(plink_list,
               quote=F)
 
   p_values <- this.plink_list[[2]]
-  p_value_file <- paste0(results_dir,"temp/p_value_file")
+  p_value_file <- paste0(temp.dir,"p_value_file")
 
   unique_infor <- this.plink_list[[3]]
 
