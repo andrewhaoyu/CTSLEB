@@ -8,7 +8,7 @@
 #' @return 'prs_mat' global variable. Matrix of combined PRSs with clumping and
 #' pthres as column name
 #'
-helper_combine_PRS <- function(scores,
+helper_CombinePRS <- function(scores,
                                pthres,
                                prs_p_other_)
   {
