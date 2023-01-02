@@ -17,7 +17,7 @@ helper_PreparePlinkFile <- function(plink_list,
 
   temp.dir <- paste0(results_dir,"temp/")
   scores <- this.plink_list[[1]]
-  scores_file <- paste0(temp.dir,"score_file")
+  score_file <- paste0(temp.dir,"score_file")
   write.table(scores,
               file = scores_file ,
               row.names = F,
@@ -41,12 +41,12 @@ helper_PreparePlinkFile <- function(plink_list,
   assign("scores", scores, envir = .GlobalEnv)
   assign("p_values", p_values, envir = .GlobalEnv)
   assign("unique_infor", unique_infor, envir = .GlobalEnv)
-  assign("scores_file", scores_file, envir = .GlobalEnv)
+  assign("score_file", score_file, envir = .GlobalEnv)
   assign("p_value_file", p_value_file, envir = .GlobalEnv)
   assign("q_range_file", q_range_file, envir = .GlobalEnv)
 
-  names <-c("scores_file","p_value_file","q_range_file")
-  values <- list(scores_file, p_value_file, q_range_file)
+  names <-c("score_file","p_value_file","q_range_file")
+  values <- list(score_file, p_value_file, q_range_file)
   list <- setNames(values, names)
 
   return(list)
