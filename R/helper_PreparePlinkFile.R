@@ -4,9 +4,9 @@
 #' and write.tables.
 #' q_range from Prepare
 #' Not exported
-#' @param plink_list
-#' @param results_dir
-#' @return
+#' @param plink_list description
+#' @param results_dir description
+#' @return list
 #'
 helper_PreparePlinkFile <- function(plink_list,
                                     results_dir)

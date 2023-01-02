@@ -1,20 +1,19 @@
 #'
 #' Perform clumping with plink1.9
 #' @param plink19_exec Plink binary execute file. Default "plink".
-#' @param sum_ref
-#' @param sum_target
-#' @param results_dir
-#' @param ref_plink
-#' @param target_plink
-#' @param out_prefix
-#' @param r2_vec
-#' @param wc_base_vec
-#' @param mem
-#' @param threads
-#' @param params_farm
+#' @param results_dir description
+#' @param ref_plink description
+#' @param target_plink description
+#' @param ref_splitfile description
+#' @param target_splitfile description
+#' @param out_prefix description
+#' @param r2_vec description
+#' @param wc_base_vec description
+#' @param mem description
+#' @param threads description
+#' @param params_farm description
 #' @export
 #' @keywords plink1.9 clump
-#' @usage dimCT(plink19_exec, params_farm)
 
 RunClump <- function(plink19_exec,
                      ref_plink,

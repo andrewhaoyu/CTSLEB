@@ -5,8 +5,8 @@
 #' population smaller than the ref population.
 #'
 #' @param x sum_com data.frame object produced by AlignSum().
-#' @param results_dir
-#' @param write_tables
+#' @param results_dir description
+#' @param write_tables description
 #' @return  A list with the two data.frame objects of SNPs with p-values in the
 #' ref population smaller than the target population in the [[1]] slot.
 #' SNPs with p-values in the target population smaller than the ref population

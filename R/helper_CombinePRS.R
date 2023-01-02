@@ -2,9 +2,9 @@
 #' @description
 #' Combines PRS
 #' Not exported
-#' @param scores
-#' @param pthres
-#' @param prs_p_other_
+#' @param scores  description
+#' @param pthres description
+#' @param prs_p_other_  description
 #' @return 'prs_mat' global variable. Matrix of combined PRSs with clumping and
 #' pthres as column name
 #'

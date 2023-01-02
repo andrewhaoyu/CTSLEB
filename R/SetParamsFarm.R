@@ -10,7 +10,7 @@
 #' @param r2_vec r square vector. SetClumpFarm will automaticaly create the
 #' global 'r2_vec' since it is required in other workflow sections. Defaults to
 #' c(0.01,0.05,0.1,0.2,0.5,0.8).
-#' @param pthres
+#' @param pthres  description
 #' @param threads --threads for plink1.9 Defaults to 2
 #' @param mem --memory for plink1.9 Defaults to 8000 mb
 #' @param ref_out folder and ref file prefix for plink output
