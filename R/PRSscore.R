@@ -50,28 +50,28 @@ PRSscore <- function(plink2_exec = "plink2 ",
     pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
-  this.plink2_exec <- plink2_exec
-  this.bfile <- bfile
-  this.pthres <- pthres
-  this.threads <- threads
-  this.memory <- memory
-  this.results_dir <- results_dir
-  this.out_prefix <- out_prefix
-  this.params_farm <- params_farm
-  this.plink_list <- plink_list
+  plink2_exec <- plink2_exec
+  bfile <- bfile
+  pthres <- pthres
+  threads <- threads
+  memory <- memory
+  results_dir <- results_dir
+  out_prefix <- out_prefix
+  params_farm <- params_farm
+  plink_list <- plink_list
 
-  this.prs_p_other_ <- helper_score_loop(plink2_exec = this.plink2_exec,
-                                    bfile = this.bfile,
-                                    pthres = this.pthres,
-                                    threads = this.threads,
-                                    memory = this.memory,
-                                    plink_list = this.plink_list,
-                                    results_dir = this.results_dir,
-                                    out_prefix = this.out_prefix)
-  this.scores <- this.scores <- plink_list[[1]]
-  this.prs_mat <- helper_combine_PRS(scores = this.scores,
-                                pthres = this.pthres,
-                                prs_p_other_ = this.prs_p_other_)
+  prs_p_other_ <- helper_score_loop(plink2_exec = plink2_exec,
+                                    bfile = bfile,
+                                    pthres = pthres,
+                                    threads = threads,
+                                    memory = memory,
+                                    plink_list = plink_list,
+                                    results_dir = results_dir,
+                                    out_prefix = out_prefix)
+  this_scores <- plink_list[[1]]
+  prs_mat <- helper_CombinePRS(scores = this_scores,
+                                pthres = pthres,
+                                prs_p_other_ = prs_p_other_)
   print("prs_mat object created")
-  return(this.prs_mat)
+  return(prs_mat)
 }
