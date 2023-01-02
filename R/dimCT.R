@@ -76,41 +76,41 @@ dimCT <- function(plink19_exec = 'plink',
     pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
-  sum.com <- AlignSum(sum_target = sum_AFR,
+  sum_com <- AlignSum(sum_target = sum_AFR,
                       sum_ref = sum_EUR)
-  assign("sum_com", sum.com, envir = .GlobalEnv)
-  write.list <- SplitSum(x = sum.com,
+  assign("sum_com", sum_com, envir = .GlobalEnv)
+  write_list <- SplitSum(x = sum_com,
                          results_dir = results_dir,
                          write_tables = TRUE)
-  assign("write_list", write.list, envir = .GlobalEnv)
+  assign("write_list", write_list, envir = .GlobalEnv)
 
-  ref.splitfile <- unlist(write.list["ref_split_file"])
-  target.splitfile <- unlist(write.list["target_split_file"])
-  snp.list <- RunClump(params_farm = params_farm,
+  ref_splitfile <- unlist(write_list["ref_split_file"])
+  target_splitfile <- unlist(write_list["target_split_file"])
+  snp_list <- RunClump(params_farm = params_farm,
                        plink19_exec = plink19_exec,
                        ref_plink = ref_plink,
                        target_plink = target_plink,
-                       ref_splitfile = ref.splitfile,
-                       target_splitfile = target.splitfile,
+                       ref_splitfile = ref_splitfile,
+                       target_splitfile = target_splitfile,
                        out_prefix = out_prefix,
                        results_dir = results_dir)
-  assign("snp_list", snp.list, envir = .GlobalEnv)
+  assign("snp_list", snp_list, envir = .GlobalEnv)
 
 
-  plink.list <- PreparePlinkFile(params_farm = params_farm,
-                                  snp_list = snp.list,
-                                  sum_com = sum.com,
+  plink_list <- PreparePlinkFile(params_farm = params_farm,
+                                  snp_list = snp_list,
+                                  sum_com = sum_com,
                                   results_dir = results_dir)
 
-  file_list <- helper_PreparePlinkFile(plink_list = plink.list,
+  file_list <- helper_PreparePlinkFile(plink_list = plink_list,
                                        results_dir = results_dir)
-  plink.list <- c(plink.list,file_list)
-  assign("plink_list", plink.list, envir = .GlobalEnv)
+  plink_list <- c(plink_list,file_list)
+  assign("plink_list", plink_list, envir = .GlobalEnv)
 
   prs_mat <- PRSscore(params_farm = params_farm,
                       plink2_exec = plink2_exec,
                       bfile = test_target_plink,
-                      plink_list = plink.list,
+                      plink_list = plink_list,
                       threads = threads,
                       memory = memory,
                       out_prefix = out_prefix,

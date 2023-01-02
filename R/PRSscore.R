@@ -68,8 +68,8 @@ PRSscore <- function(plink2_exec = "plink2 ",
                                     plink_list = plink_list,
                                     results_dir = results_dir,
                                     out_prefix = out_prefix)
-  this_scores <- plink_list[[1]]
-  prs_mat <- helper_CombinePRS(scores = this_scores,
+  scores <- plink_list[[1]]
+  prs_mat <- helper_CombinePRS(scores = scores,
                                 pthres = pthres,
                                 prs_p_other_ = prs_p_other_)
   print("prs_mat object created")

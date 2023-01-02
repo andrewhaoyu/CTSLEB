@@ -12,11 +12,9 @@ helper_PreparePlinkFile <- function(plink_list,
                                     results_dir)
 
   {
-  this.plink_list <- plink_list
-  this.results_dir <- results_dir
 
   temp.dir <- paste0(results_dir,"temp/")
-  scores <- this.plink_list[[1]]
+  scores <- plink_list[[1]]
   score_file <- paste0(temp.dir,"score_file")
   write.table(scores,
               file = score_file ,
@@ -24,12 +22,12 @@ helper_PreparePlinkFile <- function(plink_list,
               col.names = F,
               quote=F)
 
-  p_values <- this.plink_list[[2]]
+  p_values <- plink_list[[2]]
   p_value_file <- paste0(temp.dir,"p_value_file")
 
-  unique_infor <- this.plink_list[[3]]
+  unique_infor <- plink_list[[3]]
 
-  q_range <- this.plink_list[[4]]
+  q_range <- plink_list[[4]]
   q_range_file <- paste0(temp.dir,"q_range_file")
 
   write.table(q_range,
