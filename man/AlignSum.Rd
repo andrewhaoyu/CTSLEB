@@ -4,37 +4,18 @@
 \alias{AlignSum}
 \title{Align GWAS summary stat for the reference population to the target population.}
 \usage{
-AlignSum(sum_target, sum_ref, results_dir, SplitSum = TRUE)
+AlignSum(sum_target, sum_ref)
 }
 \arguments{
 \item{sum_ref}{The GWAS summary statistics for the reference population.
 The most commonly used reference population is European.}
 
-\item{SplitSum}{Execute the SplitSum() and WriteSplitTables() function.
-Default = TRUE.}
-
 \item{sum_tar}{The GWAS summary statistics for the target population.}
-
-\item{ref_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
-for the reference snps produced from the SplitSum() function.  The default
-name "sum" is passed to WriteSplitTables() which creates the file
-"sum_ref.txt" in the current working directory. This file is the input for the
-plink --clump flag}
-
-\item{target_split_file}{If SplitSum = TRUE (Default) provide a file path and prefix name
-for the target snps produced from the SplitSum() function. The default
-name "sum" is passed to WriteSplitTables() which creates the file
-"sum_target.txt" in the current working directory. This file is the input for
-the plink --clump flag}
 }
 \value{
 data.frame object with ref population GWAS summary statistics
 aligned with target GWAS summary statistics. The resulting global variable is
-named "sum_com". If SplitSum = TRUE, the SplitSum() and WriteSplitTables()
-functions will be executed and the following global variables will be created;
-"sum_ref" for the reference snps and "sum_target" for the target snps created
-by SplitSum(). The data.frames are also written to files named "sum_ref.txt"
-and "sum_target.txt" respectively
+named "sum_com".
 }
 \description{
 Align GWAS summary statistics for the reference population to the target population.

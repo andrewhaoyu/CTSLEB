@@ -12,6 +12,11 @@ score, threads, memory, out, score_farm)
 
 \item{bfile}{prefix for target plink binary set (prefix.bed, prefix.bim, prefix.fam)}
 
+\item{q_range_file}{File name and location of written q_range dataframe produced
+by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'}
+
+\item{p_value_file}{description}
+
 \item{score_col_nums}{number of columns in scores dataframe produced by
 PreparePlinkfile().}
 
@@ -24,15 +29,12 @@ temp/prs_p_other_<pthres index>.<range name>.sscore}
 
 \item{memory}{primary workspace memory}
 
-\item{q_range_file}{File name and location of written q_range dataframe produced
-by PreparePlinkfile(). By default PreparePlinkfile() names this 'q_range_file'}
+\item{out}{description}
+
+\item{params_farm}{prs_farm object name}
 
 \item{scores_file}{File name and location of written scores dataframe produced
 by PreparePlinkfile(). By default PreparePlinkfile() names this 'scores_file'}
-
-\item{p_values}{p_values dataframe produced by PreparePlinkfile()}
-
-\item{prs_farm}{prs_farm object name}
 }
 \value{
 plink2 score files

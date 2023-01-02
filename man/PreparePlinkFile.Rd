@@ -9,7 +9,6 @@ PreparePlinkFile(
   sum_com,
   pthres = c(5e-08, 5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
   results_dir,
-  return_list = FALSE,
   params_farm = as.null()
 )
 }
@@ -21,13 +20,7 @@ PreparePlinkFile(
 \item{pthres}{vector of p-value thresholds. Default
 c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
 
-\item{return_list}{TRUE will return a 'plink_files' list containing the
-plink_files[1]"scores" plink_files[2]"p_values", plink_files[3]"unique_infor"
-and plink_files[4]"q_range" objects. FALSE will create the global variables for
-the same objects and write the q-range and scores objects to tables named
-"q_range_file" and "scores_file" respectively. The location of these tables
-will be stored as global variables named  "q_range_file" and "scores_file"
-respectively. Default return_list=FALSE}
+\item{results_dir}{description}
 }
 \value{
 Creates either the global variables 'scores', 'p_values',
@@ -35,5 +28,5 @@ Creates either the global variables 'scores', 'p_values',
 four dataframes in a list
 }
 \description{
-Calls CreateQRange() using either the default pthres or user input values
+Calls helper_return_list() and helper_CreateQRange()
 }

@@ -2,16 +2,17 @@
 % Please edit documentation in R/CreateQRange.R
 \name{CreateQRange}
 \alias{CreateQRange}
-\title{Create the q range file used for plink2}
+\title{Create q_range object for PreparePlinkFile()}
 \usage{
 CreateQRange(x)
 }
 \arguments{
-\item{pthres}{the p value thresholds for selecting SNPs}
+\item{x}{pthres}
 }
 \value{
-the q range file
+CreateQRange() object
 }
 \description{
-Create the q range file used for plink2
+Calls CreateQRange() with either the default pthres or user input values
+Not exported
 }

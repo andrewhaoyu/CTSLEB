@@ -4,10 +4,14 @@
 \alias{SplitSum}
 \title{Inputs an AlignSum() object and splits SNPs into two groups}
 \usage{
-SplitSum(x)
+SplitSum(x, results_dir, write_tables = TRUE)
 }
 \arguments{
 \item{x}{sum_com data.frame object produced by AlignSum().}
+
+\item{results_dir}{description}
+
+\item{write_tables}{description}
 }
 \value{
 A list with the two data.frame objects of SNPs with p-values in the

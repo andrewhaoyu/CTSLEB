@@ -27,6 +27,8 @@ to c(50,100)}
 global 'r2_vec' since it is required in other workflow sections. Defaults to
 c(0.01,0.05,0.1,0.2,0.5,0.8).}
 
+\item{pthres}{description}
+
 \item{threads}{--threads for plink1.9 Defaults to 2}
 
 \item{mem}{--memory for plink1.9 Defaults to 8000 mb}

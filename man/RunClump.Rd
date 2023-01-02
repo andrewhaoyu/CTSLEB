@@ -4,10 +4,45 @@
 \alias{RunClump}
 \title{Perform clumping with plink1.9}
 \usage{
-dimCT(plink19_exec, params_farm)
+RunClump(
+  plink19_exec,
+  ref_plink,
+  target_plink,
+  out_prefix = as.null(),
+  results_dir,
+  ref_splitfile,
+  target_splitfile,
+  r2_vec = c(0.01, 0.05, 0.1, 0.2, 0.5, 0.8),
+  wc_base_vec = c(50, 100),
+  mem = 8000,
+  threads = 2,
+  params_farm = as.null()
+)
 }
 \arguments{
 \item{plink19_exec}{Plink binary execute file. Default "plink".}
+
+\item{ref_plink}{description}
+
+\item{target_plink}{description}
+
+\item{out_prefix}{description}
+
+\item{results_dir}{description}
+
+\item{ref_splitfile}{description}
+
+\item{target_splitfile}{description}
+
+\item{r2_vec}{description}
+
+\item{wc_base_vec}{description}
+
+\item{mem}{description}
+
+\item{threads}{description}
+
+\item{params_farm}{description}
 }
 \description{
 Perform clumping with plink1.9
