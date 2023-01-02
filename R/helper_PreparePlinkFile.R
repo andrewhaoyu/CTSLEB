@@ -19,7 +19,7 @@ helper_PreparePlinkFile <- function(plink_list,
   scores <- this.plink_list[[1]]
   score_file <- paste0(temp.dir,"score_file")
   write.table(scores,
-              file = scores_file ,
+              file = score_file ,
               row.names = F,
               col.names = F,
               quote=F)
