@@ -1,4 +1,4 @@
-#' EBayesEffectSize
+#' CalculateEBEffectSize
 #'
 #' This function performs the entire Empirical-Bayes estimation of effect sizes
 #' workflow as outlined in step2 of the vignette
@@ -37,26 +37,35 @@ EBayesEffectSize <- function(bfile,
                          clump_info_post$BETA_EB_ref)
   colnames(post_coef_mat) <- c("EB_target","EB_ref")
 
-  plink_list_eb <- PreparePlinkFileEBayes(snp_list = snp_list,
+  plinklist_eb <- PreparePlinkFileEBayes(snp_list = snp_list,
                                           clump_info = clump_info,
                                           post_clump_info = clump_info_post,
                                           post_beta = post_coef_mat,
                                           results_dir = results_dir)
-  scores_eb <- plink_list_eb[[1]]
-  score_eb_file <- as.character(unlist(plink_list_eb["score_eb_file"]))
+
+  assign("best_snps", best_snp_set, envir = .GlobalEnv)
+  assign("unique_infor_post", clump_info_post, envir = .GlobalEnv)
+  assign("plink_list_eb", plinklist_eb, envir = .GlobalEnv)
+
+  scores_eb <- plinklist_eb[[1]]
+  score_eb_file <- as.character(unlist(plinklist_eb["score_eb_file"]))
   write.table(scores_eb,
               file = score_eb_file,
               row.names = F,
               col.names = F,
               quote=F)
-  p_values_eb <- plink_list_eb[[2]]
+  p_values_eb <- plinklist_eb[[2]]
 
-  prs_mat_eb <- PRSscoreEBayes(bfile = bfile,
-                               eb_plink_list = plink_list_eb,
+  ebayes_prs <- PRSscoreEBayes(bfile = bfile,
+                               eb_plink_list = plinklist_eb,
                                plink_list = plink_list,
                                results_dir = results_dir,
                                out_prefix = outprefix,
                                params_farm = params_farm)
+
+  assign("scores_eb", scores_eb, envir = .GlobalEnv)
+  assign("score_eb_file", score_eb_file, envir = .GlobalEnv)
+  assign("p_values_eb", p_values_eb, envir = .GlobalEnv)
 
   return(prs_mat_eb)
 
