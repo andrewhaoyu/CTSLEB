@@ -48,7 +48,7 @@ PRSscoreEBayes <- function(plink2_exec = "plink2 ",
                                            memory = memory,
                                            results_dir = results_dir,
                                            out_prefix = out_prefix)
-  scores_eb <- plink_list_eb[[1]]
+  scores_eb <- eb_plink_list[[1]]
   this_prs_mat <- helper_CombinePRS(scores = scores_eb,
                                     pthres = pthres,
                                     prs_p_other_ = this_prs_p_other_)
