@@ -2,34 +2,34 @@
 library(CTSLEB)
 library(data.table)
 
-results.dir <- "test/"
-data.dir <- "data/"
-temp.dir <- "test/temp/"
-system(paste0("mkdir -p ", temp.dir))
+results <- "test/"
+data <- "data/"
+temp <- "test/temp/"
+system(paste0("mkdir -p ", temp))
 setwd('~/projects/CTSLEB_dev/')
 plink19_exec <- "~/Apps/plink_v1.9/plink"
 plink2_exec <- "~/Apps/plink2a/plink2"
 
-# Step 1: Two-dimensional Clumping and Thresholding (CT)
+# STEP 1: Two-dimensional Clumping and Thresholding (CT)
 
 # Load summary statistics data for the reference (EUR) and the target (AFR)
 # populations
 
-sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
-sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
+sum_EUR <- fread(paste0(data,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data,"AFR_sumdata.txt"),header=T)
 head(sum_EUR)
 head(sum_AFR)
 
 library(dplyr)
 
-Eur_ref_plinkfile <- paste0(data.dir,"EUR_ref_chr22")
-Afr_ref_plinkfile <- paste0(data.dir,"AFR_ref_chr22")
-Afr_test_plinkfile <- paste0(data.dir,"AFR_test_chr22")
+Eur_ref_plinkfile <- paste0(data,"EUR_ref_chr22")
+Afr_ref_plinkfile <- paste0(data,"AFR_ref_chr22")
+Afr_test_plinkfile <- paste0(data,"AFR_test_chr22")
 outprefix <- "chr22"
 PRS_farm <- SetParamsFarm(plink19_exec = plink19_exec,
                           plink2_exec = plink2_exec)
 
-prs_mat <- dimCT(results_dir = results.dir,
+prs_mat <- dimCT(results_dir = results,
                  sum_target = sum_AFR,
                  sum_ref = sum_EUR,
                  ref_plink = Eur_ref_plinkfile,
@@ -58,6 +58,6 @@ print(colnames(prs_tune)[max_ind+2])
 prs_mat_eb <-EBayesEffectSize(bfile = Afr_test_plinkfile,
                               prs_tune = prs_tune,
                               plink_list = plink_list,
-                              results_dir = results.dir,
+                              results_dir = results,
                               out_prefix = outprefix,
                               params_farm = PRS_farm)
