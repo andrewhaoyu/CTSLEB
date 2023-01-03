@@ -67,7 +67,7 @@ CalculateEBEffectSize <- function(bfile,
   assign("score_eb_file", score_eb_file, envir = .GlobalEnv)
   assign("p_values_eb", p_values_eb, envir = .GlobalEnv)
 
-  return(prs_mat_eb)
+  return(ebayes_prs)
 
 }
 
