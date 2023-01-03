@@ -56,8 +56,8 @@ print(colnames(prs_tune)[max_ind+2])
 # Step 2: Empirical-Bayes (EB) Estimation of Effect Sizes
 
 prs_mat_eb <-CalculateEBEffectSize(bfile = Afr_test_plinkfile,
-                              prs_tune = prs_tune,
-                              plink_list = plink_list,
-                              results_dir = results,
-                              out_prefix = outprefix,
-                              params_farm = PRS_farm)
+                                   prs_tune = prs_tune,
+                                   plink_list = plink_list,
+                                   results_dir = results,
+                                   out_prefix = outprefix,
+                                   params_farm = PRS_farm)
