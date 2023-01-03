@@ -10,7 +10,6 @@
 #' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
 #' score, threads, memory, out, score_farm)
 #' @export
-#' @examples
 
 
 PRS_tune <- function(x,
