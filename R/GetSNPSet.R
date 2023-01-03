@@ -6,8 +6,7 @@
 #'
 #' @return the SNP set
 #' @export
-#'
-#' @examples
+
 GetSNPSet <- function(snp_ind,
                       scores,
                       clump_info){
@@ -21,17 +20,8 @@ GetSNPSet <- function(snp_ind,
 
   scores_name <- paste0("clump_r2_",r2,"_ws_",ws)
   idx <- which(colnames(scores)==scores_name)
-
-  #take the post-clupmping SNPs with particular r2-cutoff and window size by removing SNPs with coefficients 0
-
   ld <- scores[scores[,idx]!=0,"SNP",drop=F]
-
-  #take the p_value cutoff
-
   ld_infor <- left_join(ld,clump_info,by="SNP")
-
-  #take the SNP with p_eur < p_other_cutoff | p_tar < p_tar_cutoff
-
   snp_ind <- which(ld_infor$P_ref <= p_ref_cutoff|
                      ld_infor$P <= p_tar_cutoff)
   this_snp <- ld_infor[snp_ind,]

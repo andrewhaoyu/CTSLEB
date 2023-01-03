@@ -4,7 +4,7 @@
 \alias{GetSNPSet}
 \title{Get the SNP set for estimating the covariance matrix of prior distribution in empirical Bayes method}
 \usage{
-GetSNPSet(snp_set_ind, score_file, unique_infor)
+GetSNPSet(snp_ind, scores, clump_info)
 }
 \arguments{
 \item{snp_set_ind}{the SNP set index}

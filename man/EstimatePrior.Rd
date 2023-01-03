@@ -4,7 +4,7 @@
 \alias{EstimatePrior}
 \title{Estimate the covariance matrix for the prior distribution used in EB step}
 \usage{
-EstimatePrior(SNP_set)
+EstimatePrior(x)
 }
 \arguments{
 \item{SNP_set}{the SNP set from CT step for estimating the covariance matrix for the prior distribution}
