@@ -10,7 +10,7 @@ dog_function(love=FALSE)
 
 data <- "data/"
 results <- "test/"
-temp <- paste0(results_dir,"temp/")
+temp <- paste0(results,"temp/")
 #system(paste0("mkdir -p ", temp))
 
 plink19_exec <- "~/Apps/plink_v1.9/plink"
