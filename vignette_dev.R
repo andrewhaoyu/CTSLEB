@@ -53,7 +53,7 @@ for(p_ind in 1:n.total.prs){
 max_ind <- which.max(prs_r2_vec_test)
 print(colnames(prs_tune)[max_ind+2])
 
-# Step 2: Empirical-Bayes (EB) Estimation of Effect Sizes
+# STEP 2: Empirical-Bayes (EB) Estimation of Effect Sizes
 
 prs_mat_eb <-CalculateEBEffectSize(bfile = Afr_test_plinkfile,
                                    prs_tune = prs_tune,
