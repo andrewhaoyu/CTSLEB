@@ -2,7 +2,7 @@
 
 export(AlignSum)
 export(AlignSumMulti)
-export(EBayesEffectSize)
+export(CalculateEBEffectSize)
 export(EBayesPostMean)
 export(EBpost)
 export(EBpostMulti)

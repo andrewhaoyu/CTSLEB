@@ -1,6 +1,6 @@
 #' CalculateEBEffectSize
 #'
-#' This function performs the entire Empirical-Bayes estimation of effect sizes
+#' Performs the entire Empirical-Bayes estimation of effect sizes
 #' workflow as outlined in step2 of the vignette
 #' @param bfile description
 #' @param plink2_exec description
@@ -14,7 +14,7 @@
 #' @keywords plink1.9 clump
 #' @export
 
-EBayesEffectSize <- function(bfile,
+CalculateEBEffectSize <- function(bfile,
                              prs_tune,
                              plink_list,
                              memory = 8000,
@@ -22,7 +22,7 @@ EBayesEffectSize <- function(bfile,
                              out_prefix,
                              results_dir,
                              params_farm = as.null()){
-  print("Executing EBayesEffectSize() ... ")
+  print("Executing CalculateEBEffectSize() ... ")
   scores <- plink_list[[1]]
   clump_info <- plink_list[[3]]
 

@@ -37,17 +37,14 @@ helper_ebscore_loop <- function(plink2_exec,
   p_values_eb_file <- as.character(unlist(eb_plink_list["p_values_eb_file"]))
   score_eb_file <- as.character(unlist(eb_plink_list["score_eb_file"]))
   q_range_file <- as.character(unlist(plink_list["q_range_file"]))
-  prs_p_other_ <- paste0(temp.dir, outfile_prefix, "prs_p_other_")
+  prs_p_other_ <- paste0(temp_dir, outfile_prefix, "prs_p_other_")
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- p_values_eb
 
   for(k1 in 1:length(pthres)){
     idx <- which(clump_info$P_ref <= pthres[k1])
-    #print(this_unique_infor$P_ref[1:20])
-    #print(str(this_unique_infor))
     print(paste0("pthres: ", pthres[k1]))
     print(class(pthres[k1]))
-    #print(idx[1:20])
     p_values_temp$P[idx] <- 0
     print(paste0("Number of variants less than pthres :",
                  sum(p_values_temp$P == 0)))

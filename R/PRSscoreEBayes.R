@@ -27,7 +27,7 @@ PRSscoreEBayes <- function(plink2_exec = "plink2 ",
                            out_prefix = as.null(),
                            params_farm=as.null()){
 
-  print("executing PRSscore()... ")
+  print("executing PRSscoreEbayes()... ")
   if (is.null(params_farm)) {
     print("no params_farm")
   } else {
