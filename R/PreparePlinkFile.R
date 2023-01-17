@@ -9,6 +9,25 @@
 #' @return Creates either the global variables 'scores', 'p_values',
 #' 'q_range' and 'unique_infor' or the variable 'plink_list' which contains the
 #' four dataframes in a list
+#' * unique_infor
+#' + unique_infor contains the information for all SNPs after the clumping step
+#' + Target population: SNP, CHR, BP, A1 (effect_allele), BETA, SE and P
+#' + Reference population: BETA_other, SE_other, and P_other
+#' * scores
+#' + First column contains the unique SNPs after clumping results under all
+#' combinations of r2-cutoff and window_size
+#' + Second column is the effect allele
+#' + Remaining columns contain the regression coefficients of the target population
+#' for SNPs after LD-clumping under a specific combination of r2-cutoff and
+#' base_window_size
+#' * p_values
+#' + First column is the same as score_file
+#' + Second column contains the p-values of SNPs from the GWAS sumstats for the
+#' target population
+#' * q-range
+#' + CreateQRange(pthres)
+#' + First column cotains the filename
+#' + small_P and max_P columns are minimum and maximum p values
 #' @export
 
 PreparePlinkFile <- function(snp_list = snp_list,
@@ -31,6 +50,7 @@ PreparePlinkFile <- function(snp_list = snp_list,
 
   #align the regression coefficients for these SNPs from the sum stat
 
+  #clump_info <- left_join(unique_id,sum_com,by="SNP")
   unique_infor <- left_join(unique_id,sum_com,by="SNP")
   print("unique_infor dataframe complete")
 
@@ -38,20 +58,23 @@ PreparePlinkFile <- function(snp_list = snp_list,
 
   n_col <- length(snp_list)
   n_row <- nrow(unique_infor)
+  #beta_mat <- matrix(clump_info$BETA,nrow =n_row,ncol =n_col)
   beta_mat <- matrix(unique_infor$BETA,nrow =n_row,ncol =n_col)
   names <- rep("c",n_col)
   temp <- 1
   for(ldx in seq(n_col)){
     LD <- snp_list[[ldx]]
     names(LD) <- "SNP"
+    #idx <- which(clump_info$SNP%in%LD$SNP==F)
     idx <- which(unique_infor$SNP%in%LD$SNP==F)
     beta_mat[idx,ldx] <- 0
     names[ldx] <- names(snp_list[[ldx]])
   }
   colnames(beta_mat) <- names
-
+  #scores <- data.frame(SNP = unique_id,A1 = clump_info$A1,beta_mat)
   scores <- data.frame(SNP = unique_id,A1 = unique_infor$A1,beta_mat)
   print("scores dataframe complete")
+  #p_values <- data.frame(SNP = unique_id,P = clump_info$P)
   p_values <- data.frame(SNP = unique_id,P = unique_infor$P)
   print("p_values dataframe complete")
   q_range <- CreateQRange(pthres)

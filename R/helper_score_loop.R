@@ -53,11 +53,8 @@ helper_score_loop <- function(plink2_exec,
 
   for(k1 in 1:length(pthres)){
     idx <- which(unique_infor$P_ref <= pthres[k1])
-    #print(unique_infor$P_ref[1:20])
-    #print(str(unique_infor))
     print(paste0("pthres: ", pthres[k1]))
     print(class(pthres[k1]))
-    #print(idx[1:20])
     p_values_temp$P[idx] <- 0
     print(paste0("Number of variants less than pthres :",
                  sum(p_values_temp$P == 0)))
