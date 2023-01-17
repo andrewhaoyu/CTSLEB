@@ -1,0 +1,183 @@
+---
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# CT-SLEB
+
+## Overview
+
+This vignette provides a tutorial on the CT-SLEB method. CT-SLEB is a 
+multi-ancestry polygenic risk score (PRS) method using summary statistics from 
+genome wide association studies (GWAS) of multiple populations. The method contains 
+three major steps: 1. Two-dimensional clumping and thresholding to select SNPs; 
+2. Empirical-Bayes method to estimate the effect sizes for the SNPs; 3. Super-
+learning step to combine PRSs under different tuning parameters (p-value thresholds, 
+clumping window size, r2-cutoff). PLINK 1.90 is used for clumping (flag: --clump), 
+which is not supported in PLINK 2.0. PLINK 2.0 is for calculating PRSs (command: 
+--score) with multiple effect size columns simultaneously (--score-col-nums). 
+Additional R packages are used for implementing empirical-Bayes and super-learning 
+steps. Both PLINK1.9 and PLINK2.0 is must be installed on your computer or sever
+since they are called directly from R using the system() function. Users can also 
+directly call plink through the terminal.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+#install("~/projects/CTSLEB_dev/CTSLEB")
+library(CTSLEB)
+library(dplyr)
+library(data.table)
+```
+
+```{r}
+data_dir <- "data/"
+results_dir <- "test/"
+temp_dir <- paste0(results_dir,"temp/")
+system(paste0("mkdir -p ", temp_dir))
+
+plink19_exec <- "~/Apps/plink_v1.9/plink"
+plink2_exec <- "~/Apps/plink2a/plink2"
+
+EUR_sumstats_file <- paste0(data_dir,"EUR_sumdata.txt") #  reference cohort
+AFR_sumstats_file <- paste0(data_dir,"AFR_sumdata.txt") #  target cohort
+
+Eur_ref_plinkfile <- paste0(data_dir,"EUR_ref_chr22")
+Afr_ref_plinkfile <- paste0(data_dir,"AFR_ref_chr22")
+Afr_test_plinkfile <- paste0(data_dir,"AFR_test_chr22")
+outprefix <- "chr22"
+```
+# Step 1: Two-dimensional Clumping and Thresholding (CT)
+
+To demonstrate this method, we will use the GWAS summary statistics from Chromosome 
+22 for the European (EUR) reference population to construct PRS for a African (AFR) 
+target population. First, we load the GWAS summary statistics for two populations. 
+The summary statistics contain these columns: 1. CHR; 2. SNP: the SNP ID used in 
+1000 Genomes Project Phase 3 Data (1KG); 3. BP: SNP position (GRCh37); 4. A1: 
+effect allele; 5. BETA: effect size; 6. SE: standard error of the effect size 7. 
+P: p-value for the association test; 8. rs_id: the rsid of the SNP.
+
+Step1 extends the single ancestry clumping and thresholding method (CT) to the 
+multi-ancestry setting. Instead of only applying the CT method on either the 
+reference or the target population, CT uses two-different p-value cutoffs to select 
+variants.
+
+CT starts with the clumping step. We split the SNPs into two groups: 1. SNPs with 
+p-values in the reference population smaller than the target population. 2. Target 
+population-specific SNPs or SNPs with p-values in the target population smaller 
+than the reference population. SNPs are clumped using the linkage disequilibrium 
+(LD) estimates from the reference population for the first group. Next, SNPs are 
+clumped using the LD estimates from the target population. After the clumping, 
+SNPs from the two groups are combined for thresholding based on the target group.
+
+```{r}
+# Align SNPs Across Populations
+
+sum_EUR <- fread(EUR_sumstats_file,header=T)
+sum_AFR <- fread(AFR_sumstats_file,header=T)
+
+head(sum_EUR)
+head(sum_AFR)
+```
+The SNPs and effect alleles in the reference and target populations are not 
+the same; therefore, we align the SNPs and the alleles with the target population
+using the AlignSum() function. Setting the option "write_tables = TRUE" will write
+the files which are read by PLINK. If "write_tables = FALSE", you will need to 
+use the WriteSplitTables() function or write your own write.table() code
+```{r}
+sum_com <- AlignSum(sum_target = sum_AFR,
+                    sum_ref = sum_EUR)
+head(sum_com)
+
+write_list <- SplitSum(x = sum_com,
+                       results_dir = results_dir,
+                       write_tables = TRUE)
+```
+The RunClump()function is wrapper for PLINK1.9 clumping iterating through a set 
+of r square values and window sizes. In order to simply using PLINK and its 
+various clumping and score parameters, use the SetParamsFarm() function to create 
+a list of plink execution commands and default or custom parameters for base 
+window size, r square, p threshold, memory and threads. RunClump() returns a list
+of SNPs ID with different clumping parameters.
+```{r, include = FALSE}
+PRS_farm <- SetParamsFarm(plink19_exec = plink19_exec,
+                          plink2_exec = plink2_exec)
+snp_list <- RunClump(params_farm = PRS_farm,
+                     plink19_exec = plink19_exec,
+                     ref_plink = Eur_ref_plinkfile,
+                     target_plink = Afr_ref_plinkfile,
+                     ref_splitfile = ref_split_file,
+                     target_splitfile = target_split_file,
+                     out_prefix = outprefix,
+                     results_dir = results_dir)
+```
+Next we move to the thresholding step.  by varying p-value thresholds on both the European and the target populations. We use the regression coefficients from the target population to construct the PRS with the”--score-col-nums” command in PLINK2.0 To implement this step, we need to create a file with coefficients for PRSs under different clumping parameters.
+
+PLINK2 will need three files to compute PRS under different thresholds. The first 
+file is a score_file containing the SNP coefficients. The second file 
+is a p_value_file containing the SNP p_value. The third file is a q_range 
+file with p_value thresholds. The PreparePlinkFile() will create 
+four data frames, which in turn will be used to create the files and data frames
+required by PLINK2.0. Please view the PreparePlinkFile() documentation for a 
+description of the dataframe columns. The default p threshold values are 5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01 and 1.0. A custom threshold vector
+can be passed to the PreparePlinkFile() either as an argument or part of the 
+params_farm list. We recommend using the params_farm list.
+
+```{r}
+list_plink <- PreparePlinkFile(params_farm = PRS_farm,
+                               snp_list = snp_list,
+                               sum_com = sum_com,
+                               results_dir = results_dir)
+scores <- list_plink[[1]]
+score_file <- paste0(temp_dir,"score_file")
+write.table(scores,
+            file = score_file ,
+            row.names = F,
+            col.names = F,
+            quote=F)
+
+p_values <- list_plink[[2]]
+p_value_file <- paste0(temp_dir,"p_value_file")
+
+unique_infor <- list_plink[[3]]
+
+q_range <- list_plink[[4]]
+q_range_file <- paste0(temp_dir,"q_range_file")
+
+write.table(q_range,
+            file = q_range_file,
+            row.names = F,
+            col.names = F,
+            quote=F)
+
+```
+The PRSscore() function iterates through the p threshold vector. The list of 
+files which PLINK2 requires is passed through the plink_list parameter.  
+```{r}
+names <- c("score_file","p_value_file","q_range_file")
+values <- list(score_file, p_value_file, q_range_file)
+file_list <- setNames(values, names)
+list_plink <- c(list_plink,file_list)
+names(list_plink)
+```
+#the coefficients is put as 0 if a SNP doesn't exist in the clumping results under a specific combination of r2-cutoff and base_window_size
+```{r}
+prs_mat <- PRSscore(params_farm = PRS_farm,
+                    plink2_exec = plink2_exec,
+                    bfile = Afr_test_plinkfile,
+                    plink_list = list_plink,
+                    out_prefix = outprefix,
+                    results_dir = results_dir)
+```
+
+In this example, we only use one chromosome 22. If you are using workflow (i.e. 
+Snakemake) which dispatches jobs by chromosome or chunks, you will need to combine 
+the snp_list for all the jobs together before the Ebayes step. The order of 
+clumping parameters is the same for each job.
+
+
+
