@@ -371,13 +371,6 @@ implementing empirical-Bayes and super-learning steps. Both PLINK1.9 and
 PLINK2.0 is must be installed on your computer or sever since they are
 called directly from R using the system() function. Users can also
 directly call plink through the terminal.</p>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
 <pre class="r"><code>#install(&quot;~/projects/CTSLEB_dev/CTSLEB&quot;)
 library(CTSLEB)
 library(dplyr)</code></pre>
@@ -572,9 +565,11 @@ list_plink &lt;- c(list_plink,file_list)
 names(list_plink)</code></pre>
 <pre><code>## [1] &quot;scores&quot;       &quot;p_values&quot;     &quot;unique_infor&quot; &quot;q_range&quot;      &quot;score_file&quot;  
 ## [6] &quot;p_value_file&quot; &quot;q_range_file&quot;</code></pre>
-<p>#the coefficients is put as 0 if a SNP doesn’t exist in the clumping
-results under a specific combination of r2-cutoff and
-base_window_size</p>
+<p>The PRSscore function is a wrapper for PLINK2. This function will 1)
+iternate through the p thresholds vector 2) select reference cohort SNPs
+with p-values less than cutoff2 and set these p values to 0 adn
+guarantee their selection 3) perform PLINK2 –score 4) combine all the
+PRSs into matrix</p>
 <pre class="r"><code>prs_mat &lt;- PRSscore(params_farm = PRS_farm,
                     plink2_exec = plink2_exec,
                     bfile = Afr_test_plinkfile,
@@ -713,11 +708,258 @@ base_window_size</p>
 ## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_9.sscore&quot;
 ## [1] &quot;prs_mat complete... &quot;
 ## [1] &quot;prs_mat object created&quot;</code></pre>
+<div id="alternative" class="section level2">
+<h2>Alternative</h2>
+<p>Most of the data processing steps can also be executed with a single
+function dimCT(). We recommend using a params_farm list with this
+function.</p>
+<pre class="r"><code>EUR_sumstats_file &lt;- paste0(data_dir,&quot;EUR_sumdata.txt&quot;) #  reference cohort
+AFR_sumstats_file &lt;- paste0(data_dir,&quot;AFR_sumdata.txt&quot;) #  target cohort
+
+Eur_ref_plinkfile &lt;- paste0(data_dir,&quot;EUR_ref_chr22&quot;)
+Afr_ref_plinkfile &lt;- paste0(data_dir,&quot;AFR_ref_chr22&quot;)
+Afr_test_plinkfile &lt;- paste0(data_dir,&quot;AFR_test_chr22&quot;)
+outprefix &lt;- &quot;chr22&quot;
+
+sum_EUR &lt;- fread(EUR_sumstats_file,header=T)
+sum_AFR &lt;- fread(AFR_sumstats_file,header=T)
+
+PRS_farm &lt;- SetParamsFarm(plink19_exec = plink19_exec,
+                          plink2_exec = plink2_exec)</code></pre>
+<pre><code>## $plink19_exec
+## [1] &quot;~/Apps/plink_v1.9/plink&quot;
+## 
+## $plink2_exec
+## [1] &quot;~/Apps/plink2a/plink2&quot;
+## 
+## $r2_vec
+## [1] 0.01 0.05 0.10 0.20 0.50 0.80
+## 
+## $wc_base_vec
+## [1]  50 100
+## 
+## $pthres
+## [1] 5e-08 5e-07 5e-06 5e-05 5e-04 5e-03 5e-02 5e-01 1e+00
+## 
+## $threads
+## [1] 2
+## 
+## $mem
+## [1] 8000</code></pre>
+<pre class="r"><code>prs_mat &lt;- dimCT(results_dir = results_dir,
+                 sum_target = sum_AFR,
+                 sum_ref = sum_EUR,
+                 ref_plink = Eur_ref_plinkfile,
+                 target_plink = Afr_ref_plinkfile,
+                 test_target_plink = Afr_test_plinkfile,
+                 out_prefix = outprefix,
+                 params_farm = PRS_farm)</code></pre>
+<pre><code>## [1] &quot;params_farm list will be used&quot;
+## [1] &quot;executing AlignSum()&quot;
+## [1] &quot;AlignSum() complete ...&quot;
+## [1] &quot;executing SplitSum() ...&quot;
+## [1] &quot;executing WriteSplitTables()... &quot;
+## [1] &quot;creating sum_ref object&quot;
+## [1] &quot;creating sum_target object&quot;
+## [1] &quot;WriteSplitTables() complete ... &quot;
+## [1] &quot;executing RunClump()... &quot;
+## [1] &quot;RunClump() params_farm list will be used&quot;
+## [1] &quot;out_prefix: chr22&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_1_wcind_1.clumped and test/temp/chr22_target_CT_rind_1_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.01_ws_5000&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_1_wcind_2.clumped and test/temp/chr22_target_CT_rind_1_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.01_ws_10000&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_2_wcind_1.clumped and test/temp/chr22_target_CT_rind_2_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.05_ws_1000&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_2_wcind_2.clumped and test/temp/chr22_target_CT_rind_2_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.05_ws_2000&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_3_wcind_1.clumped and test/temp/chr22_target_CT_rind_3_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.1_ws_500&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_3_wcind_2.clumped and test/temp/chr22_target_CT_rind_3_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.1_ws_1000&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_4_wcind_1.clumped and test/temp/chr22_target_CT_rind_4_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.2_ws_250&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_4_wcind_2.clumped and test/temp/chr22_target_CT_rind_4_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.2_ws_500&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_5_wcind_1.clumped and test/temp/chr22_target_CT_rind_5_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.5_ws_100&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_5_wcind_2.clumped and test/temp/chr22_target_CT_rind_5_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.5_ws_200&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_6_wcind_1.clumped and test/temp/chr22_target_CT_rind_6_wcind_1.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.8_ws_62.5&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;Plink19Clump() params_farm list will be used&quot;
+## [1] &quot;binding rows for test/temp/chr22_ref_CT_rind_6_wcind_2.clumped and test/temp/chr22_target_CT_rind_6_wcind_2.clumped&quot;
+## [1] &quot;creating snp list for clump_r2_0.8_ws_125&quot;
+## [1] &quot;RunClump() complete ...&quot;
+## [1] &quot;executing PreparePlinkFile()... &quot;
+## [1] &quot;params_farm list will be used&quot;
+## [1] &quot;unique_infor dataframe complete&quot;
+## [1] &quot;scores dataframe complete&quot;
+## [1] &quot;p_values dataframe complete&quot;
+## [1] &quot;executing CreateQRange()... &quot;
+## [1] &quot;CreateQRange() complete... &quot;
+## [1] &quot;PreparePlinkFile() complete ...&quot;
+## [1] &quot;executing PRSscore()... &quot;
+## [1] &quot;params_farm list will be used&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 5e-08&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :13&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 5e-07&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :21&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 5e-06&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :33&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 5e-05&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :59&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 5e-04&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :109&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 0.005&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :276&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 0.05&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :1067&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 0.5&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :7681&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;pthres: 1&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;Number of variants less than pthres :15555&quot;
+## [1] &quot;writing test/temp/p_value_file&quot;
+## [1] &quot;no params_farm&quot;
+## [1] &quot;combining PRS results ...&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_1.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_2.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_3.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_4.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_5.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_6.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_7.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_8.p_tar_9.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_1.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_2.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_3.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_4.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_5.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_6.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_7.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_8.sscore&quot;
+## [1] &quot;reading :test/temp/chr22_prs_p_other_9.p_tar_9.sscore&quot;
+## [1] &quot;prs_mat complete... &quot;
+## [1] &quot;prs_mat object created&quot;</code></pre>
 <p>In this example, we only use one chromosome 22. If you are using
 workflow (i.e.  Snakemake) which dispatches jobs by chromosome or
 chunks, you will need to combine the snp_list for all the jobs together
 before the Ebayes step. The order of clumping parameters is the same for
 each job.</p>
+</div>
 </div>
 
 

@@ -23,10 +23,6 @@ steps. Both PLINK1.9 and PLINK2.0 is must be installed on your computer or sever
 since they are called directly from R using the system() function. Users can also 
 directly call plink through the terminal.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
 ```{r}
 #install("~/projects/CTSLEB_dev/CTSLEB")
 library(CTSLEB)
@@ -164,7 +160,11 @@ file_list <- setNames(values, names)
 list_plink <- c(list_plink,file_list)
 names(list_plink)
 ```
-#the coefficients is put as 0 if a SNP doesn't exist in the clumping results under a specific combination of r2-cutoff and base_window_size
+The PRSscore function is a wrapper for PLINK2. This function will 1) iternate
+through the p thresholds vector 2) 
+select reference cohort SNPs with p-values less than cutoff2 and set these p values
+to 0 adn guarantee their selection 3) perform PLINK2 --score 4) combine all the
+PRSs into matrix
 ```{r}
 prs_mat <- PRSscore(params_farm = PRS_farm,
                     plink2_exec = plink2_exec,
@@ -173,11 +173,36 @@ prs_mat <- PRSscore(params_farm = PRS_farm,
                     out_prefix = outprefix,
                     results_dir = results_dir)
 ```
+## Alternative
+Most of the data processing steps can also be executed with a single function 
+dimCT(). We recommend using a params_farm list with this function.
+```{r}
+EUR_sumstats_file <- paste0(data_dir,"EUR_sumdata.txt") #  reference cohort
+AFR_sumstats_file <- paste0(data_dir,"AFR_sumdata.txt") #  target cohort
 
+Eur_ref_plinkfile <- paste0(data_dir,"EUR_ref_chr22")
+Afr_ref_plinkfile <- paste0(data_dir,"AFR_ref_chr22")
+Afr_test_plinkfile <- paste0(data_dir,"AFR_test_chr22")
+outprefix <- "chr22"
+
+sum_EUR <- fread(EUR_sumstats_file,header=T)
+sum_AFR <- fread(AFR_sumstats_file,header=T)
+
+PRS_farm <- SetParamsFarm(plink19_exec = plink19_exec,
+                          plink2_exec = plink2_exec)
+
+prs_mat <- dimCT(results_dir = results_dir,
+                 sum_target = sum_AFR,
+                 sum_ref = sum_EUR,
+                 ref_plink = Eur_ref_plinkfile,
+                 target_plink = Afr_ref_plinkfile,
+                 test_target_plink = Afr_test_plinkfile,
+                 out_prefix = outprefix,
+                 params_farm = PRS_farm)
+```
 In this example, we only use one chromosome 22. If you are using workflow (i.e. 
 Snakemake) which dispatches jobs by chromosome or chunks, you will need to combine 
 the snp_list for all the jobs together before the Ebayes step. The order of 
 clumping parameters is the same for each job.
-
 
 
