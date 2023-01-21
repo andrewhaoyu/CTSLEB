@@ -2,16 +2,18 @@
 % Please edit documentation in R/EBayesPostMean.R
 \name{EBayesPostMean}
 \alias{EBayesPostMean}
-\title{EBayesPostMean}
+\title{Estimate the EB posterior mean}
 \usage{
 EBayesPostMean(clump_info, snp_set)
+
+EBayesPostMean(x,y)
 }
 \arguments{
-\item{clump_info}{description}
+\item{x}{unique_infor data.frame from PreparePlinkFile()}
 
-\item{snp_set}{description}
+\item{y}{SNP data.frame from GetSNPSet()}
 }
 \description{
-This function performs the entire Empirical-Bayes estimation of effect sizes
-workflow as outlined in step2 of the vignette
+Estimate the EB posterior mean for SNPs in the unique_infor data.frame from
+PreparePlinkFile()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PreparePlinkFile.R
 \name{PreparePlinkFile}
 \alias{PreparePlinkFile}
-\title{Prepare the files for PLINK2 to calculate PRSs}
+\title{Prepare the data frames for PLINK2 --score routine}
 \usage{
 PreparePlinkFile(
   snp_list = snp_list,
@@ -13,20 +13,63 @@ PreparePlinkFile(
 )
 }
 \arguments{
-\item{snp_list}{the snp_list result from the two-dimensional clumping}
+\item{snp_list}{The snp_list object from RunClump().}
 
-\item{sum_com}{the sum_com result from the AlignSum function.}
+\item{sum_com}{the sum_com result from AlignSum().}
 
 \item{pthres}{vector of p-value thresholds. Default
 c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
 
-\item{results_dir}{description}
+\item{results_dir}{Folder or directory to export files.}
 }
 \value{
-Creates either the global variables 'scores', 'p_values',
-'q_range' and 'unique_infor' or the variable 'plink_list' which contains the
-four dataframes in a list
+List with data frames scores [[1]], p_values [[2]],
+unique_infor [[3]] and q_range [[4]]. The scores data.frame first column
+contains the unique SNPs for the LD clumping combinations. The second column
+is the effect allele. The third through last columns contain the regression
+coefficients of the target population for SNPs after the LD-clumping combination.
+The coefficients is set to 0 if a SNP doesn't exist in that clumping combination.
+The p_value data.frame first column is the same as scores. The second column
+contains the p-values for the SNPs from the target population GWAS. The
+unique_infor data.frame contains the information for SNPs after the clumping
+step; SNP, CHR, BP, A1 (effect_allele), (BETA, SE, P) for the target population,
+(BETA_other, SE_other,P_other) for the reference  population
 }
 \description{
-Calls helper_return_list() and helper_CreateQRange()
+Prepares the scores, p_values, unique_infor and q_range data frames required
+for PLINK2 --score routine
+}
+\examples{
+data <- "data/"
+results <- "test/"
+temp <- paste0(results,"temp/")
+plink19_exec <- "~/Apps/plink_v1.9/plink"
+plink2_exec <- "~/Apps/plink2a/plink2"
+
+sum_EUR <- fread(paste0(data,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data,"AFR_sumdata.txt"),header=T)
+
+Eur_ref_plinkfile <- paste0(data,"EUR_ref_chr22")
+Afr_ref_plinkfile <- paste0(data,"AFR_ref_chr22")
+Afr_test_plinkfile <- paste0(data,"AFR_test_chr22")
+outprefix <- "chr22"
+
+PRS_farm <- SetParamsFarm(plink19_exec = plink19_exec,
+                          plink2_exec = plink2_exec)
+sum_com <- AlignSum(sum_target = sum_AFR,
+                    sum_ref = sum_EUR)
+write_list <- SplitSum(x = sum_com,
+                       results_dir = results)
+snp_list <- RunClump(params_farm = PRS_farm,
+                     plink19_exec = plink19_exec,
+                     ref_plink = Eur_ref_plinkfile,
+                     target_plink = Afr_ref_plinkfile,
+                     ref_splitfile = ref_split_file,
+                     target_splitfile = target_split_file,
+                     out_prefix = outprefix,
+                     results_dir = results)
+plink_list <- PreparePlinkFile(params_farm = PRS_farm,
+                               snp_list = snp_list,
+                               sum_com = sum_com,
+                               results_dir = results_dir)
 }

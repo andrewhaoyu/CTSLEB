@@ -23,7 +23,7 @@ SetParamsFarm(
 global 'wc_base_vec' since it is required in other workflow sections. Defaults
 to c(50,100)}
 
-\item{r2_vec}{r square vector. SetClumpFarm will automaticaly create the
+\item{r2_vec}{r square vector. SetClumpFarm will automatically create the
 global 'r2_vec' since it is required in other workflow sections. Defaults to
 c(0.01,0.05,0.1,0.2,0.5,0.8).}
 

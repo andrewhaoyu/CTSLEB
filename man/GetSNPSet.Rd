@@ -2,20 +2,22 @@
 % Please edit documentation in R/GetSNPSet.R
 \name{GetSNPSet}
 \alias{GetSNPSet}
-\title{Get the SNP set for estimating the covariance matrix of prior distribution in empirical Bayes method}
+\title{Get the best performance SNPS}
 \usage{
-GetSNPSet(snp_ind, scores, clump_info)
+GetSNPSe(snp_id, scores, clump_info)
 }
 \arguments{
-\item{snp_set_ind}{the SNP set index}
+\item{scores}{The scores dataframe from PreparePlinkFile output.}
 
-\item{score_file}{the score_file from PreparePlinkFile output}
+\item{clump_info}{The unique_infor from PreparePlinkFile output.}
 
-\item{unique_infor}{the unique_infor from PreparePlinkFile output}
+\item{snp_set_ind}{Column name from prs_mat (output from PRSscore()) with best
+performance against the tuning data set.}
 }
 \value{
-the SNP set
+data.frame of SNP performance metrics
 }
 \description{
-Get the SNP set for estimating the covariance matrix of prior distribution in empirical Bayes method
+Get the SNP set for estimating the covariance matrix of prior distribution in
+empirical Bayes method
 }

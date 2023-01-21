@@ -1,11 +1,15 @@
-#' Get the SNP set for estimating the covariance matrix of prior distribution in empirical Bayes method
+#' Get the best performance SNPS
+#' @description
+#' Get the SNP set for estimating the covariance matrix of prior distribution in
+#' empirical Bayes method
+#' @param snp_set_ind Column name from prs_mat (output from PRSscore()) with best
+#' performance against the tuning data set.
+#' @param scores The scores dataframe from PreparePlinkFile output.
+#' @param clump_info The unique_infor from PreparePlinkFile output.
 #'
-#' @param snp_set_ind the SNP set index
-#' @param score_file the score_file from PreparePlinkFile output
-#' @param unique_infor the unique_infor from PreparePlinkFile output
-#'
-#' @return the SNP set
+#' @return data.frame of SNP performance metrics
 #' @export
+#' @usage GetSNPSe(snp_id, scores, clump_info)
 
 GetSNPSet <- function(snp_ind,
                       scores,

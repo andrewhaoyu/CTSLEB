@@ -2,15 +2,11 @@
 % Please edit documentation in R/PreparePlinkFileEBayes.R
 \name{PreparePlinkFileEBayes}
 \alias{PreparePlinkFileEBayes}
-\title{PreparePlinkFileEBayes}
+\title{Prepare the data.frames and file names for the PLINK2 --score routine using
+EBayes coefficients}
 \usage{
-PreparePlinkFileEBayes(
-  snp_list,
-  clump_info,
-  post_clump_info,
-  post_beta,
-  results_dir
-)
+PreparePlinkFileEBayes(snp_list, clump_info, post_clump_info,
+post_beta, results_dir)
 }
 \arguments{
 \item{snp_list}{description}
@@ -23,9 +19,18 @@ PreparePlinkFileEBayes(
 
 \item{results_dir}{description}
 }
+\value{
+List of data.frames and file locations for Plink2; scores_eb [[1]],
+p_values_eb [[2]], score_eb_file [[3]], p_values_eb_file. The scores_eb data.frame
+first column contains the unique SNPs after LD clumping. The second column is
+the effect allele. The third through last columns contain the EBayes posterior
+mean for the reference and target populations for SNPs after specific LD clumping
+combinations. The coefficients are set to 0 if a SNP doesn't exist for the
+clumping combination. The p_value_eb data.frame first column is the same as
+scores_eb. The second column is the p-values for SNPs from the target population GWAS.
+}
 \description{
-This function performs the entire two-dimensional clumping and thresholding
-workflow (dimCT) as outlined in step1 of the vignette
+Create the PRS coefficients matrix for all ancestries.
 }
 \keyword{clump}
 \keyword{plink1.9}

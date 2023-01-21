@@ -7,15 +7,14 @@
 AlignSum(sum_target, sum_ref)
 }
 \arguments{
+\item{sum_target}{The GWAS summary statistics for the target population.}
+
 \item{sum_ref}{The GWAS summary statistics for the reference population.
 The most commonly used reference population is European.}
-
-\item{sum_tar}{The GWAS summary statistics for the target population.}
 }
 \value{
 data.frame object with ref population GWAS summary statistics
-aligned with target GWAS summary statistics. The resulting global variable is
-named "sum_com".
+aligned with target GWAS summary statistics.
 }
 \description{
 Align GWAS summary statistics for the reference population to the target population.
@@ -25,17 +24,12 @@ allele. BETA is the regression coefficients for linear regression, log-odds
 ratio for logistic regression. SE is the standard error for BETA.
 }
 \examples{
-data.dir <- "data/"
-temp.dir = "test/temp.dir/"
-sum_EUR <- fread(paste0(data.dir,"EUR_sumdata.txt"),header=T)
-sum_AFR <- fread(paste0(data.dir,"AFR_sumdata.txt"),header=T)
+data <- "data/"
+sum_EUR <- fread(paste0(data,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data,"AFR_sumdata.txt"),header=T)
 ref_split_file <- "sum_EUR.txt"
 target_split_file <- "sum_AFR.txt"
 
 AlignSum(sum_target = sum_AFR,
-         sum_ref = sum_EUR,
-         results_dir = results.dir,
-         ref_split_file = ref_split_file,
-         target_split_file = target_split_file,
-         SplitSum = TRUE)
+         sum_ref = sum_EUR)
 }

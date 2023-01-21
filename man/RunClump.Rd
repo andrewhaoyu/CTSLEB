@@ -2,7 +2,7 @@
 % Please edit documentation in R/RunClump.R
 \name{RunClump}
 \alias{RunClump}
-\title{Perform clumping with plink1.9}
+\title{LD clumping with plink1.9}
 \usage{
 RunClump(
   plink19_exec,
@@ -20,32 +20,65 @@ RunClump(
 )
 }
 \arguments{
-\item{plink19_exec}{Plink binary execute file. Default "plink".}
+\item{plink19_exec}{Plink1.9  binary execute file. Default "plink".}
 
-\item{ref_plink}{description}
+\item{ref_plink}{Plink binary files for the reference population.}
 
-\item{target_plink}{description}
+\item{target_plink}{Binary plink files for the target population.}
 
-\item{out_prefix}{description}
+\item{out_prefix}{Prefix for exported files. Recommended when plink files
+are divided by chromosome or chunks, i.e., "chr1" or "chr2", and CTSLEB
+script is dispatched in parallel.}
 
-\item{results_dir}{description}
+\item{results_dir}{Folder or directory to export files.}
 
-\item{ref_splitfile}{description}
+\item{ref_splitfile}{File name of reference file from SplitSum().}
 
-\item{target_splitfile}{description}
+\item{target_splitfile}{File name of target file from SplitSum().}
 
-\item{r2_vec}{description}
+\item{r2_vec}{r square vector. Used by Plink1.9 "--clump r^2" parameter.
+Defaults to c(0.01,0.05,0.1,0.2,0.5,0.8).}
 
-\item{wc_base_vec}{description}
+\item{wc_base_vec}{Base clumping window size. Defaults to c(50,100)}
 
-\item{mem}{description}
+\item{mem}{Plink1.9 "--memory" parameter. Defaults to 8000 mb}
 
-\item{threads}{description}
+\item{threads}{Plink1.9 "--threads" parameter. Defaults to 2}
 
-\item{params_farm}{description}
+\item{params_farm}{List of plink parameters produced from SetParamsFarm()}
 }
 \description{
-Perform clumping with plink1.9
+LD clumping with plink1.9
+}
+\examples{
+data <- "data/"
+results <- "test/"
+temp <- paste0(results,"temp/")
+plink19_exec <- "~/Apps/plink_v1.9/plink"
+plink2_exec <- "~/Apps/plink2a/plink2"
+
+sum_EUR <- fread(paste0(data,"EUR_sumdata.txt"),header=T)
+sum_AFR <- fread(paste0(data,"AFR_sumdata.txt"),header=T)
+
+Eur_ref_plinkfile <- paste0(data,"EUR_ref_chr22")
+Afr_ref_plinkfile <- paste0(data,"AFR_ref_chr22")
+Afr_test_plinkfile <- paste0(data,"AFR_test_chr22")
+outprefix <- "chr22"
+
+PRS_farm <- SetParamsFarm(plink19_exec = plink19_exec,
+                          plink2_exec = plink2_exec)
+sum_com <- AlignSum(sum_target = sum_AFR,
+                    sum_ref = sum_EUR)
+write_list <- SplitSum(x = sum_com,
+                       results_dir = results)
+snp_list <- RunClump(params_farm = PRS_farm,
+                     plink19_exec = plink19_exec,
+                     ref_plink = Eur_ref_plinkfile,
+                     target_plink = Afr_ref_plinkfile,
+                     ref_splitfile = ref_split_file,
+                     target_splitfile = target_split_file,
+                     out_prefix = outprefix,
+                     results_dir = results)
 }
 \keyword{clump}
 \keyword{plink1.9}

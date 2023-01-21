@@ -14,11 +14,11 @@ WriteSplitTables(
 \arguments{
 \item{x}{List containing data.frame objects created by SplitSum()}
 
-\item{refFile}{export path and prefix file name for ref data.frame
-Output file will be named "<refFile>_ref"}
+\item{ref_split_file}{Export path and prefix file name for ref data frame
+Output file will be named "<refFile>_ref.txt". Default sum_ref.txt.}
 
-\item{targetFile}{export path and prefix file name for target data.frame
-Output file will be named "<targetFile>_target"}
+\item{target_split_file}{Export path and prefix file name for target data frame
+Output file will be named "<targetFile>_target". Default sum_target.txt.}
 }
 \value{
 The ref and target aligned data.frames produced by SplitSum() are

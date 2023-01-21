@@ -1,7 +1,6 @@
-#' PreparePlinkFileEBayes
-#'
-#' This function performs the entire two-dimensional clumping and thresholding
-#' workflow (dimCT) as outlined in step1 of the vignette
+#' Prepare the data.frames and file names for the PLINK2 --score routine using
+#' EBayes coefficients
+#' @description Create the PRS coefficients matrix for all ancestries.
 #' @param snp_list description
 #' @param results_dir description
 #' @param clump_info description
@@ -9,6 +8,16 @@
 #' @param post_beta description
 #' @keywords plink1.9 clump
 #' @export
+#' @usage PreparePlinkFileEBayes(snp_list, clump_info, post_clump_info,
+#' post_beta, results_dir)
+#' @return List of data.frames and file locations for Plink2; scores_eb [[1]],
+#' p_values_eb [[2]], score_eb_file [[3]], p_values_eb_file. The scores_eb data.frame
+#' first column contains the unique SNPs after LD clumping. The second column is
+#' the effect allele. The third through last columns contain the EBayes posterior
+#' mean for the reference and target populations for SNPs after specific LD clumping
+#' combinations. The coefficients are set to 0 if a SNP doesn't exist for the
+#' clumping combination. The p_value_eb data.frame first column is the same as
+#' scores_eb. The second column is the p-values for SNPs from the target population GWAS.
 
 PreparePlinkFileEBayes <- function(snp_list,
                                    clump_info,

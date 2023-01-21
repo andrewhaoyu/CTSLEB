@@ -2,45 +2,38 @@
 % Please edit documentation in R/PRSscoreEBayes.R
 \name{PRSscoreEBayes}
 \alias{PRSscoreEBayes}
-\title{PRSscoreEbayes}
+\title{Plink --score wrapper}
 \usage{
-PRSscoreEBayes(
-  plink2_exec = "plink2 ",
-  bfile,
-  ebayes = TRUE,
-  eb_plink_list,
-  plink_list,
-  pthres = c(5e-08, 5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
-  threads = 4,
-  memory = 8000,
-  results_dir,
-  out_prefix = as.null(),
-  params_farm = as.null()
-)
+PRSscoreEBayes <- function(plink2_exec,bfile,ebayes, eb_plink_list,
+plink_list, pthres, threads, memory, results_dir, out_prefix, params_farm)
 }
 \arguments{
-\item{plink2_exec}{description}
+\item{plink2_exec}{Plink2 binary execute file. Default "plink2".}
 
-\item{bfile}{description}
+\item{bfile}{Plink binary files for the target test population.}
 
-\item{eb_plink_list}{description}
+\item{eb_plink_list}{List of plink data frame and files produced from
+PreparePlinkFileEBayes()}
 
-\item{plink_list}{description}
+\item{plink_list}{List of plink data.frame and files from PreparePlinkFiles()}
 
-\item{pthres}{Default c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
+\item{pthres}{P value thresholds. Defaults to
+c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)}
 
-\item{threads}{Default 4}
+\item{threads}{Plink "--threads" parameter. Defaults to 2}
 
-\item{memory}{Default 8000}
+\item{memory}{Plink "--memory" parameter. Defaults to 8000 mb}
 
-\item{results_dir}{description}
+\item{results_dir}{Folder or directory to export files.}
 
-\item{out_prefix}{description}
+\item{out_prefix}{Prefix for exported files. Recommended when plink files
+are divided by chromosome or chunks, i.e., "chr1" or "chr2", and CTSLEB
+script is dispatched in parallel.}
 
-\item{params_farm}{description}
+\item{params_farm}{List of plink parameters produced from SetParamsFarm()}
 }
 \description{
-Performs plink2a --score with EBayes estimates
+Wrapper to run plink2a --score routine with EBayes estimates and then combine
+all the PRSs.
 }
-\keyword{clump}
-\keyword{plink1.9}
+\keyword{plink2}

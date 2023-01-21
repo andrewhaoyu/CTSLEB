@@ -5,56 +5,41 @@
 \title{Plink19Clump}
 \usage{
 Plink19Clump(plink19_exec, clump, bfile, out, params_farm)
+
+Plink19Clump(plink19_exec,bfile,clump,clump_p1,clump_r2,clump_kb,
+threads,memory,out,params_farm)
 }
 \arguments{
 \item{plink19_exec}{Plink binary execute file. Default "plink".}
 
-\item{bfile}{prefix for plink binary set (prefix.bed, prefix.bim, prefix.fam)}
+\item{bfile}{Prefix for plink binary set (prefix.bed, prefix.bim, prefix.fam).}
 
 \item{clump}{PLINK-format association report(s) (text files with a header
 line, a column containing variant IDs, and another column
-containing p-values)}
+containing p-values).}
 
 \item{clump_p1}{Significance threshold for a SNP to be included as an index SNP.
-Default = 1 is used to include all SNPs for clumping}
+Default = 1 is used to include all SNPs for clumping.}
 
 \item{clump_r2}{LD r^2 threshold for clumping. SNPs with a higher r^2
 with the index SNPs will be removed.}
 
-\item{clump_kb}{physical distance threshold for clumping. SNPs
+\item{clump_kb}{Physical distance threshold for clumping. SNPs
 within the radius of the index SNP are considered for clumping.
 For PRS, clump_kb = base_window_size/clumping_r_square so that lower
-clump_r2 thresholds have a larger clumping window size}
+clump_r2 thresholds have a larger clumping window size.}
 
-\item{threads}{maximum number of concurrent threads}
+\item{threads}{Maximum number of concurrent threads.}
 
-\item{memory}{primary workspace memory}
+\item{memory}{Primary workspace memory.}
 
-\item{out}{output folder and file prefix for Plink1.9. Output files will end
+\item{out}{Output folder and file prefix for Plink1.9. Output files will end
 with .clumped}
 }
 \description{
 This function sets the standard options LD clumping with plink1.9.
 If additional options are required, please use the source() command
 as demonstrated in the vignette.
-}
-\examples{
-bfile <- "data/EUR_ref_chr22"
-clump <- "chr22/sum_ref.txt"
-r2_vec <- c(0.01,0.05,0.1,0.2,0.5,0.8)
-wc_base_vec <- c(50,100)
-r_ind <- 1
-r2thr <- r2_vec[r_ind]
-wc_vec <- wc_base_vec/r2_vec[r_ind]
-w_ind <- 1
-kbpthr <- wc_vec[w_ind]
-clump_out <- paste0("chr22/temp/","ref_chr22_CT_rind_",r_ind,"_wcind_",w_ind)
-plink19_clump(plink19_exec,
-              bfile = bfile,
-              clump = clump,
-              clump_r2 = r2thr,
-              clump_kb = kbpthr,
-              out = clump_out)
 }
 \keyword{clump}
 \keyword{plink1.9}
