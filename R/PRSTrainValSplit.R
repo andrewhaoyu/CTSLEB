@@ -15,7 +15,7 @@ PRSTrainValSplit <- function(x,
   super_validate <- as.data.frame(mat_eb[(n.test+1):nrow(mat_eb),-c(1:2),drop=F])
 
   # drop all the prs columns with pairwise correlation more than 0.98
-
+  # TODO: WE NEED TO MAKE CARET A DEPENDENCY ####
   mtx <- cor(super_tune)
 
   drop <- findCorrelation(mtx, cutoff=0.98)

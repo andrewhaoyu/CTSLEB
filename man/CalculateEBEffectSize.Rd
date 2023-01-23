@@ -10,12 +10,10 @@ out_prefix,results_dir,params_farm)
 \arguments{
 \item{bfile}{Plink binary files for the target test population.}
 
-\item{prs_tune}{description}
+\item{snp_ind}{Column name from prs_mat (output from PRSscore()) with best
+performance against the tuning data set.}
 
 \item{plink_list}{List of plink data.frame and files from PreparePlinkFiles()}
-
-\item{eb_plink_list}{List of plink data frame and files produced from
-PreparePlinkFileEBayes()}
 
 \item{memory}{Plink "--memory" parameter. Defaults to 8000 mb}
 

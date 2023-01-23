@@ -4,7 +4,8 @@
 #' workflow as outlined in step2 of the vignette
 #' @param bfile Plink binary files for the target test population.
 #' @param plink2_exec Plink2 binary execute file. Default "plink2".
-#' @param prs_tune description
+#' @param snp_ind Column name from prs_mat (output from PRSscore()) with best
+#' performance against the tuning data set.
 #' @param out_prefix Prefix for exported files. Recommended when plink files
 #' are divided by chromosome or chunks, i.e., "chr1" or "chr2", and CTSLEB
 #' script is dispatched in parallel.
@@ -22,19 +23,18 @@
 #' out_prefix,results_dir,params_farm)
 
 CalculateEBEffectSize <- function(bfile,
-                             prs_tune,
-                             plink_list,
-                             memory = 8000,
-                             threads = 2,
-                             out_prefix,
-                             results_dir,
-                             params_farm = as.null()){
+                                  snp_ind,
+                                  plink_list,
+                                  memory = 8000,
+                                  threads = 2,
+                                  out_prefix,
+                                  results_dir,
+                                  params_farm = as.null()){
   print("Executing CalculateEBEffectSize() ... ")
   scores <- plink_list[[1]]
   clump_info <- plink_list[[3]]
 
-  best_snps <- colnames(prs_tune)[max_ind+2]
-  best_snp_set <- GetSNPSet(snp_ind = best_snps,
+  best_snp_set <- GetSNPSet(snp_ind = snp_ind,
                             scores = scores,
                             clump_info = clump_info)
 
@@ -50,7 +50,7 @@ CalculateEBEffectSize <- function(bfile,
                                           post_beta = post_coef_mat,
                                           results_dir = results_dir)
 
-  assign("best_snps", best_snp_set, envir = .GlobalEnv)
+  assign("best_snps_set", best_snp_set, envir = .GlobalEnv)
   assign("unique_infor_post", clump_info_post, envir = .GlobalEnv)
   assign("plink_list_eb", plinklist_eb, envir = .GlobalEnv)
 
