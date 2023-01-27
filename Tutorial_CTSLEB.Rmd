@@ -47,7 +47,7 @@ Step1 extends the single ancestry clumping and thresholding method (CT) to the m
 
 CT starts with the clumping step. We split the SNPs into two groups: 1. SNPs with p-values in the EUR population smaller than the target population. 2. Target population-specific SNPs or SNPs with p-values in the target population smaller than the EUR population. SNPs are clumped using the linkage disequilibrium (LD) estimates from the EUR population for the first group. Next, SNPs are clumped using the LD estimates from the target population. After the clumping, SNPs from the two groups are combined for the thresholding step for the second group.
 
-```{r, echo=T,cache=F}
+```{r, echo=T,cache=T}
 library(data.table)
 #load data from the EUR and the target population
 sum_EUR <- fread(paste0(data_dir,"EUR_sumdata.txt"),header=T)
@@ -69,7 +69,7 @@ prs_mat <- dimCT(results_dir = out_dir,
 ```
 In this example, we only use one chromosome 22. If you are using workflow (i.e. Snakemake) which dispatches jobs by chromosome or chunks, you will need to combine the snp_list for all the jobs together before the Ebayes step. The order of clumping parameters is the same for each job. prs_mat contains 20000 samples. We will next use 10000 of these samples and calculate a set of tuning parameters. Phenotypes for tuning the target PRS is 
 located in  "data/y_tuning.txt". The first two columns of prs_tune are the family id and individual ids. The target PRSs starts from the third column
-```{r, echo=T,cache=F,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 prs_tune <- prs_mat[1:10000,]
 n.total.prs <- length(pthres)^2*length(r2_vec)*length(wc_base_vec)
 prs_r2_vec_test <- rep(0,n.total.prs)
@@ -91,7 +91,7 @@ print(colnames(prs_tune)[max_ind+2])
 ```
 ## Step 2: Empirical-Bayes (EB) Estimation of Effect Sizes
 Now we move to the EB step for estimating the regression coefficients of PRSs by using the genetic correlations of effect sizes across populations. At the end of two-dimensional clumping and thresholding step, we get SNP set with corresponding tuning parameters for estimating the covariance matrix for the prior distribution. In this particular example using data from chromosome 22, it's using clumping r2-cutoff at 0.01, window size at 10000kb, SNPs with p_EUR < 5E-08 or p_target < 0.05. In real data analyses, PRSs need to be calculated based on all chromsome together to determine the SNP set. 
-```{r, echo=FALSE,cache=F,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 #find the best snp set
 best_snps <- colnames(prs_tune)[max_ind+2]
 #calculate eb effect using EB coefficients
@@ -108,7 +108,7 @@ In Step 3, we input all the PRSs and tuning parameters to train the super-learni
 package can be found at: 
 https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html. The prs_mat_eb data.frame created at the end of Step2 contains 20,000 samples. We will split these samples into a tuning and final validation sets.  The first 10,000 samples will be the tuning set and the second 10,000 samples the validation set. The PRSTrainValSplit() will perform this spit and also drop all the PRS 
 columns with a pairwise correlation greater than 0.98.
-```{r, echo=T,cache=F,warning=FALSE}
+```{r, echo=T,cache=T,warning=FALSE}
 library(caret)
 y_vad_file <- paste0(data_dir,"y_validation.txt")
 y_vad <- fread(y_vad_file)
