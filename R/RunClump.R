@@ -117,17 +117,17 @@ RunClump <- function(plink19_exec,
                             ".clumped"))[,3,drop=F]
       LD_target <-fread(paste0(target_outfile,
                                ".clumped"))[,3,drop=F]
-      print(paste0("binding rows for ",
-                   ref_outfile,
-                   ".clumped and ",
-                   target_outfile,
-                   ".clumped"))
+      # print(paste0("binding rows for ",
+      #              ref_outfile,
+      #              ".clumped and ",
+      #              target_outfile,
+      #              ".clumped"))
       LD  <- rbind(LD_ref,LD_target)
       snp_list[[temp]] <- LD
-      print(paste0("creating snp list for clump_r2_",
-                   r2thr,
-                   "_ws_",
-                   kbpthr))
+      # print(paste0("creating snp list for clump_r2_",
+      #              r2thr,
+      #              "_ws_",
+      #              kbpthr))
       names(snp_list[[temp]]) <- paste0("clump_r2_",
                                         r2thr,
                                         "_ws_",

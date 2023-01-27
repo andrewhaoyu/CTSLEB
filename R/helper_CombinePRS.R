@@ -20,7 +20,7 @@ helper_CombinePRS <- function(scores,
   for(k1 in 1:length(pthres)){
     for(k2 in 1:length(pthres)){
       prs_file <- paste0(prs_p_other_,k1,".p_tar_",k2,".sscore")
-      print(paste0("reading :", prs_file))
+      #print(paste0("reading :", prs_file))
       prs_temp <- fread(prs_file)
       prs_list[[temp]] <- prs_temp[,5:ncol(prs_temp)]
       colnames(prs_list[[temp]]) <- paste0(names,"_",

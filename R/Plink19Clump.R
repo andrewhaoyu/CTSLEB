@@ -41,7 +41,7 @@ Plink19Clump <- function(plink19_exec = "plink",
   if (is.null(params_farm)) {
     print("Plink19Clump() no params_farm")
   } else {
-    print("Plink19Clump() params_farm list will be used")
+    #print("Plink19Clump() params_farm list will be used")
     mem <- as.integer(unlist(params_farm["mem"]))
     threads <- as.integer(unlist(params_farm["threads"]))
   }

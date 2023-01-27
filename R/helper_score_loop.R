@@ -27,9 +27,9 @@ helper_score_loop <- function(plink2_exec,
                         out_prefix = as.null()){
 
   if (is.null(params_farm)) {
-    print("no params_farm")
+    #print("no params_farm")
   } else {
-    print("params_farm list will be used")
+   # print("params_farm list will be used")
     plink2_exec <- unlist(params_farm["mem"])
     memory <- as.integer(unlist(params_farm["mem"]))
     threads <- as.integer(unlist(params_farm["threads"]))
@@ -53,12 +53,12 @@ helper_score_loop <- function(plink2_exec,
 
   for(k1 in 1:length(pthres)){
     idx <- which(unique_infor$P_ref <= pthres[k1])
-    print(paste0("pthres: ", pthres[k1]))
-    print(class(pthres[k1]))
+    # print(paste0("pthres: ", pthres[k1]))
+    # print(class(pthres[k1]))
     p_values_temp$P[idx] <- 0
-    print(paste0("Number of variants less than pthres :",
-                 sum(p_values_temp$P == 0)))
-    print(paste0("writing ", p_value_file))
+    # print(paste0("Number of variants less than pthres :",
+    #              sum(p_values_temp$P == 0)))
+    # print(paste0("writing ", p_value_file))
     write.table(p_values_temp,
                 file = p_value_file,
                 col.names = F,

@@ -43,12 +43,12 @@ helper_ebscore_loop <- function(plink2_exec,
 
   for(k1 in 1:length(pthres)){
     idx <- which(clump_info$P_ref <= pthres[k1])
-    print(paste0("pthres: ", pthres[k1]))
-    print(class(pthres[k1]))
+   # print(paste0("pthres: ", pthres[k1]))
+    #print(class(pthres[k1]))
     p_values_temp$P[idx] <- 0
-    print(paste0("Number of variants less than pthres :",
-                 sum(p_values_temp$P == 0)))
-    print(paste0("writing ", p_values_eb_file))
+    # print(paste0("Number of variants less than pthres :",
+    #              sum(p_values_temp$P == 0)))
+    # print(paste0("writing ", p_values_eb_file))
     write.table(p_values_temp,
                 file = p_values_eb_file,
                 col.names = F,

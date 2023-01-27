@@ -34,9 +34,9 @@ PRSscoreEBayes <- function(plink2_exec = "plink2 ",
 
   print("executing PRSscoreEbayes()... ")
   if (is.null(params_farm)) {
-    print("no params_farm")
+    #print("no params_farm")
   } else {
-    print("params_farm list will be used")
+    #print("params_farm list will be used")
     plink2_exec <- as.character(unlist(params_farm["plink2_exec"]))
     memory <- as.integer(unlist(params_farm["mem"]))
     threads <- as.integer(unlist(params_farm["threads"]))
