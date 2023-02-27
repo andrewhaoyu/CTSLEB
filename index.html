@@ -581,6 +581,15 @@ example using data from chromosome 22, it’s using clumping r2-cutoff at
 0.01, window size at 10000kb, SNPs with p_EUR &lt; 5E-08 or p_target
 &lt; 0.05. In real data analyses, PRSs need to be calculated based on
 all chromsome together to determine the SNP set.</p>
+<pre class="r"><code>#find the best snp set
+best_snps &lt;- colnames(prs_tune)[max_ind+2]
+#calculate eb effect using EB coefficients
+prs_mat_eb &lt;- CalculateEBEffectSize(bfile = AFR_test_plinkfile ,
+                                    snp_ind = best_snps,
+                                    plink_list = plink_list,
+                                    out_prefix = outprefix,
+                                    results_dir = out_dir,
+                                    params_farm = PRS_farm)</code></pre>
 <pre><code>## [1] &quot;Executing CalculateEBEffectSize() ... &quot;
 ## [1] &quot;Executing GetSNPSet()... &quot;
 ## [1] &quot;executing EBayesPostMean()... &quot;
