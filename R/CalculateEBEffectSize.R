@@ -45,10 +45,10 @@ CalculateEBEffectSize <- function(bfile,
   colnames(post_coef_mat) <- c("EB_target","EB_ref")
 
   plinklist_eb <- PreparePlinkFileEBayes(snp_list = snp_list,
-                                          clump_info = clump_info,
-                                          post_clump_info = clump_info_post,
-                                          post_beta = post_coef_mat,
-                                          results_dir = results_dir)
+                                         clump_info = clump_info,
+                                         post_clump_info = clump_info_post,
+                                         post_beta = post_coef_mat,
+                                         results_dir = results_dir)
 
   assign("best_snps_set", best_snp_set, envir = .GlobalEnv)
   assign("unique_infor_post", clump_info_post, envir = .GlobalEnv)
@@ -68,6 +68,8 @@ CalculateEBEffectSize <- function(bfile,
                                plink_list = plink_list,
                                results_dir = results_dir,
                                out_prefix = out_prefix,
+                               threads = threads,
+                               memory = memory,
                                params_farm = params_farm)
 
   assign("scores_eb", scores_eb, envir = .GlobalEnv)

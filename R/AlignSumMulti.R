@@ -1,7 +1,7 @@
 ##' Generate the combinations of all the tumor characteristics.
 #'
-#' @param sum_tar The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.
-#' @param sum_other_list A list that contains the GWAS summary statistics for multiple populations.
+#' @param sum_target The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.
+#' @param sum_ref_list A list that contains the GWAS summary statistics for multiple populations.
 #' @param ref_names The names of the other anescestries for GWAS summary statistics
 #' @return GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other populations
 #' @export
