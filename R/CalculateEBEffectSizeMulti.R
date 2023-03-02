@@ -38,12 +38,12 @@ CalculateEBEffectSizeMulti <- function(ref_names,
                                        memory = 8000,
                                        params_farm = as.null()){
 
-  this_clump_info <- plink_list[[3]]
+  clump_info <- plink_list[[3]]
   multi_sum_com <- AlignSumMulti(sum_tar = sum_AFR,
                                  sum_ref_list = sum_other_list,
                                  ref_names = ref_names)
 
-  multi_unique_infor_post <- EBpostMulti(x = this_clump_info,
+  multi_unique_infor_post <- EBpostMulti(x = clump_info,
                                          y = best_snps_set,
                                          sum_com = multi_sum_com,
                                          ref_names = ref_names)
@@ -53,7 +53,7 @@ CalculateEBEffectSizeMulti <- function(ref_names,
     select(all_of(multi_eb_post_col_names))
 
   multi_plink_list_eb <- PreparePlinkFileEBayes(snp_list = snp_list,
-                                                clump_info = this_clump_info,
+                                                clump_info = clump_info,
                                                 post_clump_info = multi_unique_infor_post,
                                                 post_beta = multi_post_beta_mat,
                                                 results_dir = results)
