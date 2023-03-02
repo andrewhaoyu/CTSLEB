@@ -4,16 +4,16 @@
 \alias{EBpostMulti}
 \title{Estimate Bayesian posterior meanusing the empirical Bayes algorithm}
 \usage{
-EBpostMulti(unique_infor, SNP_set, sum_com, other_ans_names)
+EBpostMulti(x, y, sum_com, ref_names)
 }
 \arguments{
-\item{unique_infor}{the unique_infor from PreparePlinkFile output, which contains information for all SNPs after clumping step}
+\item{x}{unique_infor the unique_infor from PreparePlinkFile output, which contains information for all SNPs after clumping step}
 
-\item{SNP_set}{the SNP set from CT step for estimating the covariance matrix for the prior distribution}
+\item{y}{SNP_set the SNP set from CT step for estimating the covariance matrix for the prior distribution}
 
 \item{sum_com}{summary statistics for all ancestries after allele alignment}
 
-\item{other_ans_names}{the other ancestries' name used in the analyses}
+\item{ref_names}{the other ancestries' name used in the analyses}
 }
 \value{
 Bayesian postier mean for all SNPs after-clumping

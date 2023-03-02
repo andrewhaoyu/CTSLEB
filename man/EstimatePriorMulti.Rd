@@ -4,10 +4,14 @@
 \alias{EstimatePriorMulti}
 \title{Estimate the covariance matrix for the prior distribution used in EB step}
 \usage{
-EstimatePriorMulti(SNP_set, other_ans_names, sum_com)
+EstimatePriorMulti(snp_set, ref_names, sum_com)
 }
 \arguments{
-\item{SNP_set}{the SNP set from CT step for estimating the covariance matrix for the prior distribution}
+\item{snp_set}{the SNP set from CT step for estimating the covariance matrix for the prior distribution}
+
+\item{ref_names}{description}
+
+\item{sum_com}{AlignSumMulti() object}
 }
 \value{
 the covariance matrix estimate

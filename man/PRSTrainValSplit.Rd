@@ -7,9 +7,10 @@
 PRSTrainValSplit(x, n = 0.5)
 }
 \arguments{
-\item{x}{description}
+\item{x}{matrix of PRSs based on EB coefficients produced by PRSscoreEBayes()
+or CalculateEBEffectSize()}
 
-\item{n}{description}
+\item{n}{fraction to use for validation}
 }
 \value{
 list
