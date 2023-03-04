@@ -56,12 +56,12 @@ CalculateEBEffectSizeMulti <- function(ref_names,
                                                 clump_info = clump_info,
                                                 post_clump_info = multi_unique_infor_post,
                                                 post_beta = multi_post_beta_mat,
-                                                results_dir = results)
+                                                results_dir = results_dir)
 
   multi_prs_mat_eb <- PRSscoreEBayes(bfile = bfile,
                                      eb_plink_list = multi_plink_list_eb,
                                      plink_list = plink_list,
-                                     results_dir = results,
+                                     results_dir = results_dir,
                                      out_prefix = out_prefix,
                                      params_farm = PRS_farm)
 
