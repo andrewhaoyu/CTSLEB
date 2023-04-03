@@ -63,9 +63,9 @@ dimCT <- function(plink19_exec = 'plink',
                   params_farm = as.null()) {
 
   if (is.null(params_farm)) {
-    #print("no params_farm")
+    print("no params_farm")
   } else {
-    #print("params_farm list will be used")
+    print("params_farm list will be used")
     plink19_exec <- as.character(unlist(params_farm["plink19_exec"]))
     plink2_exec <-  as.character(unlist(params_farm["plink2_exec"]))
     r2_vec <- as.numeric(unlist(params_farm["r2_vec"]))

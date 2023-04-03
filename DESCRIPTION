@@ -1,7 +1,7 @@
 Package: CTSLEB
 Type: Package
 Title: CT-SLEB: Multi-ancestry Polygenic Risk Score Method
-Version: 0.1.0
+Version: 0.2.0
 Author: Haoyu Zhang [aut,cre]
 Maintainer: Haoyu Zhang <andrew.haoyu@gmail.com>
 Description: More about what it does (maybe more than one line)
