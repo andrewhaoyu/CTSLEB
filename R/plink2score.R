@@ -47,7 +47,7 @@ plink2score <- function(plink2_exec = "plink2 ",
     threads <- as.character(unlist(params_farm["threads"]))
   }
 
-  prs_out <- paste0(prs_p_other_,pthres_idx)
+  prs_out <- paste0(out,pthres_idx)
   system(paste0(plink2_exec, " ",
                 "--bfile ", bfile, " ",
                 "--q-score-range ", q_range_file, " ", p_value_file, " ",

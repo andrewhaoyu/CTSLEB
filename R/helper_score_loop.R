@@ -36,7 +36,7 @@ helper_score_loop <- function(plink2_exec,
     pthres <- as.numeric(unlist(params_farm["pthres"]))
   }
 
-  temp.dir <- paste0(results_dir,"temp/")
+
   out.prefix <- helper_prefix(out_prefix = out_prefix,
                                   ebayes = FALSE)
 
@@ -46,7 +46,7 @@ helper_score_loop <- function(plink2_exec,
   p_value_file <- as.character(unlist(plink_list["p_value_file"]))
   score_file <- as.character(unlist(plink_list["score_file"]))
   q_range_file <- as.character(unlist(plink_list["q_range_file"]))
-  prs_p_other_ <- paste0(temp.dir, out.prefix, "prs_p_other_")
+  prs_p_other_ <- paste0(results_dir, out.prefix, "prs_p_other_")
   pthres <- pthres
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- p_values

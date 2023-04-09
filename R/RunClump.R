@@ -20,7 +20,6 @@
 #' @examples
 #' data <- "data/"
 #' results <- "test/"
-#' temp <- paste0(results,"temp/")
 #' plink19_exec <- "~/Apps/plink_v1.9/plink"
 #' plink2_exec <- "~/Apps/plink2a/plink2"
 #'
@@ -71,7 +70,6 @@ RunClump <- function(plink19_exec,
     threads <- as.integer(unlist(params_farm["threads"]))
   }
 
-  temp.dir <- paste0(results_dir,"temp/")
   if (is.null(out_prefix)) {
     print("not out_prefix")
     out.prefix <- ""
@@ -89,8 +87,12 @@ RunClump <- function(plink19_exec,
       pthr <-1
       r2thr <- r2_vec[r_ind]
       kbpthr <- wc_vec[w_ind]
-      ref_outfile <- paste0(temp.dir, out.prefix, "ref_CT_rind_",r_ind,"_wcind_",w_ind)
-      target_outfile <- paste0(temp.dir, out.prefix,"target_CT_rind_",r_ind,"_wcind_",w_ind)
+      ref_outfile <- paste0(results_dir,
+                            out.prefix,
+                            "ref_CT_rind_",r_ind,"_wcind_",w_ind)
+      target_outfile <- paste0(results_dir,
+                               out.prefix,
+                               "target_CT_rind_",r_ind,"_wcind_",w_ind)
       Plink19Clump(plink19_exec = plink19_exec,
                    bfile = ref_plink,
                    clump = ref_splitfile,
