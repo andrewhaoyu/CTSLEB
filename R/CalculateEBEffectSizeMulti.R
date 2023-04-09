@@ -29,7 +29,7 @@ CalculateEBEffectSizeMulti <- function(ref_names,
                                        sum_ref_list,
                                        bfile,
                                        sum_tar,
-                                       best_snps_set,
+                                       snp_ind,
                                        snp_list,
                                        plink_list,
                                        plink_list_eb,
@@ -41,14 +41,19 @@ CalculateEBEffectSizeMulti <- function(ref_names,
 
   this_q_range <- plink_list[[4]]
   clump_info <- plink_list[[3]]  # (i.e., unique_infor)
+  this_scores <- plink_list[[1]]
 
   multi_sum_com <- AlignSumMulti(sum_tar = sum_AFR,
                                  sum_ref_list = sum_other_list,
                                  ref_names = ref_names)
   assign("multi_sum_com", multi_sum_com, envir = .GlobalEnv)
 
+  best_snp_set <- GetSNPSet(snp_ind = snp_ind,
+                            scores = this_scores,
+                            clump_info = clump_info)
+
   multi_unique_infor_post <- EBpostMulti(x = clump_info,
-                                         y = best_snps_set,
+                                         y = best_snp_set,
                                          sum_com = multi_sum_com,
                                          ref_names = ref_names)
   assign("multi_unique_infor_post", multi_unique_infor_post, envir = .GlobalEnv)
