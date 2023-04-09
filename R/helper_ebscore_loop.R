@@ -26,18 +26,20 @@ helper_ebscore_loop <- function(plink2_exec,
                                 out_prefix = as.null(),
                                 params_farm = as.null()){
 
-  temp_dir <- paste0(results_dir,"temp/")
-
   outfile_prefix <- helper_prefix(out_prefix = out_prefix,
                                   ebayes = TRUE)
 
   scores <- eb_plink_list[[1]]
   p_values_eb <- eb_plink_list[[2]]
   clump_info <- plink_list[[3]]
-  p_values_eb_file <- as.character(unlist(eb_plink_list["p_values_eb_file"]))
-  score_eb_file <- as.character(unlist(eb_plink_list["score_eb_file"]))
-  q_range_file <- as.character(unlist(plink_list["q_range_file"]))
-  prs_p_other_ <- paste0(temp_dir, outfile_prefix, "prs_p_other_")
+  #p_values_eb_file <- as.character(unlist(eb_plink_list["p_values_eb_file"]))
+  #score_eb_file <- as.character(unlist(eb_plink_list["score_eb_file"]))
+  #q_range_file <- as.character(unlist(plink_list["q_range_file"]))
+  p_values_eb_file <- paste0(results_dir, "p_values_eb_file")
+  score_eb_file <- paste0(results_dir, "score_eb_file")
+  q_range_file <- paste0(results_dir, "q_range_file")
+
+  prs_p_other_ <- paste0(results_dir, outfile_prefix, "prs_p_other_")
   assign("prs_p_other_", prs_p_other_, envir = .GlobalEnv)
   p_values_temp <- p_values_eb
 

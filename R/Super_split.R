@@ -52,7 +52,7 @@ Super_split <- function(x,
                             pthres = pthres,
                             r2_vec= r2_vec,
                             wc_base_vec = wc_base_vec,
-                            pheno_format = 1)
+                            pheno_format = pheno_format)
 
   ix_keep <- helper_qual_order(x = mtx, y = qual_tune)
   prs_tune_learn <- data.frame(sl_tune[,ix_keep])

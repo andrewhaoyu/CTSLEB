@@ -32,39 +32,65 @@ CalculateEBEffectSizeMulti <- function(ref_names,
                                        best_snps_set,
                                        snp_list,
                                        plink_list,
+                                       plink_list_eb,
                                        results_dir,
                                        out_prefix,
                                        threads = 2,
                                        memory = 8000,
                                        params_farm = as.null()){
 
-  clump_info <- plink_list[[3]]
+  this_q_range <- plink_list[[4]]
+  clump_info <- plink_list[[3]]  # (i.e., unique_infor)
+
   multi_sum_com <- AlignSumMulti(sum_tar = sum_AFR,
                                  sum_ref_list = sum_other_list,
                                  ref_names = ref_names)
+  assign("multi_sum_com", multi_sum_com, envir = .GlobalEnv)
 
   multi_unique_infor_post <- EBpostMulti(x = clump_info,
                                          y = best_snps_set,
                                          sum_com = multi_sum_com,
                                          ref_names = ref_names)
+  assign("multi_unique_infor_post", multi_unique_infor_post, envir = .GlobalEnv)
 
   multi_eb_post_col_names <- c("BETA_EB_target",paste0("BETA_EB_",ref_names[1]))
   multi_post_beta_mat <- multi_unique_infor_post %>%
     select(all_of(multi_eb_post_col_names))
 
   multi_plink_list_eb <- PreparePlinkFileEBayes(snp_list = snp_list,
-                                                clump_info = clump_info,
-                                                post_clump_info = multi_unique_infor_post,
-                                                post_beta = multi_post_beta_mat,
-                                                results_dir = results_dir)
+                                               clump_info = clump_info,
+                                               post_clump_info = multi_unique_infor_post,
+                                               post_beta = multi_post_beta_mat,
+                                               results_dir = results_dir)
+  assign("multi_plink_list_eb", multi_plink_list_eb, envir = .GlobalEnv)
 
+  multi_score_eb <- multi_plink_list_eb[['scores_eb']]
+  assign("multi_score_eb", multi_score_eb, envir = .GlobalEnv)
+
+  score_eb_file <- as.character(unlist(multi_plink_list_eb["score_eb_file"]))
+  write.table(multi_score_eb,
+              file = score_eb_file,
+              row.names = F,
+              col.names = F,
+              quote=F)
+
+  write.table(this_q_range,
+              file = paste0(results_dir,"q_range_file"),
+              row.names = F,
+              col.names = F,
+              quote=F)
+  #TODO:  check id clump_info (i.e., unique_infor) can be passed instead
+  # of plink_list
   multi_prs_mat_eb <- PRSscoreEBayes(bfile = bfile,
-                                     eb_plink_list = multi_plink_list_eb,
-                                     plink_list = plink_list,
-                                     results_dir = results_dir,
-                                     out_prefix = out_prefix,
-                                     params_farm = PRS_farm)
+                                    eb_plink_list = multi_plink_list_eb,
+                                    plink_list = plink_list,
+                                    results_dir = results_dir,
+                                    out_prefix = out_prefix,
+                                    threads = threads,
+                                    memory = memory,
+                                    params_farm = PRS_farm)
 
+  colnames(multi_prs_mat_eb)[1] <- "FID"
   return(multi_prs_mat_eb)
 }
 

@@ -54,11 +54,10 @@ PreparePlinkFileEBayes <- function(snp_list,
   this_scores <- data.frame(SNP = unique_id,
                             A1 = post_clump_info$A1,
                             beta_mat)
-  temp_dir <- paste0(results_dir,"temp/")
-  score_eb_file <- paste0(temp_dir,"score_eb_file")
+  score_eb_file <- paste0(results_dir,"score_eb_file")
   this_p_values <- data.frame(SNP = unique_id,
                               P = post_clump_info$P)
-  p_values_eb_file <-paste0(temp_dir,"p_values_eb_file")
+  p_values_eb_file <-paste0(results_dir,"p_values_eb_file")
   names <- c("scores_eb",
              "p_values_eb",
              "score_eb_file",

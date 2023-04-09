@@ -12,6 +12,7 @@ EBpostMulti <- function(x,
                         sum_com,
                         ref_names){
   print("executing EBpostMulti()... ")
+  this_unique_infor <- x
   prior_sigma <- EstimatePriorMulti(snp_set = y,
                                     ref_names = ref_names,
                                     sum_com = sum_com)
@@ -59,7 +60,7 @@ EBpostMulti <- function(x,
   beta_mat_post <- z_mat_post*se_mat
   colnames(beta_mat_post) <- c("BETA_EB_target",paste0("BETA_EB_",ref_names))
   eb_beta_names <- colnames(beta_mat_post)
-  unique_infor_EB <- cbind(unique_infor,beta_mat_post) %>%
+  unique_infor_EB <- cbind(this_unique_infor,beta_mat_post) %>%
     select(SNP,A1,all_of(eb_beta_names),P,P_ref)
   return(unique_infor_EB)
 }

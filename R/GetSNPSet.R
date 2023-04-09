@@ -9,7 +9,7 @@
 #'
 #' @return data.frame of SNP performance metrics
 #' @export
-#' @usage GetSNPSe(snp_id, scores, clump_info)
+#' @usage GetSNPSet(snp_id, scores, clump_info)
 
 GetSNPSet <- function(snp_ind,
                       scores,
