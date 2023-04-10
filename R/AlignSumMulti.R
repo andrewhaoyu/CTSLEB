@@ -4,6 +4,8 @@
 #' @param sum_ref_list A list that contains the GWAS summary statistics for multiple populations.
 #' @param ref_names The names of the other anescestries for GWAS summary statistics
 #' @return GWAS summary statistics for the target population with aligned effects, standard error and p-value for the other populations
+#' @importFrom dplyr left_join mutate select
+#' @importFrom magrittr %>%
 #' @export
 #'
 #'

@@ -10,6 +10,8 @@
 #' The most commonly used reference population is European.
 #' @return data.frame object with ref population GWAS summary statistics
 #' aligned with target GWAS summary statistics.
+#' @importFrom dplyr left_join mutate select
+#' @importFrom magrittr %>%
 #' @export
 #' @examples
 #' data <- "data/"
