@@ -17,17 +17,7 @@
 #' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
 #' score, threads, memory, out, params_farm)
 #' @export
-#' @examples
-#' pthres <- c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0)
-#'
-#' PRSscore(plink2_exec = "plink2 ",
-#'             bfile = bfile,
-#'             plink_list = plink_list,
-#'             pthres = pthres,
-#'             threads = 4,
-#'             memory = 8000,
-#'             out = prs_out,
-#'             params_farm = params_farm)
+#' @usage PRSscore(plink2_exec, bfile, plink_list, pthres, memory, out, params_farm)
 
 PRSscore <- function(plink2_exec = "plink2 ",
                      bfile,

@@ -2,17 +2,27 @@
 #' @description. Rank the ebayes PRS based on R-square or AUC for the tuning
 #' dataset and then remove highly correlated PRS from the tune and validate
 #' mat_eb matrix.
-#' @param x  tune sub-matrix of PRSs based on EB coefficients produced by
+#' @param x  tune subset of PRS matrix based on EB coefficients produced by
 #' PRSscoreEBayes() or CalculateEBEffectSize().
-#' @param y validate sub-matrix of PRSs based on EB coefficients produced by
+#' @param y validate subset of PRS matrix based on EB coefficients produced by
 #' PRSscoreEBayes() or CalculateEBEffectSize().
 #' @param x_pheno vector containing tune phenotypes.
 #' @param y_pheno vector containing validate phenotypes.
-#' @param pheno_format 1 = continuous phenotype 2 = binary phenotype. Default 1
-#' @param params_farm params farm
-#' @keywords PRS, tuning
-#' @usage Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
-#' score, threads, memory, out, score_farm)
+#' @param pheno_format 1 = continuous phenotype, 2 = binary phenotype. Default 1
+#' @param params_farm List created by SetParamsFarm() function.
+#' @return a list of dataframes for SuperLearner() function. [1] = tune_learn,
+#' [2] = validate learn
+#' @examples
+#' sl_dataset <- Super_split(x = super_tune,
+#' y = super_validate,
+#' x_pheno = tune_pheno,
+#' y_pheno = validate_pheno,
+#' pheno_format = 2,
+#' params_farm=PRS_farm)
+#'
+#' sl_tune_learn <- data.frame((sl_dataset[1]))
+#' sl_val_learn <- data.frame(sl_dataset[2])
+#'
 #' @export
 
 Super_split <- function(x,

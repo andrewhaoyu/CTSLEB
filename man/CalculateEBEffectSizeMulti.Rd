@@ -14,8 +14,6 @@ out_prefix,results_dir,params_farm)
 
 \item{bfile}{Plink binary files for the target test cohort.}
 
-\item{best_snps_set, }{Object created by the GetSNPSet() function.}
-
 \item{snp_list, }{Object created by the RunClump() function.}
 
 \item{plink_list}{List of plink data.frame and files from PreparePlinkFiles()}
@@ -33,6 +31,8 @@ script is dispatched in parallel.}
 \item{params_farm}{List of plink parameters produced from SetParamsFarm()}
 
 \item{sum_target}{The GWAS summary statistics for the target population. The data needs to have following columns at least: CHR, SNP, BP, A1, BETA, SE, P. A1 is the effect allele. BETA is the regression coefficients for linear regression, log-odds ratio for logistic regression. SE is the standard error for BETA.}
+
+\item{best_snps_set, }{Object created by the GetSNPSet() function.}
 
 \item{plink2_exec}{Plink2 binary execute file. Default "plink2".}
 }

@@ -60,7 +60,6 @@ workflow (dimCT) as outlined in step1 of the vignette
 \examples{
 data <- "data/"
 results <- "test/"
-temp <- paste0(results,"temp/")
 plink19_exec <- "~/Apps/plink_v1.9/plink"
 plink2_exec <- "~/Apps/plink2a/plink2"
 

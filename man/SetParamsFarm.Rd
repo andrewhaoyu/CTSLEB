@@ -4,15 +4,8 @@
 \alias{SetParamsFarm}
 \title{set Plink clumping parameters}
 \usage{
-SetParamsFarm(
-  plink19_exec = "plink",
-  plink2_exec = "plink2",
-  wc_base_vec = c(50, 100),
-  r2_vec = c(0.01, 0.05, 0.1, 0.2, 0.5, 0.8),
-  pthres = c(5e-08, 5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
-  threads = 2,
-  mem = 8000
-)
+SetParamsFarm(plink19exec, wc_base_vec, r2_vec, pthres, threads,
+mem)
 }
 \arguments{
 \item{plink19_exec}{path and name to plink1.9 executable. Default "plink"}
@@ -43,15 +36,6 @@ A named list
 \description{
 This function sets the plink1.9 clumping and plink2a thresholding parameters
 and flags
-}
-\examples{
-params_farm <- SetParamsFarm(plink19exec = /Apps/plink1.9/plink,
-                           wc_base_vec = c(50,100),
-                           r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
-                           pthres = c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0),
-                           threads = 2,
-                           mem = 8000
-)
 }
 \keyword{clump}
 \keyword{plink1.9}

@@ -4,7 +4,7 @@
 \alias{GetSNPSet}
 \title{Get the best performance SNPS}
 \usage{
-GetSNPSe(snp_id, scores, clump_info)
+GetSNPSet(snp_id, scores, clump_info)
 }
 \arguments{
 \item{scores}{The scores dataframe from PreparePlinkFile output.}

@@ -2,18 +2,37 @@
 % Please edit documentation in R/helper_qual_tune.R
 \name{helper_qual_tune}
 \alias{helper_qual_tune}
-\title{Helper function for Super_split. Create r2_tune vector}
+\title{Helper function for Super_split. Create qual_tune vector consisting
+of either r2 square for linear regression (pheno_format = 1)
+or AUC for binary (pheno_format = 2)}
 \usage{
-helper_qual_tune(x, x_pheno, pthres, r2_vec, wc_base_vec, pheno_format = 1)
+helper_qual_tune(
+  x,
+  x_pheno,
+  pthres,
+  y,
+  y_pheno,
+  r2_vec,
+  wc_base_vec,
+  pheno_format = 1
+)
 }
 \arguments{
-\item{x}{vector of tune phenotype values}
+\item{x}{tune matrix PRS values}
 
-\item{pheno_format}{tune phenotype format}
+\item{x_pheno}{vector of tune phenotype values}
+
+\item{pthres}{vector of tune phenotype values}
+
+\item{r2_vec}{vector of tune phenotype values}
+
+\item{wc_base_vec}{vector of tune phenotype values}
 }
 \value{
-list
+vector
 }
 \description{
-Helper function for Super_split. Create r2_tune vector
+Helper function for Super_split. Create qual_tune vector consisting
+of either r2 square for linear regression (pheno_format = 1)
+or AUC for binary (pheno_format = 2)
 }

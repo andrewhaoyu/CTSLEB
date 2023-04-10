@@ -4,23 +4,41 @@
 \alias{Super_split}
 \title{Create tune and validation data sets}
 \usage{
-Plink19Clump(plink2_exec, bfile, q_score_range, score_col_nums,
-score, threads, memory, out, score_farm)
+Super_split(x, y, x_pheno, y_pheno, pheno_format = 1, params_farm = as.null())
 }
 \arguments{
-\item{x}{matrix of PRSs based on EB coefficients produced by PRSscoreEBayes()
-or CalculateEBEffectSize()}
+\item{x}{tune subset of PRS matrix based on EB coefficients produced by
+PRSscoreEBayes() or CalculateEBEffectSize().}
 
-\item{y}{vector containing tune phenotypes. This vector should be the same
-length}
+\item{y}{validate subset of PRS matrix based on EB coefficients produced by
+PRSscoreEBayes() or CalculateEBEffectSize().}
 
-\item{params_farm}{params farm}
+\item{x_pheno}{vector containing tune phenotypes.}
 
-\item{n}{fraction of samples which will be used for tuning. The remainder
-will be used for validation. Default 0.5}
+\item{y_pheno}{vector containing validate phenotypes.}
+
+\item{pheno_format}{1 = continuous phenotype, 2 = binary phenotype. Default 1}
+
+\item{params_farm}{List created by SetParamsFarm() function.}
+}
+\value{
+a list of dataframes for SuperLearner() function. [1] = tune_learn,
+[2] = validate learn
 }
 \description{
-Create tune and validation data sets
+. Rank the ebayes PRS based on R-square or AUC for the tuning
+dataset and then remove highly correlated PRS from the tune and validate
+mat_eb matrix.
 }
-\keyword{PRS,}
-\keyword{tuning}
+\examples{
+sl_dataset <- Super_split(x = super_tune,
+y = super_validate,
+x_pheno = tune_pheno,
+y_pheno = validate_pheno,
+pheno_format = 2,
+params_farm=PRS_farm)
+
+sl_tune_learn <- data.frame((sl_dataset[1]))
+sl_val_learn <- data.frame(sl_dataset[2])
+
+}
