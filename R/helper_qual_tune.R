@@ -9,6 +9,7 @@
 #' @param wc_base_vec vector of tune phenotype values
 #' @param r2_vec vector of tune phenotype values
 #' @return vector
+#' @importFrom pROC auc
 
 helper_qual_tune <- function(x,
                              x_pheno,
