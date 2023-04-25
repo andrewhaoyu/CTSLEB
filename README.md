@@ -16,7 +16,7 @@ install_github("andrewhaoyu/CTSLEB")
 
 Data
 =======
-The example dataset for the vignette can be downloaded through this [link](https://drive.google.com/file/d/1wswLKQmgYgkkog_vaDaVlLEmgoQS_xLG/view?usp=sharing).
+The example dataset for the vignette can be downloaded through this [link](https://drive.google.com/file/d/1SzJi9YNTxnqR9qH8Gk7R_xlXLG2h2ljc/view?usp=share_link).
 
 For data analyses, the pipelines require reference samples from different populations for the clumping step. We use data from 1000 Genomes Project (Phase 3) in PLINK format. Other reference data can also be used as long as it's in PLINK format. The 1000 Genomes Project data in PLINK format can be downloaded through the following links:
 
