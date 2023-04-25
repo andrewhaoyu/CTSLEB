@@ -48,9 +48,8 @@ plink2score <- function(plink2_exec = "plink2 ",
   }
 
   prs_out <- paste0(prs_p_other_,pthres_idx)
-  If(score_col_nums==3){
-
-    system(paste0(plink2_exec, " ",
+  if(score_col_nums==3){
+system(paste0(plink2_exec, " ",
                   "--bfile ", bfile, " ",
                   "--q-score-range ",  q_range_file, " ", p_value_file, " ",
                   "--score-col-nums ",  score_col_nums, " ",
@@ -70,5 +69,4 @@ plink2score <- function(plink2_exec = "plink2 ",
                   "--out ", prs_out))
   }
 
-  )
 }
