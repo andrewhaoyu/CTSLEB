@@ -48,13 +48,27 @@ plink2score <- function(plink2_exec = "plink2 ",
   }
 
   prs_out <- paste0(prs_p_other_,pthres_idx)
-  system(paste0(plink2_exec, " ",
-                "--bfile ", bfile, " ",
-                "--q-score-range ", q_range_file, " ", p_value_file, " ",
-                "--score-col-nums 3-", score_col_nums, " ",
-                "--score ", score_file, " cols=+scoresums,-scoreavgs ",
-                "--threads ", threads, " ",
-                "--memory ", memory, " ",
-                "--out ", prs_out)
+  If(score_col_nums==3){
+
+    system(paste0(plink2_exec, " ",
+                  "--bfile ", bfile, " ",
+                  "--q-score-range ",  q_range_file, " ", p_value_file, " ",
+                  "--score-col-nums ",  score_col_nums, " ",
+                  "--score ", score_file, " cols=+scoresums,-scoreavgs ",
+                  "--threads ", threads, " ",
+                  "--memory ", memory, " ",
+                  "--out ", prs_out))
+
+  }else{
+    system(paste0(plink2_exec, " ",
+                  "--bfile ", bfile, " ",
+                  "--q-score-range ", q_range_file, " ", p_value_file, " ",
+                  "--score-col-nums 3-", score_col_nums, " ",
+                  "--score ", score_file, " cols=+scoresums,-scoreavgs ",
+                  "--threads ", threads, " ",
+                  "--memory ", memory, " ",
+                  "--out ", prs_out))
+  }
+
   )
 }
