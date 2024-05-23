@@ -14,10 +14,11 @@ dimCT(
   target_plink,
   test_target_plink,
   out_prefix = as.null(),
-  r2_vec = c(0.01, 0.05, 0.1, 0.2, 0.5, 0.8),
   wc_base_vec = c(50, 100),
-  memory = 8000,
+  r2_vec = c(0.01, 0.05, 0.1, 0.2, 0.5, 0.8),
+  pthres = c(5e-08, 5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
   threads = 2,
+  memory = 8000,
   params_farm = as.null()
 )
 }
@@ -42,16 +43,19 @@ dimCT(
 are divided by chromosome or chunks, i.e., "chr1" or "chr2", and CTSLEB
 script is dispatched in parallel.}
 
+\item{wc_base_vec}{Base clumping window size. Defaults to c(50,100)}
+
 \item{r2_vec}{r square vector. Used by Plink1.9 "--clump r^2" parameter.
 Defaults to c(0.01,0.05,0.1,0.2,0.5,0.8).}
 
-\item{wc_base_vec}{Base clumping window size. Defaults to c(50,100)}
+\item{pthres}{p-value thresholds for plink to create multiple PRSs. Used in Plink2 by "--q-score-range" parameter.
+Defaults to c(5e-08,5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1).}
 
 \item{threads}{Plink1.9 "--threads" parameter. Defaults to 2}
 
-\item{params_farm}{List of plink parameters produced from SetParamsFarm()}
+\item{memory}{Plink1.9 "--memory" parameter. Defaults to 8000 mb}
 
-\item{mem}{Plink1.9 "--memory" parameter. Defaults to 8000 mb}
+\item{params_farm}{List of plink parameters produced from SetParamsFarm()}
 }
 \description{
 This function performs the entire two-dimensional clumping and thresholding

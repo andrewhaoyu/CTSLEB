@@ -19,15 +19,16 @@ SetParamsFarm(
 
 \item{plink2_exec}{path and name to plink2 executable. Default "plink2"}
 
-\item{wc_base_vec}{Base window size. SetClumpFarm will automaticaly create the
+\item{wc_base_vec}{Base window size. SetParamsFarm will automatically create the
 global 'wc_base_vec' since it is required in other workflow sections. Defaults
 to c(50,100)}
 
-\item{r2_vec}{r square vector. SetClumpFarm will automatically create the
+\item{r2_vec}{r square vector. SetParamsFarm will automatically create the
 global 'r2_vec' since it is required in other workflow sections. Defaults to
 c(0.01,0.05,0.1,0.2,0.5,0.8).}
 
-\item{pthres}{description}
+\item{pthres}{p-value thresholds for plink to try. SetParamsFarm will automatically create the global
+'pthres' since it is required in other workflows. Defaults to c(5E-08,5E-07,5E-06,5E-05,5E-04,5E-03,5E-02,5E-01,1.0).}
 
 \item{threads}{--threads for plink1.9 Defaults to 2}
 

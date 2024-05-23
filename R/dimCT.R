@@ -13,11 +13,13 @@
 #' @param out_prefix Prefix for exported files. Recommended when plink files
 #' are divided by chromosome or chunks, i.e., "chr1" or "chr2", and CTSLEB
 #' script is dispatched in parallel.
+#' @param wc_base_vec Base clumping window size. Defaults to c(50,100)
 #' @param r2_vec r square vector. Used by Plink1.9 "--clump r^2" parameter.
 #' Defaults to c(0.01,0.05,0.1,0.2,0.5,0.8).
-#' @param wc_base_vec Base clumping window size. Defaults to c(50,100)
-#' @param mem Plink1.9 "--memory" parameter. Defaults to 8000 mb
+#' @param pthres  p-value thresholds for plink to create multiple PRSs. Used in Plink2 by "--q-score-range" parameter.
+#' Defaults to c(5e-08,5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1).
 #' @param threads Plink1.9 "--threads" parameter. Defaults to 2
+#' @param memory Plink1.9 "--memory" parameter. Defaults to 8000 mb
 #' @param params_farm List of plink parameters produced from SetParamsFarm()
 #' @keywords plink1.9 clump
 #' @export
@@ -56,15 +58,28 @@ dimCT <- function(plink19_exec = 'plink',
                   target_plink,
                   test_target_plink,
                   out_prefix = as.null(),
-                  r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
                   wc_base_vec = c(50,100),
-                  memory= 8000,
+                  r2_vec = c(0.01,0.05,0.1,0.2,0.5,0.8),
+                  pthres = c(5e-08,5e-07, 5e-06, 5e-05, 5e-04, 0.005, 0.05, 0.5, 1),
                   threads = 2,
+                  memory= 8000,
                   params_farm = as.null()) {
 
   if (is.null(params_farm)) {
     system(paste0("if [ ! -d ",results_dir,"temp ]; then mkdir ",results_dir,"temp; fi"))
     #print("no params_farm")
+    names <- c("plink19_exec", "plink2_exec", "r2_vec", "wc_base_vec",
+               "pthres", "threads", "mem")
+    values <- list(plink19_exec, plink2_exec, r2_vec, wc_base_vec,
+                   pthres, threads, memory)
+    params_farm <- setNames(values, names)
+    plink19_exec <- as.character(unlist(params_farm["plink19_exec"]))
+    plink2_exec <-  as.character(unlist(params_farm["plink2_exec"]))
+    r2_vec <- as.numeric(unlist(params_farm["r2_vec"]))
+    wc_base_vec <- as.integer(unlist(params_farm["wc_base_vec"]))
+    memory <- as.integer(unlist(params_farm["mem"]))
+    threads <- as.integer(unlist(params_farm["threads"]))
+    pthres <- as.numeric(unlist(params_farm["pthres"]))
   } else {
     system(paste0("if [ ! -d ",results_dir,"temp ]; then mkdir ",results_dir,"temp; fi"))
     #print("params_farm list will be used")
@@ -99,12 +114,12 @@ dimCT <- function(plink19_exec = 'plink',
 
 
   plink_list <- PreparePlinkFile(params_farm = params_farm,
-                                  snp_list = snp_list,
-                                  sum_com = sum_com,
-                                  results_dir = results_dir)
+                                 snp_list = snp_list,
+                                 sum_com = sum_com,
+                                 results_dir = results_dir)
 
   file_list <- helper_PreparePlinkFile(plink_list = plink_list,
-                                       results_dir = results_dir)
+                                                results_dir = results_dir)
   plink_list <- c(plink_list,file_list)
   assign("plink_list", plink_list, envir = .GlobalEnv)
 
