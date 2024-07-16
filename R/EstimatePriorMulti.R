@@ -4,7 +4,6 @@
 #'
 #' @return the covariance matrix estimate
 #'
-#' @examples
 EstimatePriorMulti <- function(SNP_set,other_ans_names,
                                sum_com){
   SNP_set_select = SNP_set %>%
