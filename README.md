@@ -42,7 +42,7 @@ The analyses also need [PLINK 1.9](https://www.cog-genomics.org/plink/) for clum
 
 Support 
 =======
-Please direct any problems or questions to Haoyu Zhang <andrew.haoyu@gmail.com>.
+Please direct any problems or questions to Haoyu Zhang <haoyu.zhang2@nih.gov>.
 
 Reference
 =======
