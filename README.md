@@ -46,5 +46,5 @@ Please direct any problems or questions to Haoyu Zhang <andrew.haoyu@gmail.com>.
 
 Reference
 =======
-Zhang, Haoyu, et al. "Novel Methods for Multi-ancestry Polygenic Prediction and their Evaluations in 3.7 Million Individuals of Diverse Ancestry" Biorxiv (2022).
+Zhang, H., Zhan, J., Jin, J., Zhang, J., Lu, W., Zhao, R., ... & Chatterjee, N. (2023). A new method for multiancestry polygenic prediction improves performance across diverse populations. Nature genetics, 55(10), 1757-1768.
 
